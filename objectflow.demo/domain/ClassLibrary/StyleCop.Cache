@@ -1,0 +1,84 @@
+<stylecopresultscache>
+  <version>10</version>
+  <project key="1588357748">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <project key="-633808732">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <project key="2107675">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="ConsoleWriter.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 11:28:16</timestamp>
+    <milliseconds>187</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="DuplicateName.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 11:28:40</timestamp>
+    <milliseconds>765</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="DoubleSpace.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/26/2010 19:46:59</timestamp>
+    <milliseconds>262</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="LoadList.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/26/2010 19:47:31</timestamp>
+    <milliseconds>387</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 18:51:16</timestamp>
+    <milliseconds>435</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Reverse.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 11:27:29</timestamp>
+    <milliseconds>890</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Colour.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/26/2010 19:45:20</timestamp>
+    <milliseconds>888</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="ColourPipeline.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/26/2010 19:47:30</timestamp>
+    <milliseconds>715</milliseconds>
+    <violations />
+  </sourcecode>
+</stylecopresultscache>

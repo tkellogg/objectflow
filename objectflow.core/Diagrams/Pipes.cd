@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TeamPipes.Pipeline&lt;T&gt;">
+    <Position X="2.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAQAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pipeline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamPipes.TeamMember">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TeamMember.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TeamPipes.TeamPipeline">
+    <Position X="2.75" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TeamPipeline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="TeamPipes.IOperation&lt;T&gt;">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
