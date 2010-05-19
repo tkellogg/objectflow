@@ -10,7 +10,7 @@
     <ProjectGuid>{F1C234BA-0259-43E8-8EC8-A022A987EAAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>objectflow.tests</RootNamespace>
+    <RootNamespace>objectflow.core.tests</RootNamespace>
     <AssemblyName>objectflow.core.tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -60,13 +60,13 @@
     <Compile Include="Syntax\WorkFlowSyntax.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDomain\Colour.cs" />
-    <Compile Include="TestDomain\ColourPipeline.cs" />
     <Compile Include="TestOperations\DoubleSpace.cs" />
     <Compile Include="TestOperations\DuplicateName.cs" />
-    <Compile Include="TestOperations\LoadList.cs" />
     <Compile Include="WhenEvaluatingConditions.cs" />
     <Compile Include="WhenConfiguringWorkflow.cs" />
+    <Compile Include="WhenEvaluatingLamndaConstraints.cs" />
     <Compile Include="WhenEvaluatingTypeConstraints.cs" />
+    <Compile Include="WhenExecutingOperation.cs" />
     <Compile Include="WhenNegatingConstraints.cs" />
   </ItemGroup>
   <ItemGroup>

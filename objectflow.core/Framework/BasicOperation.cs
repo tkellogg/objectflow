@@ -14,25 +14,34 @@ namespace Rainbow.ObjectFlow.Framework
     /// </example>
     public abstract class BasicOperation<T> : IOperation<T>
     {
-        /// <summary>
-        /// Adds an operation into the execution plan
-        /// </summary>
-        /// <param name="operations"></param>
-        /// <returns></returns>
-        public abstract IEnumerable<T> Execute(IEnumerable<T> operations);
+        private bool _resultSetByInheritedObject;
 
+        /// <summary>
+        /// Executes the operation
+        /// </summary>
+        /// <param name="data">Data to perform transformations on</param>
+        /// <returns>The operation results as an IEnumerable of T</returns>
+        public abstract IEnumerable<T> Execute(IEnumerable<T> data);
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         protected BasicOperation()
         {
             SuccessResult = false;
         }
 
         /// <summary>
-        /// returns true if the operation succeeded, false otherwise.  Use the SetSuccessResult virtual method to set this property.
+        /// returns true if the operation succeeded, false otherwise.  
         /// </summary>
+        /// <remarks>
+        /// The default behaviour is to set this to True when the operation completes without Exception
+        /// Use the SetSuccessResult virtual method to set this property.
+        /// </remarks>
         public bool SuccessResult { get; private set; }
 
         /// <summary>
-        /// This method is called when an operation succeeds without throwing an exception.  
+        /// This method is called to set operation success.
         /// Override this method to define custom success criteria.
         /// </summary>
         /// <param name="succeeded">The value to set the SuccessResult property to.</param>
@@ -42,7 +51,11 @@ namespace Rainbow.ObjectFlow.Framework
         /// </example>
         public virtual bool SetSuccessResult(bool succeeded)
         {
-            SuccessResult = succeeded;
+            if (!_resultSetByInheritedObject)
+            {
+                _resultSetByInheritedObject = true;
+                SuccessResult = succeeded;
+            }
             return SuccessResult;
         }
     }

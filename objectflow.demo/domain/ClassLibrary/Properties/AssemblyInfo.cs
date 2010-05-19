@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Rainbow ObjectFlow demo")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Rainbow objectflow demo domain")]
+[assembly: AssemblyDescription("supporting classes for objectflow domain")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RainbowSoft")]
 [assembly: AssemblyProduct("Rainbow.ObjectFlow")]

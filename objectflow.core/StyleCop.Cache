@@ -211,10 +211,28 @@
   <project key="1107074361">
     <configuration>DEBUG;TRACE</configuration>
   </project>
+  <project key="1131676863">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="Executor.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 07:08:06</timestamp>
+    <milliseconds>440</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>37</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
   <project key="-760869539">
     <configuration>DEBUG;TRACE</configuration>
   </project>
-  <project key="-2034656818">
+  <project key="1921533329">
     <configuration>DEBUG;TRACE</configuration>
   </project>
   <sourcecode name="NotConstraintOperator.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -222,8 +240,8 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>488</milliseconds>
+    <timestamp>04/30/2010 16:33:49</timestamp>
+    <milliseconds>93</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="ConstraintOperator.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -231,8 +249,8 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>488</milliseconds>
+    <timestamp>05/18/2010 13:45:47</timestamp>
+    <milliseconds>730</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="CheckConstraint.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -240,25 +258,70 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 19:23:54</timestamp>
-    <milliseconds>177</milliseconds>
+    <timestamp>04/28/2010 15:32:00</timestamp>
+    <milliseconds>252</milliseconds>
     <violations />
+  </sourcecode>
+  <sourcecode name="SuccessCheckConstraint.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 16:33:21</timestamp>
+    <milliseconds>625</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
+        <context>An opening curly bracket must not be followed by a blank line.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
+        <context>An opening curly bracket must not be followed by a blank line.</context>
+        <line>45</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CurlyBracketsMustNotBeOmitted" ruleCheckId="SA1503">
+        <context>The body of the if statement must be wrapped in opening and closing curly brackets.</context>
+        <line>58</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
   <sourcecode name="BooleanCheckConstraint.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 19:24:02</timestamp>
-    <milliseconds>880</milliseconds>
+    <timestamp>05/18/2010 15:47:41</timestamp>
+    <milliseconds>277</milliseconds>
     <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
-        <context>An opening curly bracket must not be followed by a blank line.</context>
-        <line>22</line>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>26</line>
         <warning>False</warning>
       </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CurlyBracketsMustNotBeOmitted" ruleCheckId="SA1503">
-        <context>The body of the if statement must be wrapped in opening and closing curly brackets.</context>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>84</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.MaintainabilityRules" rule="StatementMustNotUseUnnecessaryParenthesis" ruleCheckId="SA1119">
+        <context>The line contains unnecessary parenthesis.</context>
+        <line>81</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="WfExecutor.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 20:33:31</timestamp>
+    <milliseconds>930</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
         <line>45</line>
         <warning>False</warning>
       </violation>
@@ -269,8 +332,8 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>504</milliseconds>
+    <timestamp>04/30/2010 21:07:36</timestamp>
+    <milliseconds>437</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="OperationConstraintPair.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -298,90 +361,31 @@
       </violation>
     </violations>
   </sourcecode>
+  <sourcecode name="PipelineMemoryLoader.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 16:51:40</timestamp>
+    <milliseconds>609</milliseconds>
+    <violations />
+  </sourcecode>
   <sourcecode name="When.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>520</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
-        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
-        <line>25</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
-        <context>The code must not contain multiple blank lines in a row.</context>
-        <line>32</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
-        <context>Adjacent elements must be separated by a blank line.</context>
-        <line>26</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="SuccessCheckConstraint.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>504</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
-        <context>An opening curly bracket must not be followed by a blank line.</context>
-        <line>25</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
-        <context>An opening curly bracket must not be followed by a blank line.</context>
-        <line>36</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CurlyBracketsMustNotBeOmitted" ruleCheckId="SA1503">
-        <context>The body of the if statement must be wrapped in opening and closing curly brackets.</context>
-        <line>49</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
+    <timestamp>05/18/2010 14:02:28</timestamp>
+    <milliseconds>433</milliseconds>
+    <violations />
   </sourcecode>
   <sourcecode name="ICheckConstraint.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>520</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="IWorkFlow.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>535</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="IOperation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>535</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 18:48:44</timestamp>
-    <milliseconds>13</milliseconds>
+    <timestamp>04/28/2010 15:14:10</timestamp>
+    <milliseconds>0</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="BasicOperation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -389,8 +393,32 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>504</milliseconds>
+    <timestamp>04/30/2010 13:58:07</timestamp>
+    <milliseconds>453</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>58</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="IOperation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 16:52:54</timestamp>
+    <milliseconds>578</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="IWorkFlow.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 16:52:49</timestamp>
+    <milliseconds>843</milliseconds>
     <violations />
   </sourcecode>
   <sourcecode name="Pipeline.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
@@ -398,14 +426,23 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 18:45:58</timestamp>
-    <milliseconds>504</milliseconds>
+    <timestamp>05/18/2010 20:30:11</timestamp>
+    <milliseconds>227</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.MaintainabilityRules" rule="FieldsMustBePrivate" ruleCheckId="SA1401">
         <context>Fields must be declared with private access. Use properties to expose fields.</context>
-        <line>17</line>
+        <line>16</line>
         <warning>False</warning>
       </violation>
     </violations>
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 20:22:51</timestamp>
+    <milliseconds>359</milliseconds>
+    <violations />
   </sourcecode>
 </stylecopresultscache>

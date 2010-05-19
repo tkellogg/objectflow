@@ -35,7 +35,5 @@ namespace objectflow.tests
 
             Assert.That(_successConstraint.Matches(), Is.False);
         }
-
-        // TODO: solve reference bug.
     }
 }

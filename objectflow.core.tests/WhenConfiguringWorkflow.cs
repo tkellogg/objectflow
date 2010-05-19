@@ -19,6 +19,7 @@ namespace objectflow.tests
         private Pipeline<Colour> _workFlow;
         private MockRepository _mocker;
         private IEnumerable<Colour> _colours;
+        private IOperation<Colour> _defaultLoader;
 
         [SetUp]
         public void BeforeEachTest()
@@ -27,8 +28,10 @@ namespace objectflow.tests
             _duplicateName = new DuplicateName();
             _secondDuplicateName = new DuplicateName();
             _colours = new Colour[] { new Colour("Red") };
+            _defaultLoader = new PipelineMemoryLoader<Colour>(_colours);
 
-            _workFlow = new ColourPipeline(_colours);
+            _workFlow = new Pipeline<Colour>();
+            _workFlow.Execute(_defaultLoader);
 
             _mocker = new MockRepository();
         }
@@ -232,6 +235,19 @@ namespace objectflow.tests
             var result = Pipeline<Colour>.GetItem(results, 0);
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRedRedRedRedRed"));
+
+        }
+
+        [Test]
+        public void ShouldReturnNullWhenPipelineNotConfiguredToLoadData()
+        {
+            var pipe = new Pipeline<Colour>();
+            pipe.Execute(_duplicateName);
+
+            var results = pipe.Start();
+            var result = Pipeline<Colour>.GetItem(results, 0);
+
+            Assert.That(result, Is.Null);
 
         }
     }

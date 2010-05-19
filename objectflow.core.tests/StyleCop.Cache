@@ -1,75 +1,15 @@
 <stylecopresultscache>
   <version>10</version>
-  <project key="1273412273">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
-  <project key="-1718145489">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
-  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 18:48:32</timestamp>
-    <milliseconds>998</milliseconds>
-    <violations />
-  </sourcecode>
-  <sourcecode name="Colour.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 13:57:27</timestamp>
-    <milliseconds>363</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
-        <context>namespace names begin with an upper-case letter: objectflow.tests.TestDomain.</context>
-        <line>2</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
   <sourcecode name="ColourPipeline.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/27/2010 13:57:26</timestamp>
-    <milliseconds>848</milliseconds>
+    <timestamp>04/27/2010 20:31:41</timestamp>
+    <milliseconds>921</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
         <context>namespace names begin with an upper-case letter: objectflow.tests.TestDomain.</context>
-        <line>5</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="DoubleSpace.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 13:57:27</timestamp>
-    <milliseconds>301</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
-        <context>namespace names begin with an upper-case letter: objectflow.tests.TestOperations.</context>
-        <line>5</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="DuplicateName.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 13:57:27</timestamp>
-    <milliseconds>223</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
-        <context>namespace names begin with an upper-case letter: objectflow.tests.TestOperations.</context>
         <line>5</line>
         <warning>False</warning>
       </violation>
@@ -90,13 +30,111 @@
       </violation>
     </violations>
   </sourcecode>
+  <project key="284675835">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="WhenEvaluatingIsFalseConditions.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 08:40:00</timestamp>
+    <milliseconds>970</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>51</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
+        <line>6</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <project key="1273412273">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <project key="152561486">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 20:23:58</timestamp>
+    <milliseconds>734</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="Colour.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 13:57:27</timestamp>
+    <milliseconds>363</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.tests.TestDomain.</context>
+        <line>2</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="DoubleSpace.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 21:06:48</timestamp>
+    <milliseconds>500</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="SingleLineCommentsMustNotBeFollowedByBlankLine" ruleCheckId="SA1512">
+        <context>A single-line comment must not be followed by a blank line. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>19</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.OrderingRules" rule="UsingDirectivesMustBeOrderedAlphabeticallyByNamespace" ruleCheckId="SA1210">
+        <context>Using directives must be sorted alphabetically by the namespaces.</context>
+        <line>1</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.OrderingRules" rule="SystemUsingDirectivesMustBePlacedBeforeOtherUsingDirectives" ruleCheckId="SA1208">
+        <context>System using directives must be placed before all other using directives.</context>
+        <line>4</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.tests.TestOperations.</context>
+        <line>6</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="DuplicateName.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/27/2010 13:57:27</timestamp>
+    <milliseconds>223</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.tests.TestOperations.</context>
+        <line>5</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
   <sourcecode name="WhenEvaluatingConditions.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/26/2010 19:26:23</timestamp>
-    <milliseconds>739</milliseconds>
+    <timestamp>05/18/2010 12:40:59</timestamp>
+    <milliseconds>429</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
         <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
@@ -110,17 +148,17 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/27/2010 13:57:27</timestamp>
-    <milliseconds>4</milliseconds>
+    <timestamp>05/18/2010 19:00:02</timestamp>
+    <milliseconds>309</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
         <context>A closing curly bracket must not be preceded by a blank line.</context>
-        <line>120</line>
+        <line>121</line>
         <warning>False</warning>
       </violation>
-      <violation namespace="Microsoft.StyleCop.CSharp.ReadabilityRules" rule="CommentsMustContainText" ruleCheckId="SA1120">
-        <context>The comment is empty. Add text to the comment or remove it.</context>
-        <line>126</line>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>151</line>
         <warning>False</warning>
       </violation>
       <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
@@ -130,32 +168,37 @@
       </violation>
     </violations>
   </sourcecode>
+  <sourcecode name="WhenEvaluatingLamndaConstraints.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>04/30/2010 21:16:09</timestamp>
+    <milliseconds>718</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>68</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.core.tests.</context>
+        <line>8</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
   <sourcecode name="WhenEvaluatingTypeConstraints.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
     <settings>
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/27/2010 13:57:27</timestamp>
-    <milliseconds>82</milliseconds>
+    <timestamp>05/18/2010 14:28:03</timestamp>
+    <milliseconds>880</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
         <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
         <line>6</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="WhenNegatingConstraints.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
-    <settings>
-      <timestamp>10/28/2009 16:13:53</timestamp>
-      <milliseconds>689</milliseconds>
-    </settings>
-    <timestamp>04/27/2010 13:57:26</timestamp>
-    <milliseconds>754</milliseconds>
-    <violations>
-      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
-        <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
-        <line>5</line>
         <warning>False</warning>
       </violation>
     </violations>
@@ -165,32 +208,87 @@
       <timestamp>10/28/2009 16:13:53</timestamp>
       <milliseconds>689</milliseconds>
     </settings>
-    <timestamp>04/27/2010 13:57:26</timestamp>
-    <milliseconds>926</milliseconds>
+    <timestamp>05/17/2010 17:00:36</timestamp>
+    <milliseconds>100</milliseconds>
     <violations>
       <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="OpeningCurlyBracketsMustNotBeFollowedByBlankLine" ruleCheckId="SA1505">
         <context>An opening curly bracket must not be followed by a blank line.</context>
-        <line>127</line>
+        <line>130</line>
         <warning>False</warning>
       </violation>
       <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
         <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
-        <line>136</line>
+        <line>139</line>
         <warning>False</warning>
       </violation>
       <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
         <context>A closing curly bracket must not be preceded by a blank line.</context>
-        <line>147</line>
+        <line>150</line>
         <warning>False</warning>
       </violation>
       <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
         <context>A closing curly bracket must not be preceded by a blank line.</context>
-        <line>236</line>
+        <line>239</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
+        <context>A closing curly bracket must not be preceded by a blank line.</context>
+        <line>252</line>
         <warning>False</warning>
       </violation>
       <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
         <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
         <line>11</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="WhenExecutingOperation.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>05/17/2010 14:05:00</timestamp>
+    <milliseconds>662</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>45</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="OpeningCurlyBracketsMustBeSpacedCorrectly" ruleCheckId="SA1012">
+        <context>Invalid spacing around the opening curly bracket.</context>
+        <line>18</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="ClosingParenthesisMustBeSpacedCorrectly" ruleCheckId="SA1009">
+        <context>Invalid spacing around the closing parenthesis.</context>
+        <line>18</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.SpacingRules" rule="ClosingCurlyBracketsMustBeSpacedCorrectly" ruleCheckId="SA1013">
+        <context>Invalid spacing around the closing curly bracket.</context>
+        <line>18</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.core.tests.</context>
+        <line>7</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="WhenNegatingConstraints.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>10/28/2009 16:13:53</timestamp>
+      <milliseconds>689</milliseconds>
+    </settings>
+    <timestamp>05/18/2010 14:23:02</timestamp>
+    <milliseconds>120</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="ElementMustBeginWithUpperCaseLetter" ruleCheckId="SA1300">
+        <context>namespace names begin with an upper-case letter: objectflow.tests.</context>
+        <line>5</line>
         <warning>False</warning>
       </violation>
     </violations>

@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Rainbow ObjectFlow demo")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ObjectFlow Demo")]
+[assembly: AssemblyDescription("Demonstration of initial objectflow features")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RainbowSoft")]
 [assembly: AssemblyProduct("Rainbow.ObjectFlow")]

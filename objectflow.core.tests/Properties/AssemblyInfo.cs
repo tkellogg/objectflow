@@ -4,14 +4,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Rainbow ObjectFlow tests")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ObjectFlow Tests")]
+[assembly: AssemblyDescription("Tests for ObjectFlow.Core")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RainbowSoft")]
 [assembly: AssemblyProduct("Rainbow.ObjectFlow")]
 [assembly: AssemblyCopyright("RainbowSoft")]
 [assembly: AssemblyTrademark("RainbowSoft")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM componenets.  If you need to access a type in this assembly from 

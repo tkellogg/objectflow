@@ -26,8 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>..\compile\bin\debug\objectflow.core.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -61,7 +60,9 @@
     <Compile Include="Constraints\CheckConstraint.cs" />
     <Compile Include="Constraints\SuccessCheckConstraint.cs" />
     <Compile Include="Framework\Check.cs" />
+    <Compile Include="Framework\WfExecutor.cs" />
     <Compile Include="Framework\OperationConstraintPair.cs" />
+    <Compile Include="Framework\PipelineMemoryLoader.cs" />
     <Compile Include="Helpers\When.cs" />
     <Compile Include="Framework\BasicOperation.cs" />
     <Compile Include="Interfaces\ICheckConstraint.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Framework\Pipeline.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Diagrams\Constraints.cd" />
     <None Include="Diagrams\Pipes.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

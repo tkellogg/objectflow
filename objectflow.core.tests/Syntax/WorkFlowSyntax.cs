@@ -11,7 +11,7 @@ namespace objectflow.tests.Syntax
     [TestFixture]
     public class WorkFlowSyntax
     {
-        private ColourPipeline _pipe;
+        private Pipeline<Colour> _pipe;
         private IOperation<Colour> _doublespace = new DoubleSpace();
         private IOperation<Colour> _doublespaceOne = new DoubleSpace();
         private IOperation<Colour> _doubleSpaceTwo = new DoubleSpace();
@@ -32,7 +32,8 @@ namespace objectflow.tests.Syntax
         public void BeforeEachTest()
         {
             _redOnly = new[] { new Colour("Red") };
-            _pipe = new ColourPipeline(_redOnly);
+            _pipe = new Pipeline<Colour>();
+            _pipe.Execute(new PipelineMemoryLoader<Colour>(_redOnly));
             _doublespace = new DoubleSpace();
             _doublespaceOne = new DoubleSpace();
             _doubleSpaceTwo = new DoubleSpace();
@@ -122,9 +123,31 @@ namespace objectflow.tests.Syntax
         [Test]
         public void LamdaDecisionSyntax()
         {
-            string z = "garfield";
-            //
-            ////_pipe.Execute(_doublespaceOne).Execute(_doubleSpaceTwo, When.IsTrue((s) => z.Contains("w")));
+            string z = "red";
+
+            _pipe
+                .Execute(_doublespaceOne)
+                .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
+
+            var result = WhenT();
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ToString(), Is.EqualTo("R e d"));
+        }
+
+        [Test]
+        public void GenericPipelineSyntax()
+        {
+            var pipe = new Pipeline<Colour>();
+            pipe.Execute(new PipelineMemoryLoader<Colour>(_redOnly))
+                .Execute(_doublespace);
+
+            var results = pipe.Start();
+
+            var result = Pipeline<Colour>.GetItem(results, 0);
+
+            Assert.That(result.ToString(), Is.EqualTo("R e d"));
+
         }
 
         private Colour WhenT()

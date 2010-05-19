@@ -1,32 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="TeamPipes.Pipeline&lt;T&gt;">
-    <Position X="2.5" Y="0.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAAAQAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Pipeline.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="TeamPipes.TeamMember">
+  <Class Name="Rainbow.ObjectFlow.Framework.Pipeline&lt;T&gt;">
     <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="AddOperation" Hidden="true" />
+      <Method Name="Do" Hidden="true" />
+      <Method Name="Pipeline" Hidden="true" />
+      <Field Name="RegisteredOperations" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TeamMember.cs</FileName>
+      <HashCode>AAAAQAAAICAAAEQAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Framework\Pipeline.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Rainbow.ObjectFlow.Framework.BasicOperation&lt;T&gt;">
+    <Position X="2.5" Y="0.5" Width="1.75" />
+    <Members>
+      <Field Name="_resultSetByInheritedObject" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAQAAAAACAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Framework\BasicOperation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Rainbow.ObjectFlow.Helpers.When">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <Members>
+      <Method Name="When" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAgAAAAAAAAAACAAAAAAAAIAEAAAAAA=</HashCode>
+      <FileName>Helpers\When.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TeamPipes.TeamPipeline">
-    <Position X="2.75" Y="2.5" Width="1.75" />
+  <Class Name="Rainbow.ObjectFlow.Constraints.CheckConstraint" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>TeamPipeline.cs</FileName>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\CheckConstraint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Rainbow.ObjectFlow.ConstraintOperators.ConstraintOperator">
+    <Position X="4.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAACAgAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>ConstraintOperators\ConstraintOperator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="TeamPipes.IOperation&lt;T&gt;">
-    <Position X="5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IOperation.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Font Name="Tahoma" Size="8.25" />
 </ClassDiagram>
