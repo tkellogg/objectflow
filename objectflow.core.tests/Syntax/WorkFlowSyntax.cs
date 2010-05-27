@@ -120,20 +120,20 @@ namespace objectflow.tests.Syntax
 
         }
 
-        [Test]
-        public void LamdaDecisionSyntax()
-        {
-            string z = "red";
+        //[Test]
+        //public void LamdaDecisionSyntax()
+        //{
+        //    string z = "red";
 
-            _pipe
-                .Execute(_doublespaceOne)
-                .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
+        //    _pipe
+        //        .Execute(_doublespaceOne)
+        //        .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
 
-            var result = WhenT();
+        //    var result = WhenT();
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.ToString(), Is.EqualTo("R e d"));
-        }
+        //    Assert.That(result, Is.Not.Null);
+        //    Assert.That(result.ToString(), Is.EqualTo("R e d"));
+        //}
 
         [Test]
         public void GenericPipelineSyntax()

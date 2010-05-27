@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rainbow.Demo.Objectflow.Domain</RootNamespace>
     <AssemblyName>objectflowDemo.Domain</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -40,9 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -58,7 +55,6 @@
     <Compile Include="Commands\ConsoleWriter.cs" />
     <Compile Include="Commands\DoubleSpace.cs" />
     <Compile Include="Commands\DuplicateName.cs" />
-    <Compile Include="Commands\Reverse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Colour.cs" />
   </ItemGroup>
