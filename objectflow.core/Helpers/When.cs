@@ -18,15 +18,15 @@ namespace Rainbow.ObjectFlow.Helpers
 
         internal static Stack<CheckConstraint> ConstraintStack { get; set; }
 
-        ///// <summary>
-        ///// Returns a BooleanCheckConstraint that can use a function to evaluate
-        ///// </summary>
-        ///// <param name="evaluator">The function to use</param>
-        ///// <returns>BooleanCheckConstraint</returns>
-        //public static BooleanCheckConstraint IsTrue(Func<bool> evaluator)
-        //{
-        //    return new BooleanCheckConstraint(evaluator);
-        //}
+        /// <summary>
+        /// Returns a BooleanCheckConstraint that can use a function to evaluate
+        /// </summary>
+        /// <param name="evaluator">The function to use</param>
+        /// <returns>BooleanCheckConstraint</returns>
+        public static BooleanCheckConstraint IsTrue(Func<bool> evaluator)
+        {
+            return new BooleanCheckConstraint(evaluator);
+        }
 
         /// <summary>
         /// Returns a BooleanCheckConstraint that can evaluate a boolean.

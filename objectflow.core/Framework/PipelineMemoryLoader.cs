@@ -13,13 +13,13 @@ namespace Rainbow.ObjectFlow.Framework
     /// <typeparam name="T">Type of object the operation will contain.</typeparam>
     public class PipelineMemoryLoader<T> : BasicOperation<T>
     {
-        private readonly IEnumerable<T> _team = new List<T>();
+        private readonly T _team = default(T);
 
         /// <summary>
         /// Instantietes the class with the input data for the pipeline.
         /// </summary>
         /// <param name="inputData">The data the operation will work on</param>
-        public PipelineMemoryLoader(IEnumerable<T> inputData)
+        public PipelineMemoryLoader(T inputData)
         {
             _team = inputData;
         }
@@ -29,8 +29,9 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         /// <param name="inputData">The data the operation will work on</param>
         /// <returns>The transformed data</returns>
-        public override IEnumerable<T> Execute(IEnumerable<T> inputData)
+        public override T Execute(T inputData)
         {
+            SetSuccessResult(true);
             return _team;
         }
     }

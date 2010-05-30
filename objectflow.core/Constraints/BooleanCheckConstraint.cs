@@ -11,7 +11,7 @@ namespace Rainbow.ObjectFlow.Constraints
     {
         private bool _operation;
         private IList<CheckConstraint> _constraints;
-        //private Func<bool> _funcConstraint = null;
+        private Func<bool> _funcConstraint = null;
 
         internal BooleanCheckConstraint(bool operation)
         {
@@ -25,10 +25,10 @@ namespace Rainbow.ObjectFlow.Constraints
 
         }
 
-        //internal BooleanCheckConstraint(Func<bool> constraint)
-        //{
-        //    _funcConstraint = constraint;
-        //}
+        internal BooleanCheckConstraint(Func<bool> constraint)
+        {
+            _funcConstraint = constraint;
+        }
 
         internal override bool Matches()
         {
@@ -38,7 +38,7 @@ namespace Rainbow.ObjectFlow.Constraints
             }
             else if (HasLamdaConstraints())
             {
-                //return _funcConstraint();
+                return _funcConstraint();
             }
 
             return _operation;
@@ -46,7 +46,7 @@ namespace Rainbow.ObjectFlow.Constraints
 
         private bool HasLamdaConstraints()
         {
-            return false; // _funcConstraint != null;
+            return _funcConstraint != null;
         }
 
         /// <summary>

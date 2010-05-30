@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
-using Rainbow.ObjectFlow.Framework;
+﻿using Rainbow.ObjectFlow.Framework;
 
 namespace Rainbow.Demo.Objectflow.Domain.Commands
 {
     public class DuplicateName : BasicOperation<Colour>
     {
-        public override IEnumerable<Colour> Execute(IEnumerable<Colour> operations)
+        public override Colour Execute(Colour colour)
         {
-            foreach (Colour member in operations)
-            {
-                member.Name += member.Name;
-            }
+            colour.Name += colour.Name;
 
             SetSuccessResult(true);
-            return operations;
+            return colour;
         }
     }
 }

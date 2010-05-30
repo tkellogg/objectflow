@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rainbow.ObjectFlow</RootNamespace>
     <AssemblyName>objectflow.core</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -36,9 +36,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\compile\bin\Release\objectflow.core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -57,6 +61,9 @@
     <Compile Include="Constraints\CheckConstraint.cs" />
     <Compile Include="Constraints\SuccessCheckConstraint.cs" />
     <Compile Include="Framework\Check.cs" />
+    <Compile Include="Framework\Command.cs" />
+    <Compile Include="Framework\FCommand.cs" />
+    <Compile Include="Framework\OCommand.cs" />
     <Compile Include="Framework\WfExecutor.cs" />
     <Compile Include="Framework\OperationConstraintPair.cs" />
     <Compile Include="Framework\PipelineMemoryLoader.cs" />

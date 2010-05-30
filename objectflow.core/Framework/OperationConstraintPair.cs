@@ -5,14 +5,29 @@ namespace Rainbow.ObjectFlow.Framework
 {
     internal class OperationConstraintPair<T>
     {
-        public BasicOperation<T> Operation;
-        public CheckConstraint Constraint;
-        public long LineNumber;
+        private CheckConstraint _constraint;
+        private Command<T> _command;
 
-        public OperationConstraintPair(BasicOperation<T> operation, ICheckContraint constraint)
+        public OperationConstraintPair(Command<T> command, ICheckContraint constraint)
         {
-            Operation = operation;
-            Constraint = constraint as CheckConstraint;
+            _command = command;
+            _constraint = constraint as CheckConstraint;
+        }
+
+        public OperationConstraintPair(Command<T> command)
+        {
+            _command = command;
+            _constraint = null;
+        }
+
+        public CheckConstraint Constraint
+        {
+            get { return _constraint; }
+        }
+
+        public Command<T> Command
+        {
+            get { return _command; }
         }
     }
 }

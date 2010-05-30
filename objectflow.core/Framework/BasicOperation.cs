@@ -21,7 +21,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         /// <param name="data">Data to perform transformations on</param>
         /// <returns>The operation results as an IEnumerable of T</returns>
-        public abstract IEnumerable<T> Execute(IEnumerable<T> data);
+        public abstract T Execute(T data);
 
         /// <summary>
         /// Default constructor

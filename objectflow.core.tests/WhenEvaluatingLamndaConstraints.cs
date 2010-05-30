@@ -14,7 +14,7 @@ namespace objectflow.core.tests
         private IOperation<Colour> _duplicateName;
         private IOperation<Colour> _duplicateNameOne;
         private IOperation<Colour> _duplicateNameTwo;
-        private Colour[] _redOnly;
+        private Colour _redOnly;
         private IOperation<Colour> _defaultLoader;
 
         [SetUp]
@@ -23,46 +23,46 @@ namespace objectflow.core.tests
             _duplicateNameTwo = new DuplicateName();
             _duplicateNameOne = new DuplicateName();
             _duplicateNameTwo = new DuplicateName();
-            _redOnly = new[] { new Colour("Red") };
+            _redOnly = new Colour("Red");
             _defaultLoader = new PipelineMemoryLoader<Colour>(_redOnly);
 
             _pipe = new Pipeline<Colour>();
             _pipe.Execute(_defaultLoader);
         }
 
-        //[Test]
-        //public void ShouldEvaluateNegativeExpression()
-        //{
-        //    string z = "djnz";
+        [Test]
+        public void ShouldEvaluateNegativeExpression()
+        {
+            string z = "djnz";
 
-        //    _pipe
-        //        .Execute(_duplicateNameOne)
-        //        .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("nop")));
+            _pipe
+                .Execute(_duplicateNameOne)
+                .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("nop")));
 
-        //    var result = WhenRun();
+            var result = WhenRun();
 
-        //    Assert.That(result, Is.Not.Null);
-        //    Assert.That(result.ToString(), Is.EqualTo("RedRed"));
-        //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ToString(), Is.EqualTo("RedRed"));
+        }
 
-        //[Test]
-        //public void ShouldEvaluatePositiveExpression()
-        //{
-        //    string z = "djnz";
+        [Test]
+        public void ShouldEvaluatePositiveExpression()
+        {
+            string z = "djnz";
 
-        //    _pipe
-        //        .Execute(_duplicateNameOne)
-        //        .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("dj")));
+            _pipe
+                .Execute(_duplicateNameOne)
+                .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("dj")));
 
-        //    var result = WhenRun();
+            var result = WhenRun();
 
-        //    Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
-        //}
+            Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
+        }
 
         private Colour WhenRun()
         {
-            var results = _pipe.Start();
-            return Pipeline<Colour>.GetItem(results, 0);
+            var result = _pipe.Start();
+            return result;
         }
 
     }

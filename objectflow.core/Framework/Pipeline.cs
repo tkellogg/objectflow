@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Framework
@@ -33,7 +34,8 @@ namespace Rainbow.ObjectFlow.Framework
         {
             Check.IsNotNull(operation, "operation");
 
-            AddOperation(operation, null);
+            var operationPair = new OperationConstraintPair<T>(new OCommand<T>(operation as BasicOperation<T>));
+            RegisteredOperations.Enqueue(operationPair);
 
             return this;
         }
@@ -51,33 +53,42 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(operation, "operation");
             Check.IsNotNull<T>(constraint, "constraint");
 
-            AddOperation(operation, constraint);
+            var operationPair = new OperationConstraintPair<T>(new OCommand<T>(operation as BasicOperation<T>), constraint);
+            RegisteredOperations.Enqueue(operationPair);
 
             return this;
         }
 
-        private void AddOperation(IOperation<T> operation, ICheckContraint constraint)
+        /// <summary>
+        /// Adds a function into the execution plan
+        /// </summary>
+        /// <param name="function">Function to add</param>
+        /// <returns>this</returns>
+        public Pipeline<T> Execute(Func<T, T> function)
         {
-            var operationPair = new OperationConstraintPair<T>(operation as BasicOperation<T>, constraint);
+            Check.IsNotNull(function, "function");
+
+            var operationPair = new OperationConstraintPair<T>(new FCommand<T>(function));
             RegisteredOperations.Enqueue(operationPair);
+
+            return this;
         }
 
         /// <summary>
-        /// Return an element from the results returned by the Start method.
+        /// Adds a function into the execution plan
         /// </summary>
-        /// <param name="results">Results returned from the Start method.</param>
-        /// <param name="index">index of the required data item.</param>
-        /// <returns>Specified data item if it exists, uninstantiated object of type T otherwise.</returns>
-        public static T GetItem(IEnumerable<T> results, int index)
+        /// <param name="function">Function to add</param>
+        /// <param name="constraint">constraint defines if function will be executed</param>
+        /// <returns>this</returns>
+        public Pipeline<T> Execute(Func<T, T> function, ICheckContraint constraint)
         {
-            var list = results as IList<T>;
+            Check.IsNotNull(function, "function");
+            Check.IsNotNull<T>(constraint, "constraint");
 
-            if (null == list || 0 == list.Count || (list.Count < index))
-            {
-                return default(T);
-            }
+            var operationPair = new OperationConstraintPair<T>(new FCommand<T>(function), constraint);
+            RegisteredOperations.Enqueue(operationPair);
 
-            return list[index];
+            return this;
         }
 
         /// <summary>
@@ -88,12 +99,20 @@ namespace Rainbow.ObjectFlow.Framework
         /// The concrete implementation is responsible for definng how the data is passed to the pipeline.
         /// A common implementation is to use a constructor and an operation that returns the data with no transformations
         /// </remarks>
-        /// <example>
-        /// show loadlist implementation.
-        /// </example>
-        public virtual IEnumerable<T> Start()
+        public virtual T Start()
         {
             return WfExecutor<T>.Execute(RegisteredOperations);
         }
+
+        /// <summary>
+        /// Runs the workflow definition
+        /// </summary>
+        /// <param name="data">data to transform</param>
+        /// <returns>Result of the workflow</returns>
+        public virtual T Start(T data)
+        {
+            return WfExecutor<T>.Execute(RegisteredOperations, data);
+        }
+
     }
 }

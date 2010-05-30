@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 using objectflow.tests.TestDomain;
 using objectflow.tests.TestOperations;
@@ -18,7 +17,7 @@ namespace objectflow.tests
         private IOperation<Colour> _secondDuplicateName;
         private Pipeline<Colour> _workFlow;
         private MockRepository _mocker;
-        private IEnumerable<Colour> _colours;
+        private Colour _colour;
         private IOperation<Colour> _defaultLoader;
 
         [SetUp]
@@ -27,8 +26,8 @@ namespace objectflow.tests
             _doubleSpace = new DoubleSpace();
             _duplicateName = new DuplicateName();
             _secondDuplicateName = new DuplicateName();
-            _colours = new Colour[] { new Colour("Red") };
-            _defaultLoader = new PipelineMemoryLoader<Colour>(_colours);
+            _colour = new Colour("Red");
+            _defaultLoader = new PipelineMemoryLoader<Colour>(_colour);
 
             _workFlow = new Pipeline<Colour>();
             _workFlow.Execute(_defaultLoader);
@@ -41,8 +40,7 @@ namespace objectflow.tests
         {
             _workFlow.Execute(_doubleSpace);
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result, Is.Not.Null, "No results");
             Assert.That(result.ToString(), Is.EqualTo("R e d"), "Colour name value");
@@ -53,8 +51,7 @@ namespace objectflow.tests
         {
             _workFlow.Execute(_duplicateName).Execute(_doubleSpace);
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d R e d"), "Colour name value");
         }
@@ -64,8 +61,7 @@ namespace objectflow.tests
         {
             _workFlow.Execute(_duplicateName).Execute(_doubleSpace, When.IsTrue(false));
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRed"));
         }
@@ -75,8 +71,7 @@ namespace objectflow.tests
         {
             _workFlow.Execute(_duplicateName).Execute(_doubleSpace, When.IsTrue(true));
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d R e d"));
         }
@@ -89,8 +84,7 @@ namespace objectflow.tests
                 .Execute(_doubleSpace, When.Not.Successfull(_duplicateName))
                 .Execute(_secondDuplicateName, When.Successful(_duplicateName));
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
         }
@@ -98,7 +92,8 @@ namespace objectflow.tests
         [Test]
         public void ShouldCheckForNullOperation()
         {
-            Exception ex = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(null), "thrown exception");
+            BasicOperation<Colour> operation = null;
+            Exception ex = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation), "thrown exception");
         }
 
         [Test]
@@ -112,7 +107,8 @@ namespace objectflow.tests
         [Test]
         public void ShouldCheckForNullOperationWithConstraint()
         {
-            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(null, When.IsTrue(true)));
+            IOperation<Colour> operation = null;
+            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation, When.IsTrue(true)));
 
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
@@ -120,7 +116,8 @@ namespace objectflow.tests
         [Test]
         public void ShouldCheckForNullOperationBeforeNullConstraint()
         {
-            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(null, null));
+            IOperation<Colour> operation = null;
+            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation, null));
 
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
@@ -134,8 +131,8 @@ namespace objectflow.tests
 
             using (_mocker.Ordered())
             {
-                Expect.Call(op1.Execute(_colours)).IgnoreArguments().Return(_colours);
-                Expect.Call(op2.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op1.Execute(_colour)).IgnoreArguments().Return(_colour);
+                Expect.Call(op2.Execute(_colour)).IgnoreArguments().Return(_colour);
             }
             _mocker.ReplayAll();
 
@@ -152,20 +149,19 @@ namespace objectflow.tests
         [Test]
         public void ShouldUseConstraintWithDeclaringOperationOnly()
         {
-            // TODO move these into new class or type constraint class.
             var op1 = _mocker.Stub<DuplicateName>();
             var op2 = _mocker.Stub<DoubleSpace>();
             var op3 = _mocker.Stub<DuplicateName>();
 
             using (_mocker.Ordered())
             {
-                Expect.Call(op1.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op1.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op1.SetSuccessResult(true)).Return(true);
 
-                Expect.Call(op2.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op2.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op2.SetSuccessResult(true)).Return(false);
 
-                Expect.Call(op3.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op3.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op3.SetSuccessResult(true)).Return(true);
             }
 
@@ -190,9 +186,9 @@ namespace objectflow.tests
 
             using (_mocker.Ordered())
             {
-                Expect.Call(op1.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op1.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op1.SetSuccessResult(true)).Return(true);
-                Expect.Call(op1.Execute(_colours)).IgnoreArguments().Return(_colours);
+                Expect.Call(op1.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op1.SetSuccessResult(true)).Return(true);
             }
 
@@ -216,8 +212,7 @@ namespace objectflow.tests
                 .Execute(_doubleSpace, When.Not.Successfull(_duplicateName))
                 .Execute(_duplicateName, When.Successful(_duplicateName));
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
         }
@@ -231,23 +226,9 @@ namespace objectflow.tests
                 .Execute(_duplicateName, When.Successful(_duplicateName))
                 .Execute(_duplicateName, When.Successful(_duplicateName));
 
-            var results = _workFlow.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = _workFlow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRedRedRedRedRed"));
-
-        }
-
-        [Test]
-        public void ShouldReturnNullWhenPipelineNotConfiguredToLoadData()
-        {
-            var pipe = new Pipeline<Colour>();
-            pipe.Execute(_duplicateName);
-
-            var results = pipe.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
-
-            Assert.That(result, Is.Null);
 
         }
     }

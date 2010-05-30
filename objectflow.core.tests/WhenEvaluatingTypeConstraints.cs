@@ -10,12 +10,12 @@ namespace objectflow.tests
     {
         private CheckConstraint _successConstraint;
         private DuplicateName _duplicateName;
-        private Colour[] _colours;
+        private Colour _colour;
 
         [SetUp]
         public void BeforeEachTest()
         {
-            _colours = new[] { new Colour("Red") };
+            _colour = new Colour("Red");
             _duplicateName = new DuplicateName();
         }
 
@@ -23,7 +23,7 @@ namespace objectflow.tests
         public void ShouldResolvePositiveSuccess()
         {
             _successConstraint = new SuccessCheckConstraint<Colour>(_duplicateName);
-            _duplicateName.Execute(_colours);
+            _duplicateName.Execute(_colour);
 
             Assert.That(_successConstraint.Matches(), Is.True);
         }

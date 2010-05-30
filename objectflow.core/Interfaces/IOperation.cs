@@ -13,6 +13,6 @@ namespace Rainbow.ObjectFlow.Interfaces
         /// </summary>
         /// <param name="data">The data the operation will transform</param>
         /// <returns>input data transformed by the operation</returns>
-        IEnumerable<T> Execute(IEnumerable<T> data);
+        T Execute(T data);
     }
 }

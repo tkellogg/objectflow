@@ -21,6 +21,15 @@ namespace Rainbow.ObjectFlow.Framework
             }
         }
 
+        public static void IsNotNull<T, TReturn>(Func<T, TReturn> function, string paramName)
+        {
+            if (function == null)
+            {
+                DefaultNullArgumentAction(paramName);
+            }
+
+        }
+
         private static void DefaultNullArgumentAction(string paramName)
         {
             string message = string.Format("Argument [{0}] cannot be null", paramName);

@@ -15,8 +15,8 @@ namespace objectflow.core.tests
         [SetUp]
         public void BeforeEachTest()
         {
-            _defaultLoader = new PipelineMemoryLoader<Colour>(new[] {new Colour("Red")});
-            _flow = new Pipeline<Colour>();        
+            _defaultLoader = new PipelineMemoryLoader<Colour>(new Colour("Red"));
+            _flow = new Pipeline<Colour>();
             _flow.Execute(_defaultLoader);
         }
 
@@ -24,8 +24,7 @@ namespace objectflow.core.tests
         public void ShouldNotSetResultBeforeExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
-            var flow = new Pipeline<Colour>();
-            flow.Execute(new PipelineMemoryLoader<Colour>(new[] { new Colour("Red") }))
+            _flow.Execute(_defaultLoader)
                 .Execute(doublespace);
 
             Assert.That(doublespace.SuccessResult, Is.False);
@@ -36,7 +35,7 @@ namespace objectflow.core.tests
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
             var flow = new Pipeline<Colour>();
-            flow.Execute(new PipelineMemoryLoader<Colour>(new[] { new Colour("Red") }))
+            flow.Execute(_defaultLoader)
                 .Execute(doublespace);
             flow.Start();
             Assert.That(doublespace.SuccessResult, Is.True);
@@ -59,9 +58,9 @@ namespace objectflow.core.tests
         public void DefaultLoaderEvaluatesAsSuccessfulAfterExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
-            
+
             Assert.That(_defaultLoader.SuccessResult, Is.EqualTo(false), "Before operation");
-            
+
             _flow.Start();
 
             Assert.That(_defaultLoader.SuccessResult, Is.True, "after operation");

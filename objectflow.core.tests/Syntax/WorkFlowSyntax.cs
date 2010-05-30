@@ -15,35 +15,18 @@ namespace objectflow.tests.Syntax
         private IOperation<Colour> _doublespace = new DoubleSpace();
         private IOperation<Colour> _doublespaceOne = new DoubleSpace();
         private IOperation<Colour> _doubleSpaceTwo = new DoubleSpace();
-        private Colour[] _redOnly;
-
-        #region Setup and Teardown methods
-        [TestFixtureSetUp]
-        public void BeforeAnyTest()
-        {
-        }
-
-        [TestFixtureTearDown]
-        public void AfterAllTests()
-        {
-        }
+        private Colour _red;
 
         [SetUp]
         public void BeforeEachTest()
         {
-            _redOnly = new[] { new Colour("Red") };
+            _red = new Colour("Red");
             _pipe = new Pipeline<Colour>();
-            _pipe.Execute(new PipelineMemoryLoader<Colour>(_redOnly));
+            _pipe.Execute(new PipelineMemoryLoader<Colour>(_red));
             _doublespace = new DoubleSpace();
             _doublespaceOne = new DoubleSpace();
             _doubleSpaceTwo = new DoubleSpace();
         }
-
-        [TearDown]
-        public void AfterEachTest()
-        {
-        }
-        #endregion Setup and teardown methods
 
         [Test]
         public void SingleOperationSyntax()
@@ -107,7 +90,7 @@ namespace objectflow.tests.Syntax
         {
             var failedOperation = MockRepository.GenerateStub<BasicOperation<Colour>>();
             failedOperation.Stub<BasicOperation<Colour>>(
-                bo => bo.Execute(null)).IgnoreArguments().Return(_redOnly);
+                bo => bo.Execute(null)).IgnoreArguments().Return(_red);
             failedOperation.SetSuccessResult(false);
 
             _pipe
@@ -120,31 +103,29 @@ namespace objectflow.tests.Syntax
 
         }
 
-        //[Test]
-        //public void LamdaDecisionSyntax()
-        //{
-        //    string z = "red";
+        [Test]
+        public void LamdaDecisionSyntax()
+        {
+            string z = "red";
 
-        //    _pipe
-        //        .Execute(_doublespaceOne)
-        //        .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
+            _pipe
+                .Execute(_doublespaceOne)
+                .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
 
-        //    var result = WhenT();
+            var result = WhenT();
 
-        //    Assert.That(result, Is.Not.Null);
-        //    Assert.That(result.ToString(), Is.EqualTo("R e d"));
-        //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ToString(), Is.EqualTo("R e d"));
+        }
 
         [Test]
         public void GenericPipelineSyntax()
         {
             var pipe = new Pipeline<Colour>();
-            pipe.Execute(new PipelineMemoryLoader<Colour>(_redOnly))
+            pipe.Execute(new PipelineMemoryLoader<Colour>(_red))
                 .Execute(_doublespace);
 
-            var results = pipe.Start();
-
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = pipe.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d"));
 
@@ -152,8 +133,8 @@ namespace objectflow.tests.Syntax
 
         private Colour WhenT()
         {
-            var results = _pipe.Start();
-            return Pipeline<Colour>.GetItem(results, 0);
+            var result = _pipe.Start();
+            return result;
         }
     }
 }

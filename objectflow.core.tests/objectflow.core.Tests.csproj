@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>objectflow.core.tests</RootNamespace>
     <AssemblyName>objectflow.core.tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
@@ -44,6 +44,9 @@
       <HintPath>..\..\..\..\svn\trumps\src\shared\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -54,6 +57,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework35\Syntax\FuncSyntax.cs" />
+    <Compile Include="Framework35\WhenDefiningFunctionalPipe.cs" />
+    <Compile Include="Framework35\WhenExecutingFunctions.cs" />
     <Compile Include="Syntax\WorkFlowSyntax.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDomain\Colour.cs" />

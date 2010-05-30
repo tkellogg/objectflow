@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Rainbow.Demo.Objectflow.Domain;
 using Rainbow.Demo.Objectflow.Domain.Commands;
 using Rainbow.ObjectFlow.Framework;
@@ -16,30 +15,14 @@ namespace Rainbow.Demo.Objectflow.Client
             var doublespace2 = new DoubleSpace();
 
             colourPipe
-                .Execute(new PipelineMemoryLoader<Colour>(GetColours()))
                 .Execute(doubleSpace)
-                .Execute(doublespace2, When.Not.Successfull(doubleSpace));
+                .Execute(doublespace2, When.Not.Successfull(doubleSpace))
+                .Execute(new ConsoleWriter());
 
-            var results = colourPipe.Start();
-            var result = Pipeline<Colour>.GetItem(results, 0);
+            var result = colourPipe.Start(new Colour("green"));
 
-            Console.WriteLine(result);
             Console.WriteLine("\r\nPress any key");
             Console.ReadKey();
-        }
-
-        private static IEnumerable<Colour> GetColours()
-        {
-            var team = new Colour[]
-                           {
-                               new Colour("Red"), 
-                               new Colour("Yellow"), 
-                               new Colour("Green"),
-                               new Colour("Pink"), 
-                               new Colour("Purple")
-                           };
-
-            return team;
         }
     }
 }

@@ -6,12 +6,9 @@ namespace Rainbow.Demo.Objectflow.Domain.Commands
 {
     public class ConsoleWriter : BasicOperation<Colour>
     {
-        public override IEnumerable<Colour> Execute(IEnumerable<Colour> input)
+        public override Colour Execute(Colour input)
         {
-            foreach (var member in input)
-            {
-                Console.WriteLine(string.Format("Member: {0}", member.Name));
-            }
+            Console.WriteLine(string.Format("Member: {0}", input.Name));
 
             return input;
         }

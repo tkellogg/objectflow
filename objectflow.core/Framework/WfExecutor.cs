@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Rainbow.ObjectFlow.Constraints;
-using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -11,50 +9,34 @@ namespace Rainbow.ObjectFlow.Framework
     /// <typeparam name="T">generic type the engine will work with</typeparam>
     internal class WfExecutor<T>
     {
-        private static IEnumerable<T> Execute(IOperation<T> operation, CheckConstraint constraint, IEnumerable<T> input)
-        {
-            if (constraint == null || constraint.Matches())
-            {
-                input = operation.Execute(input);
-                var op = operation as BasicOperation<T>;
-
-                if (op != null)
-                {
-                    op.SetSuccessResult(true);
-                }
-            }
-
-            return input;
-        }
-
         /// <summary>
         /// Execute the operations
         /// </summary>
         /// <param name="operations">operations to execute</param>
         /// <returns>Workflow results</returns>
-        public static IEnumerable<T> Execute(ICollection operations)
+        public static T Execute(ICollection operations)
         {
-            IEnumerable<T> current = new List<T>();
+            return Execute(operations, default(T));
+        }
+
+        public static T Execute(ICollection operations, T data)
+        {
+            T current = data;
 
             foreach (OperationConstraintPair<T> operationPair in operations)
             {
-                var operation = operationPair.Operation;
-                var constraint = operationPair.Constraint;
-                current = Execute(operation, constraint, current);
-
-            }
-
-            if (current == null)
-            {
-                return current;
-            }
-
-            var enumerator = current.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
+                if (ConstaintResult(operationPair.Constraint))
+                {
+                    current = operationPair.Command.Execute(current);
+                }
             }
 
             return current;
+        }
+
+        private static bool ConstaintResult(CheckConstraint constraint)
+        {
+            return constraint == null || constraint.Matches();
         }
     }
 }
