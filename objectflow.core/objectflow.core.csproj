@@ -15,10 +15,10 @@
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>RainbowObjectflow.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <BaseIntermediateOutputPath>..\compile\obj\</BaseIntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -39,6 +39,7 @@
     <DocumentationFile>..\compile\bin\Release\objectflow.core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=736440c9b414ea16, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -55,29 +56,34 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConstraintOperators\ConstraintOperator.cs" />
-    <Compile Include="ConstraintOperators\NotConstraintOperator.cs" />
+    <Compile Include="Constraints\Operators\ConstraintOperator.cs" />
+    <Compile Include="Constraints\Operators\NotConstraintOperator.cs" />
     <Compile Include="Constraints\BooleanCheckConstraint.cs" />
     <Compile Include="Constraints\CheckConstraint.cs" />
     <Compile Include="Constraints\SuccessCheckConstraint.cs" />
+    <Compile Include="Engine\ParalelInvoker.cs" />
     <Compile Include="Framework\Check.cs" />
-    <Compile Include="Framework\Command.cs" />
-    <Compile Include="Framework\FCommand.cs" />
-    <Compile Include="Framework\OCommand.cs" />
-    <Compile Include="Framework\WfExecutor.cs" />
-    <Compile Include="Framework\OperationConstraintPair.cs" />
+    <Compile Include="Engine\MethodInvoker.cs" />
+    <Compile Include="Engine\FunctionInvoker.cs" />
+    <Compile Include="Engine\OperationInvoker.cs" />
+    <Compile Include="Engine\SequentialBuilder.cs" />
+    <Compile Include="Engine\ParallelBuilder.cs" />
+    <Compile Include="Engine\WorkflowEngine.cs" />
+    <Compile Include="Engine\OperationConstraintPair.cs" />
     <Compile Include="Framework\PipelineMemoryLoader.cs" />
-    <Compile Include="Helpers\When.cs" />
+    <Compile Include="Helpers\If.cs" />
     <Compile Include="Framework\BasicOperation.cs" />
+    <Compile Include="Engine\WorkflowBuilder.cs" />
+    <Compile Include="Engine\WorkflowBuilders.cs" />
     <Compile Include="Interfaces\ICheckConstraint.cs" />
+    <Compile Include="Interfaces\IWorkflowBuilders.cs" />
     <Compile Include="Interfaces\IWorkFlow.cs" />
     <Compile Include="Interfaces\IOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Framework\Pipeline.cs" />
+    <Compile Include="Framework\Workflow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Diagrams\Constraints.cd" />
-    <None Include="Diagrams\Pipes.cd" />
+    <None Include="RainbowObjectflow.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.3\Microsoft.StyleCop.targets" />

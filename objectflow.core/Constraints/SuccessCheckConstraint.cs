@@ -11,7 +11,6 @@ namespace Rainbow.ObjectFlow.Constraints
     public sealed class SuccessCheckConstraint<T> : CheckConstraint
     {
         private BasicOperation<T> _operation;
-        private IList<CheckConstraint> _constraints;
 
         internal SuccessCheckConstraint(IOperation<T> operation)
         {
@@ -27,43 +26,12 @@ namespace Rainbow.ObjectFlow.Constraints
 
         internal override bool Matches()
         {
-
-            if (_constraints == null || _constraints.Count == 0)
+            if (HasConstraints())
             {
-                return _operation.SuccessResult;
+                return MatchTree(_operation.SuccessResult);
             }
 
-            return MatchTree(_operation.SuccessResult);
-        }
-
-        /// <summary>
-        /// Evaluates whether the operation evaluates to success or failure
-        /// </summary>
-        /// <param name="condition">operation to evaluate</param>
-        /// <returns>True of the operatin was successfull</returns>
-        public bool Matches(BasicOperation<T> condition)
-        {
-
-            if (_constraints == null || _constraints.Count == 0)
-            {
-                return condition.SuccessResult == _operation.SuccessResult;
-            }
-
-            return MatchTree(condition.SuccessResult);
-        }
-
-        private bool MatchTree(bool seed)
-        {
-            if (_constraints == null || _constraints.Count == 0)
-                return true;
-
-            bool match = seed;
-            foreach (var constraint in _constraints)
-            {
-                match = constraint.Matches(match);
-            }
-
-            return match;
+            return _operation.SuccessResult;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace Rainbow.ObjectFlow.Interfaces
 {
     /// <summary>
-    /// Defines the interface of items in a pipeline.
+    /// Defines the interface of items in a workflow.
     /// </summary>
     /// <typeparam name="T">Type of data the pipeline contains</typeparam>
     public interface IOperation<T>

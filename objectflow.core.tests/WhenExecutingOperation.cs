@@ -1,31 +1,31 @@
 ﻿using NUnit.Framework;
-using objectflow.tests.TestDomain;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestDomain;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rhino.Mocks;
 
-namespace objectflow.core.tests
+namespace Objectflow.core.tests
 {
     [TestFixture]
     public class WhenExecutingOperation
     {
-        private Pipeline<Colour> _flow;
-        private PipelineMemoryLoader<Colour> _defaultLoader;
+        private Workflow<Colour> _flow;
+        private WorkflowMemoryLoader<Colour> _defaultLoader;
 
         [SetUp]
         public void BeforeEachTest()
         {
-            _defaultLoader = new PipelineMemoryLoader<Colour>(new Colour("Red"));
-            _flow = new Pipeline<Colour>();
-            _flow.Execute(_defaultLoader);
+            _defaultLoader = new WorkflowMemoryLoader<Colour>(new Colour("Red"));
+            _flow = new Workflow<Colour>();
+            _flow.Do(_defaultLoader);
         }
 
         [Test]
         public void ShouldNotSetResultBeforeExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
-            _flow.Execute(_defaultLoader)
-                .Execute(doublespace);
+            _flow.Do(_defaultLoader)
+                .Do(doublespace);
 
             Assert.That(doublespace.SuccessResult, Is.False);
         }
@@ -34,13 +34,12 @@ namespace objectflow.core.tests
         public void ShouldSetResultAfterExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
-            var flow = new Pipeline<Colour>();
-            flow.Execute(_defaultLoader)
-                .Execute(doublespace);
+            var flow = new Workflow<Colour>();
+            flow.Do(_defaultLoader)
+                .Do(doublespace);
             flow.Start();
             Assert.That(doublespace.SuccessResult, Is.True);
         }
-
 
         [Test]
         public void ShouldBeAbleToOverrideDefaultSuccessResult()
@@ -48,7 +47,7 @@ namespace objectflow.core.tests
             var operation = MockRepository.GeneratePartialMock<DoubleSpace>();
             operation.Stub<DoubleSpace>(op => op.GetSuccessResult()).Return(false);
 
-            _flow.Execute(operation);
+            _flow.Do(operation);
             _flow.Start();
 
             Assert.That(operation.SuccessResult, Is.False);

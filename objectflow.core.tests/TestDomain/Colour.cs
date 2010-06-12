@@ -1,5 +1,5 @@
 ﻿
-namespace objectflow.tests.TestDomain
+namespace Objectflow.tests.TestDomain
 {
     /// <summary>
     /// Domain class for the pipeline demo

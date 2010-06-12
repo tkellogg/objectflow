@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Helpers;
 
-namespace objectflow.tests
+namespace Objectflow.tests
 {
     [TestFixture]
     public class WhenNegatingConstraints
@@ -11,7 +11,7 @@ namespace objectflow.tests
         public void ShouldResolveNotOperationConstraint()
         {
             var operation = new DoubleSpace();
-            var successConstraint = When.Not.Successfull(operation);
+            var successConstraint = If.Not.Successfull(operation);
 
             Assert.That(successConstraint.Matches(), Is.True);
         }
@@ -19,7 +19,7 @@ namespace objectflow.tests
         [Test]
         public void ShouldPassIsFalseForFalseValue()
         {
-            var successConstraint = When.IsFalse(false);
+            var successConstraint = If.IsFalse(false);
 
             Assert.That(successConstraint.Matches(), Is.True);
         }
@@ -27,7 +27,7 @@ namespace objectflow.tests
         [Test]
         public void ShouldNotPassNotIsTrueFalseForTrueValue()
         {
-            var constraint = When.Not.IsTrue(true);
+            var constraint = If.Not.IsTrue(true);
 
             Assert.That(constraint.Matches(), Is.False);
         }
@@ -35,7 +35,7 @@ namespace objectflow.tests
         [Test]
         public void ShouldNotPassIsFalseForTrueValue()
         {
-            var constraint = When.IsFalse(true);
+            var constraint = If.IsFalse(true);
 
             Assert.That(constraint.Matches(), Is.False);
         }

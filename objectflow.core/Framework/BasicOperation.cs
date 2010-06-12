@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Rainbow.ObjectFlow.Interfaces;
+﻿using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -56,6 +55,7 @@ namespace Rainbow.ObjectFlow.Framework
                 _resultSetByInheritedObject = true;
                 SuccessResult = succeeded;
             }
+
             return SuccessResult;
         }
     }

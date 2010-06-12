@@ -27,13 +27,22 @@ namespace Rainbow.ObjectFlow.Framework
             {
                 DefaultNullArgumentAction(paramName);
             }
-
         }
 
         private static void DefaultNullArgumentAction(string paramName)
         {
             string message = string.Format("Argument [{0}] cannot be null", paramName);
             throw new ArgumentNullException(paramName, message);
+        }
+
+        public static void IsInstanceOf<T>(IOperation<T> operation, Type type, string paramName)
+        {
+            if (operation.GetType() != type)
+            {
+                string message = string.Format("Argument [{0}] should be of type {1}.{2}", paramName, type.Namespace, type.Name);
+
+                throw new InvalidCastException(message);
+            }
         }
     }
 }

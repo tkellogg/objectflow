@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using objectflow.tests.TestDomain;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestDomain;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Constraints;
 
-namespace objectflow.tests
+namespace Objectflow.tests
 {
     [TestFixture]
     public class WhenEvaluatingTypeConstraints

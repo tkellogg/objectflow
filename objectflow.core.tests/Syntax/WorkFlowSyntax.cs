@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
-using objectflow.tests.TestDomain;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestDomain;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 using Rhino.Mocks;
 
-namespace objectflow.tests.Syntax
+namespace Objectflow.tests.Syntax
 {
     [TestFixture]
     public class WorkFlowSyntax
     {
-        private Pipeline<Colour> _pipe;
+        private Workflow<Colour> _pipe;
         private IOperation<Colour> _doublespace = new DoubleSpace();
         private IOperation<Colour> _doublespaceOne = new DoubleSpace();
         private IOperation<Colour> _doubleSpaceTwo = new DoubleSpace();
@@ -21,8 +21,8 @@ namespace objectflow.tests.Syntax
         public void BeforeEachTest()
         {
             _red = new Colour("Red");
-            _pipe = new Pipeline<Colour>();
-            _pipe.Execute(new PipelineMemoryLoader<Colour>(_red));
+            _pipe = new Workflow<Colour>();
+            _pipe.Do(new WorkflowMemoryLoader<Colour>(_red));
             _doublespace = new DoubleSpace();
             _doublespaceOne = new DoubleSpace();
             _doubleSpaceTwo = new DoubleSpace();
@@ -31,7 +31,7 @@ namespace objectflow.tests.Syntax
         [Test]
         public void SingleOperationSyntax()
         {
-            _pipe.Execute(_doublespace);
+            _pipe.Do(_doublespace);
 
             var result = WhenT();
 
@@ -42,7 +42,7 @@ namespace objectflow.tests.Syntax
         [Test]
         public void MultipleOperationSyntax()
         {
-            _pipe.Execute(_doublespaceOne).Execute(_doubleSpaceTwo);
+            _pipe.Do(_doublespaceOne).Do(_doubleSpaceTwo);
 
             var result = WhenT();
 
@@ -53,7 +53,7 @@ namespace objectflow.tests.Syntax
         [Test]
         public void SimpleBooleanConstraintSyntax()
         {
-            _pipe.Execute(_doublespaceOne, When.IsTrue(false));
+            _pipe.Do(_doublespaceOne, If.IsTrue(false));
 
             var result = WhenT();
 
@@ -64,7 +64,7 @@ namespace objectflow.tests.Syntax
         [Test]
         public void SimpleBooleanConstraintNegationSyntax()
         {
-            _pipe.Execute(_doublespaceOne, When.Not.IsTrue(false));
+            _pipe.Do(_doublespaceOne, If.Not.IsTrue(false));
 
             var result = WhenT();
 
@@ -76,8 +76,8 @@ namespace objectflow.tests.Syntax
         public void DecisionConstraintSyntax()
         {
             _pipe
-                .Execute(_doublespaceOne)
-                .Execute(_doubleSpaceTwo, When.Successful(_doublespaceOne));
+                .Do(_doublespaceOne)
+                .Do(_doubleSpaceTwo, If.Successful(_doublespaceOne));
 
             var result = WhenT();
 
@@ -94,13 +94,12 @@ namespace objectflow.tests.Syntax
             failedOperation.SetSuccessResult(false);
 
             _pipe
-                .Execute(failedOperation)
-                .Execute(_doubleSpaceTwo, When.Not.Successfull(_doublespaceOne));
+                .Do(failedOperation)
+                .Do(_doubleSpaceTwo, If.Not.Successfull(_doublespaceOne));
 
             var result = WhenT();
             Assert.That(result, Is.Not.Null);
             Assert.That(result.ToString(), Is.EqualTo("R e d"));
-
         }
 
         [Test]
@@ -109,8 +108,8 @@ namespace objectflow.tests.Syntax
             string z = "red";
 
             _pipe
-                .Execute(_doublespaceOne)
-                .Execute(_doubleSpaceTwo, When.IsTrue(() => z.Contains("blue")));
+                .Do(_doublespaceOne)
+                .Do(_doubleSpaceTwo, If.IsTrue(() => z.Contains("blue")));
 
             var result = WhenT();
 
@@ -121,14 +120,13 @@ namespace objectflow.tests.Syntax
         [Test]
         public void GenericPipelineSyntax()
         {
-            var pipe = new Pipeline<Colour>();
-            pipe.Execute(new PipelineMemoryLoader<Colour>(_red))
-                .Execute(_doublespace);
+            var pipe = new Workflow<Colour>();
+            pipe.Do(new WorkflowMemoryLoader<Colour>(_red))
+                .Do(_doublespace);
 
             var result = pipe.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d"));
-
         }
 
         private Colour WhenT()

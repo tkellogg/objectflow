@@ -1,13 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
-using objectflow.tests.TestDomain;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestDomain;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 using Rhino.Mocks;
 
-namespace objectflow.tests
+namespace Objectflow.tests
 {
     [TestFixture]
     public class WhenConfiguringWorkflow
@@ -15,7 +15,7 @@ namespace objectflow.tests
         private IOperation<Colour> _doubleSpace;
         private IOperation<Colour> _duplicateName;
         private IOperation<Colour> _secondDuplicateName;
-        private Pipeline<Colour> _workFlow;
+        private Workflow<Colour> _workflow;
         private MockRepository _mocker;
         private Colour _colour;
         private IOperation<Colour> _defaultLoader;
@@ -27,10 +27,10 @@ namespace objectflow.tests
             _duplicateName = new DuplicateName();
             _secondDuplicateName = new DuplicateName();
             _colour = new Colour("Red");
-            _defaultLoader = new PipelineMemoryLoader<Colour>(_colour);
+            _defaultLoader = new WorkflowMemoryLoader<Colour>(_colour);
 
-            _workFlow = new Pipeline<Colour>();
-            _workFlow.Execute(_defaultLoader);
+            _workflow = new Workflow<Colour>();
+            _workflow.Do(_defaultLoader);
 
             _mocker = new MockRepository();
         }
@@ -38,9 +38,9 @@ namespace objectflow.tests
         [Test]
         public void ShouldExecuteSingleOperation()
         {
-            _workFlow.Execute(_doubleSpace);
+            _workflow.Do(_doubleSpace);
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result, Is.Not.Null, "No results");
             Assert.That(result.ToString(), Is.EqualTo("R e d"), "Colour name value");
@@ -49,9 +49,9 @@ namespace objectflow.tests
         [Test]
         public void ShouldExecuteChainedOperations()
         {
-            _workFlow.Execute(_duplicateName).Execute(_doubleSpace);
+            _workflow.Do(_duplicateName).Do(_doubleSpace);
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d R e d"), "Colour name value");
         }
@@ -59,9 +59,9 @@ namespace objectflow.tests
         [Test]
         public void ShouldNotExecuteFalseConditionalOperations()
         {
-            _workFlow.Execute(_duplicateName).Execute(_doubleSpace, When.IsTrue(false));
+            _workflow.Do(_duplicateName).Do(_doubleSpace, If.IsTrue(false));
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRed"));
         }
@@ -69,9 +69,9 @@ namespace objectflow.tests
         [Test]
         public void ShouldExecuteTrueConditionalOperations()
         {
-            _workFlow.Execute(_duplicateName).Execute(_doubleSpace, When.IsTrue(true));
+            _workflow.Do(_duplicateName).Do(_doubleSpace, If.IsTrue(true));
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("R e d R e d"));
         }
@@ -79,12 +79,12 @@ namespace objectflow.tests
         [Test]
         public void ShouldChainNotOperationsCorrectly()
         {
-            _workFlow
-                .Execute(_duplicateName)
-                .Execute(_doubleSpace, When.Not.Successfull(_duplicateName))
-                .Execute(_secondDuplicateName, When.Successful(_duplicateName));
+            _workflow
+                .Do(_duplicateName)
+                .Do(_doubleSpace, If.Not.Successfull(_duplicateName))
+                .Do(_secondDuplicateName, If.Successful(_duplicateName));
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
         }
@@ -93,13 +93,13 @@ namespace objectflow.tests
         public void ShouldCheckForNullOperation()
         {
             BasicOperation<Colour> operation = null;
-            Exception ex = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation), "thrown exception");
+            Exception ex = Assert.Throws<ArgumentNullException>(() => _workflow.Do(operation), "thrown exception");
         }
 
         [Test]
         public void ShouldCheckForNullConstraint()
         {
-            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(_duplicateName, null));
+            Exception exception = Assert.Throws<ArgumentNullException>(() => _workflow.Do(_duplicateName, null));
 
             Assert.That(exception.Message, Is.StringContaining("Argument [constraint] cannot be null"));
         }
@@ -108,7 +108,7 @@ namespace objectflow.tests
         public void ShouldCheckForNullOperationWithConstraint()
         {
             IOperation<Colour> operation = null;
-            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation, When.IsTrue(true)));
+            Exception exception = Assert.Throws<ArgumentNullException>(() => _workflow.Do(operation, If.IsTrue(true)));
 
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
@@ -117,7 +117,7 @@ namespace objectflow.tests
         public void ShouldCheckForNullOperationBeforeNullConstraint()
         {
             IOperation<Colour> operation = null;
-            Exception exception = Assert.Throws<ArgumentNullException>(() => _workFlow.Execute(operation, null));
+            Exception exception = Assert.Throws<ArgumentNullException>(() => _workflow.Do(operation, null));
 
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
@@ -125,7 +125,6 @@ namespace objectflow.tests
         [Test]
         public void ShouldRunOperationsInTopDownOrder()
         {
-
             var op1 = _mocker.PartialMock<DuplicateName>();
             var op2 = _mocker.PartialMock<DoubleSpace>();
 
@@ -134,16 +133,16 @@ namespace objectflow.tests
                 Expect.Call(op1.Execute(_colour)).IgnoreArguments().Return(_colour);
                 Expect.Call(op2.Execute(_colour)).IgnoreArguments().Return(_colour);
             }
+
             _mocker.ReplayAll();
 
-            _workFlow
-                .Execute(op1)
-                .Execute(op2);
+            _workflow
+                .Do(op1)
+                .Do(op2);
 
-            var results = _workFlow.Start();
+            var results = _workflow.Start();
 
             _mocker.VerifyAll();
-
         }
 
         [Test]
@@ -165,14 +164,14 @@ namespace objectflow.tests
                 Expect.Call(op3.SetSuccessResult(true)).Return(true);
             }
 
-            _workFlow
-                .Execute(op1)
-                .Execute(op2, When.Not.Successfull(op1))
-                .Execute(op3, When.Successful(op1));
+            _workflow
+                .Do(op1)
+                .Do(op2, If.Not.Successfull(op1))
+                .Do(op3, If.Successful(op1));
 
             _mocker.ReplayAll();
 
-            var results = _workFlow.Start();
+            var results = _workflow.Start();
 
             _mocker.VerifyAll();
         }
@@ -192,14 +191,14 @@ namespace objectflow.tests
                 Expect.Call(op1.SetSuccessResult(true)).Return(true);
             }
 
-            _workFlow
-                .Execute(op1)
-                .Execute(op2, When.Not.Successfull(op1))
-                .Execute(op1, When.Successful(op1));
+            _workflow
+                .Do(op1)
+                .Do(op2, If.Not.Successfull(op1))
+                .Do(op1, If.Successful(op1));
 
             _mocker.ReplayAll();
 
-            var results = _workFlow.Start();
+            var results = _workflow.Start();
 
             _mocker.VerifyAll();
         }
@@ -207,12 +206,12 @@ namespace objectflow.tests
         [Test]
         public void ShouldBeAbleToAssignMultipleConstraintsToOperationExecutionClause()
         {
-            _workFlow
-                .Execute(_duplicateName)
-                .Execute(_doubleSpace, When.Not.Successfull(_duplicateName))
-                .Execute(_duplicateName, When.Successful(_duplicateName));
+            _workflow
+                .Do(_duplicateName)
+                .Do(_doubleSpace, If.Not.Successfull(_duplicateName))
+                .Do(_duplicateName, If.Successful(_duplicateName));
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
         }
@@ -220,16 +219,15 @@ namespace objectflow.tests
         [Test]
         public void ShouldHandleMultipleTypeReuseWithConstraints()
         {
-            _workFlow
-                .Execute(_duplicateName)
-                .Execute(_duplicateName, When.Not.Successfull(_duplicateName))
-                .Execute(_duplicateName, When.Successful(_duplicateName))
-                .Execute(_duplicateName, When.Successful(_duplicateName));
+            _workflow
+                .Do(_duplicateName)
+                .Do(_duplicateName, If.Not.Successfull(_duplicateName))
+                .Do(_duplicateName, If.Successful(_duplicateName))
+                .Do(_duplicateName, If.Successful(_duplicateName));
 
-            var result = _workFlow.Start();
+            var result = _workflow.Start();
 
             Assert.That(result.ToString(), Is.EqualTo("RedRedRedRedRedRedRedRed"));
-
         }
     }
 }

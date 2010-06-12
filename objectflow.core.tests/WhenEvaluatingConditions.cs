@@ -3,7 +3,7 @@ using Rainbow.ObjectFlow.Constraints;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.tests
+namespace Objectflow.tests
 {
     [TestFixture]
     public sealed class WhenEvaluatingConditions
@@ -18,7 +18,7 @@ namespace objectflow.tests
         [Test]
         public void ShouldResolveFalseCheckCondition()
         {
-            _checkBoolean = When.IsTrue(false);
+            _checkBoolean = If.IsTrue(false);
 
             Assert.That(((CheckConstraint)_checkBoolean).Matches(), Is.False);
         }
@@ -26,7 +26,7 @@ namespace objectflow.tests
         [Test]
         public void ShouldResolveTrueCheckCondition()
         {
-            _checkBoolean = When.IsTrue(true);
+            _checkBoolean = If.IsTrue(true);
 
             Assert.That(((CheckConstraint)_checkBoolean).Matches(), Is.True);
         }

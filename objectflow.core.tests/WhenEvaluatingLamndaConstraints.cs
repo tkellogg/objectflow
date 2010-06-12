@@ -1,17 +1,16 @@
 ﻿using NUnit.Framework;
-using objectflow.tests.TestDomain;
-using objectflow.tests.TestOperations;
+using Objectflow.tests.TestDomain;
+using Objectflow.tests.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.core.tests
+namespace Objectflow.core.tests
 {
     [TestFixture]
     public class WhenEvaluatingLamdaConstraints
     {
-        private Pipeline<Colour> _pipe;
-        private IOperation<Colour> _duplicateName;
+        private Workflow<Colour> _pipe;
         private IOperation<Colour> _duplicateNameOne;
         private IOperation<Colour> _duplicateNameTwo;
         private Colour _redOnly;
@@ -24,10 +23,10 @@ namespace objectflow.core.tests
             _duplicateNameOne = new DuplicateName();
             _duplicateNameTwo = new DuplicateName();
             _redOnly = new Colour("Red");
-            _defaultLoader = new PipelineMemoryLoader<Colour>(_redOnly);
+            _defaultLoader = new WorkflowMemoryLoader<Colour>(_redOnly);
 
-            _pipe = new Pipeline<Colour>();
-            _pipe.Execute(_defaultLoader);
+            _pipe = new Workflow<Colour>();
+            _pipe.Do(_defaultLoader);
         }
 
         [Test]
@@ -36,8 +35,8 @@ namespace objectflow.core.tests
             string z = "djnz";
 
             _pipe
-                .Execute(_duplicateNameOne)
-                .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("nop")));
+                .Do(_duplicateNameOne)
+                .Do(_duplicateNameTwo, If.IsTrue(() => z.Contains("nop")));
 
             var result = WhenRun();
 
@@ -51,8 +50,8 @@ namespace objectflow.core.tests
             string z = "djnz";
 
             _pipe
-                .Execute(_duplicateNameOne)
-                .Execute(_duplicateNameTwo, When.IsTrue(() => z.Contains("dj")));
+                .Do(_duplicateNameOne)
+                .Do(_duplicateNameTwo, If.IsTrue(() => z.Contains("dj")));
 
             var result = WhenRun();
 
@@ -64,6 +63,5 @@ namespace objectflow.core.tests
             var result = _pipe.Start();
             return result;
         }
-
     }
 }

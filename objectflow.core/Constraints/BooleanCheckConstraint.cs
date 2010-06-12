@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Rainbow.ObjectFlow.Constraints
@@ -10,7 +9,6 @@ namespace Rainbow.ObjectFlow.Constraints
     public sealed class BooleanCheckConstraint : CheckConstraint
     {
         private bool _operation;
-        private IList<CheckConstraint> _constraints;
         private Func<bool> _funcConstraint = null;
 
         internal BooleanCheckConstraint(bool operation)
@@ -22,7 +20,6 @@ namespace Rainbow.ObjectFlow.Constraints
         {
             _constraints = constraints;
             _operation = operation;
-
         }
 
         internal BooleanCheckConstraint(Func<bool> constraint)
@@ -36,7 +33,9 @@ namespace Rainbow.ObjectFlow.Constraints
             {
                 return MatchTree(_operation);
             }
-            else if (HasLamdaConstraints())
+
+            // TODO what if it has both? is this possible in current framework?
+            if (HasLamdaConstraints())
             {
                 return _funcConstraint();
             }
@@ -63,23 +62,5 @@ namespace Rainbow.ObjectFlow.Constraints
 
             return _operation == condition;
         }
-
-        private bool MatchTree(bool seed)
-        {
-            bool match = seed;
-
-            foreach (var constraint in _constraints)
-            {
-                match = constraint.Matches(match);
-            }
-
-            return match;
-        }
-
-        private bool HasConstraints()
-        {
-            return !((_constraints == null || _constraints.Count == 0));
-        }
-
     }
 }

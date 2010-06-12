@@ -10,14 +10,17 @@ namespace Rainbow.Demo.Objectflow.Client
     {
         static void Main(string[] args)
         {
-            var colourPipe = new Pipeline<Colour>();
+            var colourPipe = new Workflow<Colour>();
             var doubleSpace = new DoubleSpace();
             var doublespace2 = new DoubleSpace();
 
             colourPipe
-                .Execute(doubleSpace)
-                .Execute(doublespace2, When.Not.Successfull(doubleSpace))
-                .Execute(new ConsoleWriter());
+                .Do(doubleSpace)
+                .Do(doublespace2, If.Not.Successfull(doubleSpace))
+                .Do((c) =>
+                             {
+                                 Console.WriteLine(c.Name); return c;
+                             });
 
             var result = colourPipe.Start(new Colour("green"));
 

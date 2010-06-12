@@ -1,12 +1,14 @@
-﻿
-namespace Rainbow.ObjectFlow.Framework
+﻿using Rainbow.ObjectFlow.Framework;
+
+namespace Rainbow.ObjectFlow.Engine
 {
-    internal class OCommand<T> : Command<T>
+    internal class OperationInvoker<T> : MethodInvoker<T>
     {
         private readonly BasicOperation<T> _operation;
 
-        public OCommand(BasicOperation<T> operation)
+        public OperationInvoker(BasicOperation<T> operation)
         {
+            // TODO: throw exception if null passed in.
             Check.IsNotNull(operation, "operation");
             _operation = operation;
         }

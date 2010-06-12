@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflowDemo", "objectflo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.Tests", "objectflow.core.tests\objectflow.core.Tests.csproj", "{F1C234BA-0259-43E8-8EC8-A022A987EAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflowDemo.Domain", "objectflow.demo\Domain\ClassLibrary\objectflowDemo.Domain.csproj", "{7C85F418-5146-4235-A7F7-97EFC84FDB26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflowDemo.Domain", "objectflow.demo\domain\ClassLibrary\objectflowDemo.Domain.csproj", "{7C85F418-5146-4235-A7F7-97EFC84FDB26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B208E65-C53F-4F73-ACF1-B1FABD1DDF3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
