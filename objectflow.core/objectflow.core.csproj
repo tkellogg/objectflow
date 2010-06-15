@@ -56,7 +56,6 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chess.cs" />
     <Compile Include="Constraints\Operators\ConstraintOperator.cs" />
     <Compile Include="Constraints\Operators\NotConstraintOperator.cs" />
     <Compile Include="Constraints\BooleanCheckConstraint.cs" />
@@ -71,7 +70,7 @@
     <Compile Include="Engine\ParallelBuilder.cs" />
     <Compile Include="Engine\WorkflowEngine.cs" />
     <Compile Include="Engine\OperationConstraintPair.cs" />
-    <Compile Include="Framework\PipelineMemoryLoader.cs" />
+    <Compile Include="Framework\WorkflowMemoryLoader.cs" />
     <Compile Include="Helpers\If.cs" />
     <Compile Include="Framework\BasicOperation.cs" />
     <Compile Include="Engine\WorkflowBuilder.cs" />
@@ -84,9 +83,6 @@
     <Compile Include="Framework\Workflow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Diagrams\Adapters.cd" />
-    <None Include="Diagrams\Constraints.cd" />
-    <None Include="Diagrams\Pipes.cd" />
     <None Include="RainbowObjectflow.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
