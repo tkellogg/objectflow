@@ -1,6 +1,5 @@
 ﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TrainlineToolsPath>C:\dev</TrainlineToolsPath>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
@@ -94,7 +93,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.3\Microsoft.StyleCop.targets" />
-  <Import Project="$(TrainlineToolsPath)\msBuild\Client.CSharp.targets">
-  </Import>
 </Project>

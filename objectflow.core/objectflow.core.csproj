@@ -70,7 +70,7 @@
     <Compile Include="Engine\ParallelBuilder.cs" />
     <Compile Include="Engine\WorkflowEngine.cs" />
     <Compile Include="Engine\OperationConstraintPair.cs" />
-    <Compile Include="Framework\PipelineMemoryLoader.cs" />
+    <Compile Include="Framework\WorkflowMemoryLoader.cs" />
     <Compile Include="Helpers\If.cs" />
     <Compile Include="Framework\BasicOperation.cs" />
     <Compile Include="Engine\WorkflowBuilder.cs" />
@@ -85,8 +85,6 @@
   <ItemGroup>
     <None Include="RainbowObjectflow.pfx" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(ProgramFiles)\MSBuild\Microsoft\StyleCop\v4.3\Microsoft.StyleCop.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
