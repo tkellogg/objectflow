@@ -1,4 +1,6 @@
-﻿namespace Rainbow.ObjectFlow.Constraints.Operators
+﻿using System;
+
+namespace Rainbow.ObjectFlow.Constraints.Operators
 {
     /// <summary>
     /// Negates following constraints.
@@ -13,6 +15,15 @@
         public override bool Matches(bool matches)
         {
             return !matches;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override bool Matches()
+        {
+            return true;
         }
     }
 }

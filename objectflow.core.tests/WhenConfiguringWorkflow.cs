@@ -82,7 +82,7 @@ namespace Objectflow.tests
             _workflow
                 .Do(_duplicateName)
                 .Do(_doubleSpace, If.Not.Successfull(_duplicateName))
-                .Do(_secondDuplicateName, If.Successful(_duplicateName));
+                .Do(_secondDuplicateName, If.Successfull(_duplicateName));
 
             var result = _workflow.Start();
 
@@ -167,7 +167,7 @@ namespace Objectflow.tests
             _workflow
                 .Do(op1)
                 .Do(op2, If.Not.Successfull(op1))
-                .Do(op3, If.Successful(op1));
+                .Do(op3, If.Successfull(op1));
 
             _mocker.ReplayAll();
 
@@ -194,7 +194,7 @@ namespace Objectflow.tests
             _workflow
                 .Do(op1)
                 .Do(op2, If.Not.Successfull(op1))
-                .Do(op1, If.Successful(op1));
+                .Do(op1, If.Successfull(op1));
 
             _mocker.ReplayAll();
 
@@ -209,7 +209,7 @@ namespace Objectflow.tests
             _workflow
                 .Do(_duplicateName)
                 .Do(_doubleSpace, If.Not.Successfull(_duplicateName))
-                .Do(_duplicateName, If.Successful(_duplicateName));
+                .Do(_duplicateName, If.Successfull(_duplicateName));
 
             var result = _workflow.Start();
 
@@ -222,8 +222,8 @@ namespace Objectflow.tests
             _workflow
                 .Do(_duplicateName)
                 .Do(_duplicateName, If.Not.Successfull(_duplicateName))
-                .Do(_duplicateName, If.Successful(_duplicateName))
-                .Do(_duplicateName, If.Successful(_duplicateName));
+                .Do(_duplicateName, If.Successfull(_duplicateName))
+                .Do(_duplicateName, If.Successfull(_duplicateName));
 
             var result = _workflow.Start();
 

@@ -29,7 +29,6 @@ namespace Objectflow.core.tests.Concurrency
             _mocker.ReplayAll();
 
             var pipe = _workflow.And.Then();
-
             _mocker.VerifyAll();
         }
 

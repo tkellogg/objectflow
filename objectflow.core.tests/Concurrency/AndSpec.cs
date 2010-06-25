@@ -6,7 +6,7 @@ using Rhino.Mocks;
 
 namespace Objectflow.core.tests.Concurrency
 {
-    [TestFixture]
+    [TestFixture, Ignore]
     public class AndSpec
     {
         private MockRepository _mocker;

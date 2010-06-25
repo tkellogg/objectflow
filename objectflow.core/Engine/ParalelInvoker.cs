@@ -27,6 +27,7 @@ namespace Rainbow.ObjectFlow.Engine
                 for (int i = 0; i < RegisteredOperations.Count; i++)
                 {
                     var function = RegisteredOperations[i];
+
                     var threadContainer = new ThreadProxy(ref _engine, function, data, ref finishedEvent);
                     ThreadPool.QueueUserWorkItem(a => threadContainer.Start());
                 }

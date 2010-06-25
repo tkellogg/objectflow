@@ -1,7 +1,7 @@
 ﻿using System;
-using Rainbow.ObjectFlow.Engine;
+using Rainbow.ObjectFlow.Framework;
 
-namespace Rainbow.ObjectFlow.Framework
+namespace Rainbow.ObjectFlow.Engine
 {
     internal class FunctionInvoker<T> : MethodInvoker<T>
     {
@@ -9,7 +9,6 @@ namespace Rainbow.ObjectFlow.Framework
 
         public FunctionInvoker(Func<T, T> function)
         {
-            // TODO: throw exception if null passed in.
             Check.IsNotNull(function, function.Method.Name);
             _function = function;
         }

@@ -1,4 +1,5 @@
-﻿using Rainbow.ObjectFlow.Framework;
+﻿using System;
+using Rainbow.ObjectFlow.Framework;
 
 namespace Rainbow.ObjectFlow.Engine
 {
@@ -15,7 +16,16 @@ namespace Rainbow.ObjectFlow.Engine
 
         public override T Execute(T data)
         {
-            return _operation.Execute(data);
+            try
+            {
+                T result = _operation.Execute(data);
+                return result;
+            }
+            catch (Exception)
+            {
+                _operation.SetSuccessResult(false);
+                return data;
+            }
         }
     }
 }

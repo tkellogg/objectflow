@@ -8,7 +8,7 @@ namespace Objectflow.tests
     [TestFixture]
     public sealed class WhenEvaluatingConditions
     {
-        private ICheckContraint _checkBoolean;
+        private ICheckConstraint _checkBoolean;
 
         [SetUp]
         public void BeforeEachTest()
@@ -20,7 +20,7 @@ namespace Objectflow.tests
         {
             _checkBoolean = If.IsTrue(false);
 
-            Assert.That(((CheckConstraint)_checkBoolean).Matches(), Is.False);
+            Assert.That(((Condition)_checkBoolean).Matches(), Is.False);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace Objectflow.tests
         {
             _checkBoolean = If.IsTrue(true);
 
-            Assert.That(((CheckConstraint)_checkBoolean).Matches(), Is.True);
+            Assert.That(((Condition)_checkBoolean).Matches(), Is.True);
         }
     }
 }

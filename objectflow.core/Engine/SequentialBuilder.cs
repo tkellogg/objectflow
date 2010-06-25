@@ -19,7 +19,7 @@ namespace Rainbow.ObjectFlow.Engine
             _workflow.RegisteredOperations.Add(operationPair);
         }
 
-        public override void AddOperation(IOperation<T> operation, ICheckContraint constraint)
+        public override void AddOperation(IOperation<T> operation, ICheckConstraint constraint)
         {
             var operationPair = new OperationConstraintPair<T>(new OperationInvoker<T>(operation as BasicOperation<T>), constraint);
             _workflow.RegisteredOperations.Add(operationPair);
@@ -31,9 +31,21 @@ namespace Rainbow.ObjectFlow.Engine
             _workflow.RegisteredOperations.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, ICheckContraint constraint)
+        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint)
         {
             var operationPair = new OperationConstraintPair<T>(new FunctionInvoker<T>(function), constraint);
+            _workflow.RegisteredOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(IWorkflow<T> workflow)
+        {
+            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow));
+            _workflow.RegisteredOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(IWorkflow<T> workflow, ICheckConstraint constraint)
+        {
+            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow), constraint);
             _workflow.RegisteredOperations.Add(operationPair);
         }
     }

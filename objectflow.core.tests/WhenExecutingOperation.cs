@@ -44,8 +44,8 @@ namespace Objectflow.core.tests
         [Test]
         public void ShouldBeAbleToOverrideDefaultSuccessResult()
         {
-            var operation = MockRepository.GeneratePartialMock<DoubleSpace>();
-            operation.Stub<DoubleSpace>(op => op.GetSuccessResult()).Return(false);
+            var operation = MockRepository.GenerateMock<DoubleSpace>();
+            operation.Expect(op => op.GetSuccessResult()).Return(false);
 
             _flow.Do(operation);
             _flow.Start();

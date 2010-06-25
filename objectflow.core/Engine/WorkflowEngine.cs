@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Rainbow.ObjectFlow.Constraints;
+using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Engine
 {
     internal class WorkflowEngine<T>
     {
-        internal static Stack<CheckConstraint> CallStack { get; set; }
+        internal static Stack<ICheckConstraint> CallStack { get; set; }
 
         static WorkflowEngine()
         {
-            CallStack = new Stack<CheckConstraint>();
+            CallStack = new Stack<ICheckConstraint>();
         }
 
         public virtual T Execute(IEnumerable operations)
@@ -32,18 +33,12 @@ namespace Rainbow.ObjectFlow.Engine
 
         public virtual T Execute(OperationConstraintPair<T> operationPair)
         {
-            T current = default(T);
-            if (ConstraintResult(operationPair.Constraint))
-            {
-                current = operationPair.Command.Execute(current);
-            }
-
-            return current;
+            return Execute(operationPair, default(T));
         }
 
         public virtual T Execute(OperationConstraintPair<T> operationPair, T current)
         {
-            if (ConstraintResult(operationPair.Constraint))
+            if (ConstraintResult(operationPair.Constraint as Condition))
             {
                 current = operationPair.Command.Execute(current);
             }
@@ -51,7 +46,7 @@ namespace Rainbow.ObjectFlow.Engine
             return current;
         }
 
-        private static bool ConstraintResult(CheckConstraint constraint)
+        private static bool ConstraintResult(ICheckConstraint constraint)
         {
             return constraint == null || constraint.Matches();
         }

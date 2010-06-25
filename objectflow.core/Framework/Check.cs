@@ -5,25 +5,9 @@ namespace Rainbow.ObjectFlow.Framework
 {
     internal static class Check
     {
-        public static void IsNotNull<T>(IOperation<T> operation, string paramName)
+        public static void IsNotNull(object shouldNoteNull, string paramName)
         {
-            if (operation == null)
-            {
-                DefaultNullArgumentAction(paramName);
-            }
-        }
-
-        public static void IsNotNull<T>(ICheckContraint operation, string paramName)
-        {
-            if (operation == null)
-            {
-                DefaultNullArgumentAction(paramName);
-            }
-        }
-
-        public static void IsNotNull<T, TReturn>(Func<T, TReturn> function, string paramName)
-        {
-            if (function == null)
+            if (shouldNoteNull == null)
             {
                 DefaultNullArgumentAction(paramName);
             }
@@ -35,13 +19,13 @@ namespace Rainbow.ObjectFlow.Framework
             throw new ArgumentNullException(paramName, message);
         }
 
-        public static void IsInstanceOf<T>(IOperation<T> operation, Type type, string paramName)
+        public static void IsInstanceOf<T>(object operation, string paramName)
         {
-            if (operation.GetType() != type)
+            if (!typeof(T).IsAssignableFrom(operation.GetType()))
             {
-                string message = string.Format("Argument [{0}] should be of type {1}.{2}", paramName, type.Namespace, type.Name);
-
-                throw new InvalidCastException(message);
+                string message = string.Format("Argument should be of type {0}.{1}", typeof(T).Namespace, typeof(T).Name);
+                Exception ex = new InvalidCastException(message);
+                throw (ex);
             }
         }
     }

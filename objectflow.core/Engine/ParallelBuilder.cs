@@ -28,7 +28,7 @@ namespace Rainbow.ObjectFlow.Engine
             ParallelOperations.Add(operationPair);
         }
 
-        public override void AddOperation(IOperation<T> operation, ICheckContraint constraint)
+        public override void AddOperation(IOperation<T> operation, ICheckConstraint constraint)
         {
             var operationPair = new OperationConstraintPair<T>(new OperationInvoker<T>(operation as BasicOperation<T>), constraint);
             ParallelOperations.Add(operationPair);
@@ -40,9 +40,21 @@ namespace Rainbow.ObjectFlow.Engine
             ParallelOperations.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, ICheckContraint constraint)
+        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint)
         {
             var operationPair = new OperationConstraintPair<T>(new FunctionInvoker<T>(function), constraint);
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(IWorkflow<T> workflow)
+        {
+            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow));
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(IWorkflow<T> workflow, ICheckConstraint constraint)
+        {
+            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow), constraint);
             ParallelOperations.Add(operationPair);
         }
     }

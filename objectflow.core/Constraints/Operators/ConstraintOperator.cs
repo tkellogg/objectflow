@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Rainbow.ObjectFlow.Engine;
+using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Constraints.Operators
@@ -7,13 +8,13 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
     /// <summary>
     /// Defines constraints allowed with ConstraintOperators.
     /// </summary>
-    public abstract class ConstraintOperator : CheckConstraint
+    public abstract class ConstraintOperator : ICheckConstraint
     {
-        private static Stack<CheckConstraint> CallStack
+        private static Stack<ICheckConstraint> CallStack
         {
             get
             {
-                return WorkflowEngine<CheckConstraint>.CallStack;
+                return WorkflowEngine<ICheckConstraint>.CallStack;
             }
         }
 
@@ -23,11 +24,13 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
         /// <typeparam name="T">Type the Constraint works with on</typeparam>
         /// <param name="operaton">the operation the constraint evaluates as successding or failing</param>
         /// <returns>A SuccessCheckConstraint</returns>
-        public SuccessCheckConstraint<T> Successfull<T>(IOperation<T> operaton)
+        public ICheckConstraint Successfull<T>(IOperation<T> operaton)
         {
-            IList<CheckConstraint> exp = UnwindStack();
+            Check.IsInstanceOf<BasicOperation<T>>(operaton, "operation");
 
-            return new SuccessCheckConstraint<T>(operaton, exp);
+            IList<ICheckConstraint> exp = UnwindStack();
+            var bo = operaton as BasicOperation<T>;
+            return new Condition(() => bo.SuccessResult, exp);
         }
 
         /// <summary>
@@ -35,16 +38,16 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
         /// </summary>
         /// <param name="condition">true/False</param>
         /// <returns>A BooleanCheckConstraint that can evaluate a boolean value</returns>
-        public BooleanCheckConstraint IsTrue(bool condition)
+        public ICheckConstraint IsTrue(bool condition)
         {
-            IList<CheckConstraint> exp = UnwindStack();
+            IList<ICheckConstraint> exp = UnwindStack();
 
-            return new BooleanCheckConstraint(exp, condition);
+            return new Condition(() => condition, exp);
         }
 
-        private static IList<CheckConstraint> UnwindStack()
+        private static IList<ICheckConstraint> UnwindStack()
         {
-            IList<CheckConstraint> exp = new List<CheckConstraint>();
+            IList<ICheckConstraint> exp = new List<ICheckConstraint>();
             while (CallStack.Count > 0)
             {
                 exp.Add(CallStack.Pop());
@@ -52,5 +55,21 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
 
             return exp;
         }
+
+        #region ICheckConstraint Members
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool Matches();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matches"></param>
+        /// <returns></returns>
+        public abstract bool Matches(bool matches);
+        #endregion
     }
 }

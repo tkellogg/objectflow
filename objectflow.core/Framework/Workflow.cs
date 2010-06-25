@@ -80,6 +80,7 @@ namespace Rainbow.ObjectFlow.Framework
         public virtual Workflow<T> Do(IOperation<T> operation)
         {
             Check.IsNotNull(operation, "operation");
+            Check.IsInstanceOf<BasicOperation<T>>(operation, "operation");
 
             _workflowBuilder.AddOperation(operation);
 
@@ -94,10 +95,11 @@ namespace Rainbow.ObjectFlow.Framework
         /// <param name="constraint">The constraint to evaluate</param>
         /// <returns>this object to enable chaining</returns>
         /// <remarks>Operations must inherit from the BasicOperation class</remarks>
-        public virtual Workflow<T> Do(IOperation<T> operation, ICheckContraint constraint)
+        public virtual Workflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
         {
             Check.IsNotNull(operation, "operation");
-            Check.IsNotNull<T>(constraint, "constraint");
+            Check.IsNotNull(constraint, "constraint");
+            Check.IsInstanceOf<BasicOperation<T>>(operation, "operation");
 
             _workflowBuilder.AddOperation(operation, constraint);
 
@@ -123,10 +125,10 @@ namespace Rainbow.ObjectFlow.Framework
         /// <param name="function">Function to add</param>
         /// <param name="constraint">constraint defines if function will be executed</param>
         /// <returns>this</returns>
-        public Workflow<T> Do(Func<T, T> function, ICheckContraint constraint)
+        public Workflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
         {
             Check.IsNotNull(function, "function");
-            Check.IsNotNull<T>(constraint, "constraint");
+            Check.IsNotNull(constraint, "constraint");
 
             _workflowBuilder.AddOperation(function, constraint);
             return this;
@@ -183,7 +185,36 @@ namespace Rainbow.ObjectFlow.Framework
         /// <returns>Object of IWorkflow of T</returns>
         public static IWorkflow<T> Definition()
         {
-            return new Workflow<T>() as IWorkflow<T>;
+            return new Workflow<T>();
+        }
+
+        /// <summary>
+        /// Adds a sub-workflow into the workflow definition
+        /// </summary>
+        /// <param name="workflow">Workflow to add</param>
+        /// <returns>this</returns>
+        public Workflow<T> Do(IWorkflow<T> workflow)
+        {
+            Check.IsNotNull(workflow, "workflow");
+            _workflowBuilder.AddOperation(workflow);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a sub-workflow into the workflow definition
+        /// </summary>
+        /// <param name="workflow">Workflow to add</param>
+        /// <param name="constraint">pre-condition for execution</param>
+        /// <returns>this</returns>
+        public Workflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
+        {
+            Check.IsNotNull(workflow, "workflow");
+            Check.IsNotNull(constraint, "constraint");
+
+            _workflowBuilder.AddOperation(workflow, constraint);
+
+            return this;
         }
     }
 }

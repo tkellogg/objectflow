@@ -4,6 +4,7 @@ using Rainbow.ObjectFlow.Constraints;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
+using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.Framework35
 {
@@ -28,7 +29,7 @@ namespace Objectflow.core.tests.Framework35
         [Test]
         public void ShouldCheckIfConstraintIsNull()
         {
-            CheckConstraint expression = null;
+            ICheckConstraint expression = null;
             _pipe = new Workflow<string>();
 
             var method = new Func<string, string>((s) => { return "result"; });
@@ -47,12 +48,10 @@ namespace Objectflow.core.tests.Framework35
         public void ShouldAddConstraintToRegisteredOperations()
         {
             var constraint = If.IsTrue(true);
-            _pipe.Do(new Func<string, string>((b) => { return "true"; }), constraint);
+            _pipe.Do(new Func<string, string>((b) => "true"), constraint);
 
             Assert.That(_pipe.RegisteredOperations.Count == 1, "Operation count");
             OperationConstraintPair<string> operation = _pipe.RegisteredOperations[0];
-
-            Assert.That(operation.Constraint, Is.InstanceOf(typeof(BooleanCheckConstraint)), "Constraint type");
         }
     }
 }

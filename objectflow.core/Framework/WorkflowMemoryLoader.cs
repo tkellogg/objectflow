@@ -12,26 +12,26 @@ namespace Rainbow.ObjectFlow.Framework
     /// <typeparam name="T">Type of object the operation will contain.</typeparam>    
     public class WorkflowMemoryLoader<T> : BasicOperation<T>
     {
-        private readonly T _team = default(T);
+        private readonly T _state;
 
         /// <summary>
         /// Instantietes the class with the input data for the pipeline.
         /// </summary>
-        /// <param name="inputData">The data the operation will work on</param>
-        public WorkflowMemoryLoader(T inputData)
+        /// <param name="initialState">The data the operation will work on</param>
+        public WorkflowMemoryLoader(T initialState)
         {
-            _team = inputData;
+            _state = initialState;
         }
 
         /// <summary>
         /// Executes the operation
         /// </summary>
-        /// <param name="inputData">The data the operation will work on</param>
+        /// <param name="state">The data the operation will work on</param>
         /// <returns>The transformed data</returns>
-        public override T Execute(T inputData)
+        public override T Execute(T state)
         {
             SetSuccessResult(true);
-            return _team;
+            return _state;
         }
     }
 }

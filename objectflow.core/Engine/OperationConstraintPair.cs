@@ -1,17 +1,16 @@
-﻿using Rainbow.ObjectFlow.Constraints;
-using Rainbow.ObjectFlow.Interfaces;
+﻿using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Engine
 {
     internal class OperationConstraintPair<T>
     {
-        private readonly CheckConstraint _constraint;
+        private readonly ICheckConstraint _constraint;
         private readonly MethodInvoker<T> _command;
 
-        public OperationConstraintPair(MethodInvoker<T> command, ICheckContraint constraint)
+        public OperationConstraintPair(MethodInvoker<T> command, ICheckConstraint constraint)
         {
             _command = command;
-            _constraint = constraint as CheckConstraint;
+            _constraint = constraint;
         }
 
         public OperationConstraintPair(MethodInvoker<T> command)
@@ -20,7 +19,7 @@ namespace Rainbow.ObjectFlow.Engine
             _constraint = null;
         }
 
-        public CheckConstraint Constraint
+        public ICheckConstraint Constraint
         {
             get { return _constraint; }
         }

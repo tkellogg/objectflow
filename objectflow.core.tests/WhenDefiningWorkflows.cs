@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
@@ -14,6 +15,17 @@ namespace Objectflow.core.tests
 
             Assert.That(wf, Is.Not.Null);
             Assert.That(wf, Is.InstanceOf(typeof(IWorkflow<string>)));
+        }
+
+        [Test, Ignore]
+        public void ShouldReturnUnsuccessfull()
+        {
+            var wf = Workflow<string>.Definition().Do(a =>
+            {
+                throw new ArgumentException("e");
+            });
+
+            wf.Start();
         }
     }
 }

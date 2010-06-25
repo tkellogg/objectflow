@@ -77,7 +77,7 @@ namespace Objectflow.tests.Syntax
         {
             _pipe
                 .Do(_doublespaceOne)
-                .Do(_doubleSpaceTwo, If.Successful(_doublespaceOne));
+                .Do(_doubleSpaceTwo, If.Successfull(_doublespaceOne));
 
             var result = WhenT();
 
