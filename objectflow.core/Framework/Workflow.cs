@@ -10,7 +10,6 @@ namespace Rainbow.ObjectFlow.Framework
     /// Pipelines are composed of generic IOperations.  A pipeline
     /// controls the workflow whereas the IOperation encapsalates logic.
     /// </summary>
-    /// <typeparam name="T">The type this pipeline contains</typeparam>
     public class Workflow<T> : IWorkflow<T> where T : class
     {
         /// <summary>

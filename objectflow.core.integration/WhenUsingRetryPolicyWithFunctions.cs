@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using NUnit.Framework;
+using Rainbow.ObjectFlow.Framework;
+using Rainbow.ObjectFlow.Interfaces;
+
+namespace objectflow.core.integration
+{
+    [TestFixture]
+    public class WhenUsingRetryPolicyWithFunctions
+    {
+        private IWorkflow<string> _workflow;
+
+        [SetUp]
+        public void Given()
+        {
+            _workflow = Workflow<string>.Definition();
+        }
+        
+        [Test]
+        public void ShouldNotThrowErrorWhenUsingRetryWithInterval()
+        {
+            _workflow.Do((s) => "Red").Retry().Twice().With.Interval.Of.Seconds(2);
+
+            var before = DateTime.Now;
+            var result = _workflow.Start();
+
+            Assert.That(result, Is.EqualTo("Red"));
+        }
+    }
+}

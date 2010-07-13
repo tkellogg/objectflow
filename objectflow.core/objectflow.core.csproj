@@ -13,8 +13,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
+    <SignAssembly>false</SignAssembly>
+    <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <ApplicationIcon>
