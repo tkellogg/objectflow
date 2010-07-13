@@ -1,13 +1,12 @@
 ﻿using System;
-using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Framework
 {
     internal static class Check
     {
-        public static void IsNotNull(object shouldNoteNull, string paramName)
+        public static void IsNotNull(object shouldNotBeNull, string paramName)
         {
-            if (shouldNoteNull == null)
+            if (null == shouldNotBeNull)
             {
                 DefaultNullArgumentAction(paramName);
             }

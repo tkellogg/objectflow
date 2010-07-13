@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Interfaces;
-using Rhino.Mocks;
 
 namespace Objectflow.core.tests
 {
@@ -11,15 +11,13 @@ namespace Objectflow.core.tests
         [Test]
         public void ShouldInvokeWorkflow()
         {
-            var _mock = new MockRepository();
-            var innerWorkflow = _mock.DynamicMock<IWorkflow<string>>();
-            innerWorkflow.Expect<IWorkflow<string>>((foo) => foo.Start("dd")).Return(null);
-            _mock.ReplayAll();
+            var innerWorkflow = new Mock<IWorkflow<string>>();
+            innerWorkflow.Setup(wf => wf.Start("red")).Returns("dd");
 
-            var invoker = new WorkflowInvoker<string>(innerWorkflow);
-            invoker.Execute("dd");
+            var invoker = new WorkflowInvoker<string>(innerWorkflow.Object);
+            invoker.Execute("red");
 
-            _mock.VerifyAll();
+            innerWorkflow.VerifyAll();
         }
     }
 }

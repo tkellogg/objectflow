@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Interfaces;
+using Rainbow.ObjectFlow.Language;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -176,7 +177,7 @@ namespace Rainbow.ObjectFlow.Framework
 
         private static bool IsSequentialBuilder(WorkflowBuilder<T> builder)
         {
-            return builder == null || (typeof(SequentialBuilder<T>) == builder.GetType());
+            return null == builder || (typeof(SequentialBuilder<T>) == builder.GetType());
         }
 
         /// <summary>
@@ -215,6 +216,21 @@ namespace Rainbow.ObjectFlow.Framework
             _workflowBuilder.AddOperation(workflow, constraint);
 
             return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IRetryPolicy Retry()
+        {
+            IRetryPolicy policy = new Retry();
+            if (RegisteredOperations.Count > 0)
+            {
+                RegisteredOperations[RegisteredOperations.Count - 1].Command.Policies.Add(policy);
+            }
+
+            return policy;
         }
     }
 }

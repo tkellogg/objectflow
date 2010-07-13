@@ -13,8 +13,6 @@ namespace Rainbow.ObjectFlow.Framework
     /// </example>
     public abstract class BasicOperation<T> : IOperation<T>
     {
-        private bool _resultSetByInheritedObject;
-
         /// <summary>
         /// Executes the operation
         /// </summary>
@@ -50,11 +48,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// </example>
         public virtual bool SetSuccessResult(bool succeeded)
         {
-            if (!_resultSetByInheritedObject)
-            {
-                _resultSetByInheritedObject = true;
-                SuccessResult = succeeded;
-            }
+            SuccessResult = succeeded;
 
             return SuccessResult;
         }

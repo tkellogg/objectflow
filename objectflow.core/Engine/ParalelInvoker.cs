@@ -71,7 +71,7 @@ namespace Rainbow.ObjectFlow.Engine
 
             private static bool IsFinalThread()
             {
-                return Interlocked.Decrement(ref ThreadCount) == 0;
+                return 0 == Interlocked.Decrement(ref ThreadCount);
             }
         }
     }

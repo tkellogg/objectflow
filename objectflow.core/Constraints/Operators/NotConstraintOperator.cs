@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Rainbow.ObjectFlow.Constraints.Operators
 {
     /// <summary>

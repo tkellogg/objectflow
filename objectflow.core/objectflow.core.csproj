@@ -14,8 +14,9 @@
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
-    <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile>RainbowObjectflow.pfx</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <ApplicationIcon>
     </ApplicationIcon>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
@@ -58,6 +59,8 @@
     </CodeContractsBaseLineFile>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -99,23 +102,28 @@
     <Compile Include="Engine\ParallelBuilder.cs" />
     <Compile Include="Engine\WorkflowEngine.cs" />
     <Compile Include="Engine\OperationConstraintPair.cs" />
+    <Compile Include="Interfaces\IHideObjectMembers.cs" />
+    <Compile Include="Language\IExpression.cs" />
+    <Compile Include="Language\IInterval.cs" />
+    <Compile Include="Language\IRetryPolicy.cs" />
+    <Compile Include="Language\ITimePart.cs" />
+    <Compile Include="Language\IWith.cs" />
+    <Compile Include="Policy\Interval.cs" />
+    <Compile Include="Policy\NonTerminatingPolicy.cs" />
+    <Compile Include="Policy\Policy.cs" />
+    <Compile Include="Policy\Retry.cs" />
     <Compile Include="Framework\WorkflowMemoryLoader.cs" />
     <Compile Include="Helpers\If.cs" />
     <Compile Include="Framework\BasicOperation.cs" />
     <Compile Include="Engine\WorkflowBuilder.cs" />
     <Compile Include="Engine\WorkflowBuilders.cs" />
     <Compile Include="Interfaces\ICheckConstraint.cs" />
+    <Compile Include="Interfaces\IPolicy.cs" />
     <Compile Include="Interfaces\IWorkflowBuilders.cs" />
     <Compile Include="Interfaces\IWorkFlow.cs" />
     <Compile Include="Interfaces\IOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\Workflow.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Diagrams\Adapters.cd" />
-    <None Include="Diagrams\Constraints.cd" />
-    <None Include="Diagrams\Pipes.cd" />
-    <None Include="RainbowObjectflow.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

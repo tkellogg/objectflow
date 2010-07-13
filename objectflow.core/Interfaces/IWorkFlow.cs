@@ -1,5 +1,6 @@
 using System;
 using Rainbow.ObjectFlow.Framework;
+using Rainbow.ObjectFlow.Language;
 
 namespace Rainbow.ObjectFlow.Interfaces
 {
@@ -7,7 +8,7 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// Interface for the workflow pipeline
     /// </summary>
     /// <typeparam name="T">Type of data the pipeline contains</typeparam>
-    public interface IWorkflow<T> where T : class
+    public interface IWorkflow<T> : IHideObjectMembers where T : class
     {
         /// <summary>
         /// Adds operations into the workflow definition
@@ -66,5 +67,11 @@ namespace Rainbow.ObjectFlow.Interfaces
         /// <param name="data">data to transform</param>
         /// <returns>Result of the workflow</returns>
         T Start(T data);
+
+        /// <summary>
+        /// Retries an operation if it fails
+        /// </summary>
+        /// <returns></returns>
+        IRetryPolicy Retry();
     }
 }

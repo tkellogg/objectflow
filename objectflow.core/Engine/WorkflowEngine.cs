@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Rainbow.ObjectFlow.Constraints;
+using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Engine
@@ -41,14 +44,32 @@ namespace Rainbow.ObjectFlow.Engine
             if (ConstraintResult(operationPair.Constraint as Condition))
             {
                 current = operationPair.Command.Execute(current);
+
+                current = ExecutePolicies(operationPair.Command, current);
             }
 
             return current;
         }
 
+        private T ExecutePolicies(MethodInvoker<T> method, T current)
+        {
+            if (method.Policies.Count > 0)
+            {
+                foreach (var policy in method.Policies)
+                {
+                    var abstractPolicy = policy as Policy;
+
+                    Debug.Assert(abstractPolicy != null, "Policy should always inherit from abstract class");
+                    abstractPolicy.SetParent(method);
+                    current = abstractPolicy.Execute(current);
+                }
+            }
+            return current;
+        }
+
         private static bool ConstraintResult(ICheckConstraint constraint)
         {
-            return constraint == null || constraint.Matches();
+            return null == constraint || constraint.Matches();
         }
     }
 }

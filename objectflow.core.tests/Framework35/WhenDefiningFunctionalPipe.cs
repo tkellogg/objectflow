@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Rainbow.ObjectFlow.Constraints;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
@@ -41,7 +40,7 @@ namespace Objectflow.core.tests.Framework35
         {
             _pipe.Do(new Func<string, string>((b) => { return "true"; }));
 
-            Assert.That(_pipe.RegisteredOperations.Count == 1);
+            Assert.That(1 == _pipe.RegisteredOperations.Count);
         }
 
         [Test]
@@ -50,7 +49,7 @@ namespace Objectflow.core.tests.Framework35
             var constraint = If.IsTrue(true);
             _pipe.Do(new Func<string, string>((b) => "true"), constraint);
 
-            Assert.That(_pipe.RegisteredOperations.Count == 1, "Operation count");
+            Assert.That(1 ==_pipe.RegisteredOperations.Count, "Operation count");
             OperationConstraintPair<string> operation = _pipe.RegisteredOperations[0];
         }
     }
