@@ -58,8 +58,17 @@ namespace Rainbow.ObjectFlow.Framework
             return this;
         }
 
-        internal int IntervalTime { get; set; }
+        internal int IntervalTime
+        {
+            get
+            {
+                if (null == _interval)
+                    return 0;
 
-        internal int Times { get; set; }
+                return _interval.MilliSeconds;
+            }
+        }
+
+        internal int Times { get; private set; }
     }
 }

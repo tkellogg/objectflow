@@ -24,11 +24,11 @@ namespace Objectflow.core.tests.Policy
         {
             _interval.Of.Seconds(1);
             
-            DateTime before = DateTime.Now;
+            string before = DateTime.Now.ToLongTimeString();
 
             _policy.Execute<string>("Red");
             
-            Assert.That(DateTime.Now.Subtract(new TimeSpan(0, 0, 1)), Is.EqualTo(before), "TimeSpan incorrect");
+            Assert.That(DateTime.Now.Subtract(new TimeSpan(0, 0, 1)).ToLongTimeString(), Is.EqualTo(before), "TimeSpan incorrect");
         }
     }
 }
