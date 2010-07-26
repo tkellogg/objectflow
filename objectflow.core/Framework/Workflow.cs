@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Language;
+using Rainbow.ObjectFlow.Policies;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -10,7 +11,7 @@ namespace Rainbow.ObjectFlow.Framework
     /// Pipelines are composed of generic IOperations.  A pipeline
     /// controls the workflow whereas the IOperation encapsalates logic.
     /// </summary>
-    public class Workflow<T> : IWorkflow<T> where T : class
+    public class Workflow<T> : IWorkflow<T>, IDefine<T>, ICompose<T>, IMerge<T> where T : class
     {
         /// <summary>
         /// Operations that have been added to the workflow definition
@@ -53,12 +54,12 @@ namespace Rainbow.ObjectFlow.Framework
         /// Joins one operation onto another to run in parallel
         /// <remarks>
         /// Although data will be passed to operations or functions running in parallel 
-        /// these operations will not affect the data for future operations.  This was to reduce the 
+        /// these operations will not affect the data passed to subsequent operations.  This was to reduce the 
         /// complexity of parallel operations in Version 1.x and this behaviour may be extended to 
         /// pass state in the future.
         /// </remarks>
         /// </summary>
-        public Workflow<T> And
+        public ICompose<T> And
         {
             get
             {
@@ -75,9 +76,8 @@ namespace Rainbow.ObjectFlow.Framework
         /// Adds an operation into the workflow definition
         /// </summary>
         /// <param name="operation">The operation to execute as a generic of IOperation</param>
-        /// <returns>this object to enable chaining</returns>
         /// <remarks>Operations must inherit from the BasicOperation class</remarks>        
-        public virtual Workflow<T> Do(IOperation<T> operation)
+        public virtual IWorkflow<T> Do(IOperation<T> operation)
         {
             Check.IsNotNull(operation, "operation");
             Check.IsInstanceOf<BasicOperation<T>>(operation, "operation");
@@ -93,9 +93,8 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         /// <param name="operation">The operation to execute as a generic of IOperation</param>
         /// <param name="constraint">The constraint to evaluate</param>
-        /// <returns>this object to enable chaining</returns>
         /// <remarks>Operations must inherit from the BasicOperation class</remarks>
-        public virtual Workflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
+        public virtual IWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
         {
             Check.IsNotNull(operation, "operation");
             Check.IsNotNull(constraint, "constraint");
@@ -110,8 +109,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// Adds a function into the workflow definition
         /// </summary>
         /// <param name="function">Function to add</param>
-        /// <returns>this</returns>
-        public Workflow<T> Do(Func<T, T> function)
+        public IWorkflow<T> Do(Func<T, T> function)
         {
             Check.IsNotNull(function, "function");
 
@@ -124,8 +122,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         /// <param name="function">Function to add</param>
         /// <param name="constraint">constraint defines if function will be executed</param>
-        /// <returns>this</returns>
-        public Workflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
+        public IWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
         {
             Check.IsNotNull(function, "function");
             Check.IsNotNull(constraint, "constraint");
@@ -151,7 +148,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// <summary>
         /// Runs the workflow definition
         /// </summary>
-        /// <param name="data">data to transform</param>
+        /// <param name="data">Data to transform</param>
         /// <returns>Result of the workflow</returns>
         public virtual T Start(T data)
         {
@@ -162,8 +159,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// <summary>
         /// Subsequent Operations and functions will execute after the previous one has completed.
         /// </summary>
-        /// <returns></returns>
-        public IWorkflow<T> Then()
+        public IMerge<T> Then()
         {
             if (!IsSequentialBuilder(_workflowBuilder))
             {
@@ -182,8 +178,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// <summary>
         /// Instantiates a workflow object
         /// </summary>
-        /// <returns>Object of IWorkflow of T</returns>
-        public static IWorkflow<T> Definition()
+        public static IDefine<T> Definition()
         {
             return new Workflow<T>();
         }
@@ -192,8 +187,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// Adds a sub-workflow into the workflow definition
         /// </summary>
         /// <param name="workflow">Workflow to add</param>
-        /// <returns>this</returns>
-        public Workflow<T> Do(IWorkflow<T> workflow)
+        public IWorkflow<T> Do(IWorkflow<T> workflow)
         {
             Check.IsNotNull(workflow, "workflow");
             _workflowBuilder.AddOperation(workflow);
@@ -206,8 +200,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         /// <param name="workflow">Workflow to add</param>
         /// <param name="constraint">pre-condition for execution</param>
-        /// <returns>this</returns>
-        public Workflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
+        public IWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
             Check.IsNotNull(workflow, "workflow");
             Check.IsNotNull(constraint, "constraint");
@@ -218,9 +211,8 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
         /// <summary>
-        /// 
+        /// Allows an operation to be attempted again
         /// </summary>
-        /// <returns></returns>
         public IRetryPolicy Retry()
         {
             IRetryPolicy policy = new Retry();

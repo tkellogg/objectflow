@@ -15,7 +15,7 @@ namespace objectflow.core.integration
         public void Given()
         {
             _operation = new FailOnceOperation();
-            _workflow = Workflow<string>.Definition();
+            _workflow = Workflow<string>.Definition() as IWorkflow<string>;
         }
 
         [Test]
@@ -68,11 +68,10 @@ namespace objectflow.core.integration
         {
             _workflow.Do(_operation).Retry().Twice().With.Interval.Of.Seconds(2);
 
-            var before = DateTime.Now;
+            string beforeTime = DateTime.Now.ToLongTimeString();
             _workflow.Start();
 
             DateTime finishTime = DateTime.Now.Subtract(new TimeSpan(0, 0, 2));
-            string beforeTime = before.ToLongTimeString();
             
             Assert.That(finishTime.ToLongTimeString(), Is.EqualTo(beforeTime));
             
@@ -83,9 +82,8 @@ namespace objectflow.core.integration
     // TODO: remove this and use mock objects
     public class FailOnceOperation : BasicOperation<string>
     {
-        private static bool _fail = true;
         public int ExecuteCount;
-        private int _failcount;
+        private readonly int _failcount;
 
         public FailOnceOperation()
             : this(1)

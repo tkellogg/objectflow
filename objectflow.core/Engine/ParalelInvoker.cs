@@ -22,20 +22,32 @@ namespace Rainbow.ObjectFlow.Engine
         {
             ManualResetEvent finishedEvent;
             ThreadProxy.ThreadCount = RegisteredOperations.Count;
+
             using (finishedEvent = new ManualResetEvent(false))
             {
-                for (int i = 0; i < RegisteredOperations.Count; i++)
-                {
-                    var function = RegisteredOperations[i];
-
-                    var threadContainer = new ThreadProxy(ref _engine, function, data, ref finishedEvent);
-                    ThreadPool.QueueUserWorkItem(a => threadContainer.Start());
-                }
+                finishedEvent = ExecuteParallelSequence(data, finishedEvent);
 
                 finishedEvent.WaitOne();
             }
 
             return data;
+        }
+
+        private ManualResetEvent ExecuteParallelSequence(T data, ManualResetEvent finishedEvent)
+        {
+            for (int i = 0; i < RegisteredOperations.Count; i++)
+            {
+                finishedEvent = QueueOperation(RegisteredOperations[i], data, finishedEvent);
+            }
+            return finishedEvent;
+        }
+
+        private ManualResetEvent QueueOperation(OperationConstraintPair<T> function, T data, ManualResetEvent finishedEvent)
+        {
+            var threadContainer = new ThreadProxy(ref _engine, function, data, ref finishedEvent);
+            ThreadPool.QueueUserWorkItem(a => threadContainer.Start());
+
+            return finishedEvent;
         }
 
         public void Add(OperationConstraintPair<T> operation)

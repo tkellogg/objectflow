@@ -2,7 +2,8 @@ using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Language;
 
 #pragma warning disable 1591
-namespace Rainbow.ObjectFlow.Framework
+
+namespace Rainbow.ObjectFlow.Policies
 {
     public class Retry : NonTerminatingPolicy, IRetryPolicy
     {
@@ -69,6 +70,6 @@ namespace Rainbow.ObjectFlow.Framework
             }
         }
 
-        internal int Times { get; private set; }
+        internal int Times { get; set; }
     }
 }

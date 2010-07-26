@@ -1,9 +1,9 @@
-using System;
 using Rainbow.ObjectFlow.Engine;
-using Rainbow.ObjectFlow.Interfaces;
+using Rainbow.ObjectFlow.Language;
 
 #pragma warning disable 1591
-namespace Rainbow.ObjectFlow.Framework
+
+namespace Rainbow.ObjectFlow.Policies
 {
     public abstract class Policy : IHideObjectMembers
     {

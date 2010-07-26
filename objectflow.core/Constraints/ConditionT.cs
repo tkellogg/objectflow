@@ -20,19 +20,7 @@ namespace Rainbow.ObjectFlow.Constraints
             _condition = condition;
             _operation = operation;
         }
-
-        ///<summary>
-        /// Constructor
-        ///</summary>
-        ///<param name="condition"></param>
-        ///<param name="constraints"></param>
-        ///<exception cref="NotImplementedException"></exception>
-        public Condition(T condition, IList<ICheckConstraint> constraints)
-        {
-            throw new NotImplementedException();
-        }
-
-
+        
         /// <summary>
         /// Evaluates the constraint
         /// </summary>

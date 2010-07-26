@@ -9,8 +9,6 @@ namespace objectflow.core.integration
     [TestFixture]
     public class WhenCreatingConstraints
     {
-        private IOperation<string> _operation;
-
         [SetUp]
         public void Given()
         {

@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -102,16 +102,19 @@
     <Compile Include="Engine\ParallelBuilder.cs" />
     <Compile Include="Engine\WorkflowEngine.cs" />
     <Compile Include="Engine\OperationConstraintPair.cs" />
-    <Compile Include="Interfaces\IHideObjectMembers.cs" />
+    <Compile Include="Language\ICompose.cs" />
+    <Compile Include="Language\IMerge.cs" />
+    <Compile Include="Language\IDefine.cs" />
+    <Compile Include="Language\IHideObjectMembers.cs" />
     <Compile Include="Language\IExpression.cs" />
     <Compile Include="Language\IInterval.cs" />
     <Compile Include="Language\IRetryPolicy.cs" />
     <Compile Include="Language\ITimePart.cs" />
     <Compile Include="Language\IWith.cs" />
-    <Compile Include="Policy\Interval.cs" />
-    <Compile Include="Policy\NonTerminatingPolicy.cs" />
-    <Compile Include="Policy\Policy.cs" />
-    <Compile Include="Policy\Retry.cs" />
+    <Compile Include="Policies\Interval.cs" />
+    <Compile Include="Policies\NonTerminatingPolicy.cs" />
+    <Compile Include="Policies\Policy.cs" />
+    <Compile Include="Policies\Retry.cs" />
     <Compile Include="Framework\WorkflowMemoryLoader.cs" />
     <Compile Include="Helpers\If.cs" />
     <Compile Include="Framework\BasicOperation.cs" />

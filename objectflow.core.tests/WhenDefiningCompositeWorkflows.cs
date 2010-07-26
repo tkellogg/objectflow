@@ -21,7 +21,7 @@ namespace Objectflow.core.tests
         [Test]
         public void ShouldNotAllowNullConstraints()
         {
-            IWorkflow<string> workflow = Workflow<string>.Definition();
+            IWorkflow<string> workflow = Workflow<string>.Definition() as IWorkflow<string>;
             ICheckConstraint constraint = null;
 
             Assert.Throws<ArgumentNullException>(() => Workflow<string>.Definition().Do(workflow, constraint));
@@ -39,8 +39,8 @@ namespace Objectflow.core.tests
         [Test]
         public void ShouldAddToWorkflowDefinition()
         {
-            var innerWorkflow = Workflow<string>.Definition();
-            var workflow = Workflow<string>.Definition().Do(innerWorkflow);
+            var innerWorkflow = Workflow<string>.Definition().Do((c)=>"red");
+            var workflow = Workflow<string>.Definition().Do(innerWorkflow) as Workflow<string>;
 
             Assert.That(workflow.RegisteredOperations.Count, Is.EqualTo(1), "number of operations in workflow");
         }
@@ -48,8 +48,8 @@ namespace Objectflow.core.tests
         [Test]
         public void AddWorkflow()
         {
-            Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;
-            var innerWorkflow = Workflow<string>.Definition();
+            var workflow = Workflow<string>.Definition() as Workflow<string>;
+            var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
 
             var builder = new SequentialBuilder<string>(workflow);
             builder.AddOperation(innerWorkflow);
@@ -59,8 +59,8 @@ namespace Objectflow.core.tests
         [Test]
         public void ShouldAddWorkflowWithconstraints()
         {
-            var innerWorkflow = Workflow<string>.Definition();
-            var workflow = Workflow<string>.Definition().Do(innerWorkflow, If.IsTrue(true));
+            var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
+            var workflow = Workflow<string>.Definition().Do(innerWorkflow, If.IsTrue(true)) as Workflow<string>;
 
             Assert.That(workflow.RegisteredOperations.Count, Is.EqualTo(1), "number of operations in workflow");
         }
@@ -69,7 +69,7 @@ namespace Objectflow.core.tests
         public void AddWorkflowWithConstraint()
         {
             Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;
-            var innerWorkflow = Workflow<string>.Definition();
+            var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
 
             var builder = new SequentialBuilder<string>(workflow);
             builder.AddOperation(innerWorkflow, If.IsTrue(true));
@@ -80,7 +80,7 @@ namespace Objectflow.core.tests
         public void ShouldAddWhenDefiningParallelCompositeWorkflow()
         {
             Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;
-            var innerWorkflow = Workflow<string>.Definition();
+            var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
 
             var builder = new ParallelSplitBuilder<string>(workflow);
             builder.AddOperation(innerWorkflow);
@@ -92,7 +92,7 @@ namespace Objectflow.core.tests
         public void ShouldAddWhenDefiningParallelCompositeWorkflowWithConstraint()
         {
             Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;
-            var innerWorkflow = Workflow<string>.Definition();
+            var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
 
             var builder = new ParallelSplitBuilder<string>(workflow);
             builder.AddOperation(innerWorkflow, If.IsTrue(true));

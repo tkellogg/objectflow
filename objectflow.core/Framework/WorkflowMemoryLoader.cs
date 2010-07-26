@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Rainbow.ObjectFlow.Framework
 {
     /// <summary>
@@ -10,6 +11,7 @@ namespace Rainbow.ObjectFlow.Framework
     /// </remarks>
     /// </summary>
     /// <typeparam name="T">Type of object the operation will contain.</typeparam>    
+    [Obsolete("Use Start(T) method of workflow.  This is included as an example implementation of the abstract BasicOperation class.")]
     public class WorkflowMemoryLoader<T> : BasicOperation<T>
     {
         private readonly T _state;

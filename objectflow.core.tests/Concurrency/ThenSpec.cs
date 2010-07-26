@@ -28,7 +28,7 @@ namespace Objectflow.core.tests.Concurrency
             Expect.Call(_factory.GetSequentialBuilder(_workflow)).Return(new SequentialBuilder<string>(_workflow));
             _mocker.ReplayAll();
 
-            var pipe = _workflow.And.Then();
+            var pipe = _workflow.And.Do(c => "red").Then();
             _mocker.VerifyAll();
         }
 

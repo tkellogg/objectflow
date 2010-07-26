@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
-using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Language;
+using Rainbow.ObjectFlow.Policies;
 
 namespace Objectflow.core.tests.Policy
 {
@@ -9,13 +9,13 @@ namespace Objectflow.core.tests.Policy
     public class WhenUsingIntervalPolicy
     {
         private IInterval _interval;
-        private Rainbow.ObjectFlow.Framework.Policy _policy;
+        private Rainbow.ObjectFlow.Policies.Policy _policy;
 
         [SetUp]
         public void Given()
         {
             _interval = new Interval();
-            _policy = _interval as Rainbow.ObjectFlow.Framework.Policy;
+            _policy = _interval as Rainbow.ObjectFlow.Policies.Policy;
             Assert.IsNotNull(_policy);
         }
 

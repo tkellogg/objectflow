@@ -6,11 +6,7 @@ namespace Rainbow.ObjectFlow.Framework
     /// Implements common functionality for Operation objects.  
     /// All operations must inherit from BasicOperation.
     /// </summary>
-    /// <typeparam name="T">Type of object this operation will work on.
-    /// </typeparam>
-    /// <example>
-    /// 
-    /// </example>
+    /// <typeparam name="T">Type of object this operation will work on.</typeparam>
     public abstract class BasicOperation<T> : IOperation<T>
     {
         /// <summary>

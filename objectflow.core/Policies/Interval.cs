@@ -1,8 +1,7 @@
-using System;
 using System.Threading;
 using Rainbow.ObjectFlow.Language;
 
-namespace Rainbow.ObjectFlow.Framework
+namespace Rainbow.ObjectFlow.Policies
 {
 #pragma warning disable 1591
     public class Interval : Policy, IInterval, ITimePart

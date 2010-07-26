@@ -1,7 +1,8 @@
 using Rainbow.ObjectFlow.Language;
 
 #pragma warning disable 1591
-namespace Rainbow.ObjectFlow.Framework
+
+namespace Rainbow.ObjectFlow.Policies
 {
     public abstract class NonTerminatingPolicy : Policy, IExpression, IWith
     {

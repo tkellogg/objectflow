@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Language;
+using Rainbow.ObjectFlow.Policies;
 
 namespace Objectflow.core.tests.Policy
 {

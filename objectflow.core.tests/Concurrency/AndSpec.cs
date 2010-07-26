@@ -6,7 +6,7 @@ using Rhino.Mocks;
 
 namespace Objectflow.core.tests.Concurrency
 {
-    [TestFixture, Ignore]
+    [TestFixture]
     public class AndSpec
     {
         private MockRepository _mocker;
@@ -41,14 +41,14 @@ namespace Objectflow.core.tests.Concurrency
         }
 
         [Test]
-        public void ShouldNotCreateParallelBuilderOnSubsequentCalls()
+        public void ShouldCreateOneParallelBuilder()
         {
             Expect.Call(_factory.GetParallelBuilder(_workflow))
                 .Return(new ParallelSplitBuilder<string>(_workflow))
                 .Repeat.Once();
 
             _mocker.ReplayAll();
-            var pipe = _workflow.And.And;
+            var pipe = _workflow.And ;
 
             _factory.VerifyAllExpectations();
         }

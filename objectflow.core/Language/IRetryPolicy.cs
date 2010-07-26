@@ -5,11 +5,13 @@ namespace Rainbow.ObjectFlow.Language
 {
     public interface IRetryPolicy : IHideObjectMembers, IPolicy
     {
-        IExpression Attempts(int number);
+        /// <summary>
+        /// Number of times a retry policy is attempted
+        /// </summary>
+        IExpression Attempts(int times);
 
         IExpression Once();
         
         IExpression Twice();
-
     }
 }

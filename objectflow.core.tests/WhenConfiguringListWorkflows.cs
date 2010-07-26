@@ -8,7 +8,7 @@ namespace Objectflow.core.tests
 {
     [TestFixture]
     public class WhenConfiguringListWorkflows
-    {
+    {        
         private Workflow<IEnumerable<string>> _pipe;
 
         [SetUp]

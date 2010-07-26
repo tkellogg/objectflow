@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Rainbow.ObjectFlow.Framework;
+using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Language;
+using Rainbow.ObjectFlow.Policies;
 using Rhino.Mocks;
 
 namespace Objectflow.core.tests.Policy
@@ -16,17 +18,15 @@ namespace Objectflow.core.tests.Policy
         private Workflow<string> _workflow;
 
         [SetUp]
-        private void Given()
+        public void Given()
         {
-            _workflow = Workflow<string>.Definition().Do((r) => "red");
-            _retry = _workflow.Retry();
+            _workflow = Workflow<string>.Definition().Do((r) => "red") as Workflow<string>;
         }
 
         [Test]
         public void ShouldCreateRetryPolicy()
         {
-            Given();
-
+            _retry = _workflow.Retry();
             Assert.IsNotNull(_retry, "object creation failed");
             Assert.That(_retry, Is.InstanceOf(typeof (Retry)));
         }
@@ -34,23 +34,21 @@ namespace Objectflow.core.tests.Policy
         [Test]
         public void ShouldSetDefaultTime()
         {
-            Given();
-
+            _retry = _workflow.Retry();
             Assert.That(((Retry)_retry).IntervalTime, Is.EqualTo(0));
         }
 
         [Test]
         public void ShouldSetDefaultRetryAttempts()
         {
-            Given();
-
+            _retry = _workflow.Retry();
             Assert.That(((Retry)_retry).Times, Is.EqualTo(1));            
         }
 
         [Test]
         public void ShouldAddRetryToInvoker()
         {
-            Given();
+            _retry = _workflow.Retry();
             Assert.That(_workflow.RegisteredOperations.Count, Is.GreaterThan(0), "Number of operations");
             Assert.That(_workflow.RegisteredOperations[0].Command.Policies.Count, Is.EqualTo(1), "Policy");
         }
@@ -58,7 +56,6 @@ namespace Objectflow.core.tests.Policy
         [Test]
         public void ShouldSetIntervalMinutes()
         {
-            _workflow = Workflow<string>.Definition().Do((r) => "red");
             _workflow.Retry().Once().With.Interval.Of.Minutes(1);                        
 
             Assert.That(((Retry)_workflow.RegisteredOperations[0].Command.Policies[0]).IntervalTime, Is.EqualTo(60 * 1000));
@@ -67,7 +64,6 @@ namespace Objectflow.core.tests.Policy
         [Test]
         public void ShouldSetIntervalSeconds()
         {
-            _workflow = Workflow<string>.Definition().Do((r) => "red");
             _workflow.Retry().Once().With.Interval.Of.Seconds(1);
 
             Assert.That(((Retry)_workflow.RegisteredOperations[0].Command.Policies[0]).IntervalTime, Is.EqualTo(1000));
@@ -76,7 +72,6 @@ namespace Objectflow.core.tests.Policy
         [Test]
         public void ShouldSetIntervalMilliSeconds()
         {
-            _workflow = Workflow<string>.Definition().Do((r) => "red");
             _workflow.Retry().Once().With.Interval.Of.Milliseconds(500);
 
             Assert.That(((Retry)_workflow.RegisteredOperations[0].Command.Policies[0]).IntervalTime, Is.EqualTo(500));

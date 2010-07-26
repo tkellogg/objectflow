@@ -16,7 +16,7 @@ namespace objectflow.core.integration
         [SetUp]
         public void Given()
         {
-            _workflow = Workflow<string>.Definition();
+            _workflow = Workflow<string>.Definition() as IWorkflow<string>;
         }
         
         [Test]
@@ -24,7 +24,6 @@ namespace objectflow.core.integration
         {
             _workflow.Do((s) => "Red").Retry().Twice().With.Interval.Of.Seconds(2);
 
-            var before = DateTime.Now;
             var result = _workflow.Start();
 
             Assert.That(result, Is.EqualTo("Red"));

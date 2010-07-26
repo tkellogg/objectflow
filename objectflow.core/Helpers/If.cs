@@ -8,7 +8,7 @@ using Rainbow.ObjectFlow.Interfaces;
 namespace Rainbow.ObjectFlow.Helpers
 {
     /// <summary>
-    /// Helper class for constraints
+    /// Helper class for building constraints
     /// </summary>
     public sealed class If
     {
