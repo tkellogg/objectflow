@@ -1,0 +1,11 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="compile\objectflow.core.tests\bin\Release\objectflow.core.tests.dll" />
+    <assembly path="compile\objectflow.core.integration\bin\Release\objectflow.core.integration.dll" />
+  </Config>
+
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="compile\objectflow.core.tests\bin\Debug\objectflow.core.tests.dll" />
+  </Config>
+</NUnitProject>
