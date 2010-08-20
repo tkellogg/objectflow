@@ -1,0 +1,17 @@
+<Project DefaultTargets = "BuildRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+
+  <PropertyGroup>
+    <RootPath Condition="'$(RootPath)' == ''">$(MSBuildProjectDirectory)\..</RootPath>
+  </PropertyGroup>
+
+  <!-- Defines the projects included in the release-->
+  <ItemGroup>
+    <Modules Include="$(RootPath)\Objectflow.core\objectflow.core.csproj"/>
+    <Modules Include="$(RootPath)\Objectflow.core.tests\objectflow.core.Tests.csproj"/>
+    <Modules Include="$(RootPath)\Objectflow.core.integration\objectflow.core.integration.csproj"/>
+  </ItemGroup>
+
+  <Import Project="Release.Targets"/>    
+</Project>

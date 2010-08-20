@@ -1,0 +1,35 @@
+﻿<Project DefaultTargets = "BuildRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <!-- Defines targets for building-->
+  <Target Name="BuildRelease" DependsOnTargets="Build;UnitTest;Documentation;MakeInstaller"/>
+  
+  <Target Name="Build" Outputs="*.cs" DependsOnTargets="Clean">
+    <MSBuild Targets="Build" Projects="@(Modules)"></MSBuild>
+  </Target>
+
+  <Target Name="Clean">
+    <MSBuild Targets="Clean" Projects="@(Modules)"></MSBuild>
+  </Target>
+
+  <Import Project="Common.Properties"/>
+  <Import Project="Default.Properties"/>
+
+  <Target Name="UnitTest" DependsOnTargets="Build">
+    <NUnit ToolPath="$(NUnitToolsPath)" ProjectConfiguration="$(Configuration)" Assemblies="$(UnitTestConfig)"/>
+  </Target>
+
+  <Target Name ="Documentation">
+    <Sandcastle NoInfoMessages="True" Comments="$(SandCastleComments)" Clean="True" ChmName="objectflow" WorkingDirectory="$(HelpDocRoot)" SandcastleRoot="$(SandCastlePath)" Assemblies="@(ApiAssemblies)"></Sandcastle>
+  </Target>
+
+  <ItemGroup>
+    <ApiAssemblies Include="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"></ApiAssemblies>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <SandCastleComments>$(BuildRoot)\objectflow.core\bin\release\objectflow.core.xml</SandCastleComments>
+  </PropertyGroup>
+
+  <Target Name="MakeInstaller">
+    <Zip WorkingDirectory="$(RootPath)\Compile" ZipFileName="$(ReleaseCandidate)\objectflow.zip" Flatten="True" Files="$(HelpDocRoot)\vs2005\chm\objectflow.chm;$(BuildRoot)\objectflow.core\bin\Release\objectflow.core.dll;$(BuildRoot)\objectflow.core\bin\Release\objectflow.core.xml"></Zip>
+  </Target>
+</Project>
