@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="objectflow.core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f53a9149e8cfefaa, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\compile\objectflow.core\bin\debug\objectflow.core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,16 +53,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Domain\ClassLibrary\objectflowDemo.Domain.csproj">
-      <Project>{7C85F418-5146-4235-A7F7-97EFC84FDB26}</Project>
-      <Name>objectflowDemo.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\objectflow.core\objectflow.core.csproj">
-      <Project>{18BFC8BB-222C-4FB4-A949-36EF486E2D23}</Project>
-      <Name>objectflow.core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,21 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core", "objectflow.core\objectflow.core.csproj", "{18BFC8BB-222C-4FB4-A949-36EF486E2D23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflowDemo", "objectflow.demo\objectflowDemo.csproj", "{87B114A4-2B84-4A76-8281-5D57B7F81570}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.Tests", "objectflow.core.tests\objectflow.core.Tests.csproj", "{F1C234BA-0259-43E8-8EC8-A022A987EAAA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflowDemo.Domain", "objectflow.demo\domain\ClassLibrary\objectflowDemo.Domain.csproj", "{7C85F418-5146-4235-A7F7-97EFC84FDB26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.tests.unit", "objectflow.core.tests\objectflow.core.tests.unit.csproj", "{F1C234BA-0259-43E8-8EC8-A022A987EAAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B208E65-C53F-4F73-ACF1-B1FABD1DDF3C}"
 	ProjectSection(SolutionItems) = preProject
 		build\build.proj = build\build.proj
 		build\Common.Properties = build\Common.Properties
 		build\Default.Properties = build\Default.Properties
+		build\objectflow.core.proj = build\objectflow.core.proj
 		build\Release.Targets = build\Release.Targets
+		build\token.txt = build\token.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.integration", "objectflow.core.integration\objectflow.core.integration.csproj", "{536DD47F-B298-4E53-9A4A-B1E38F02FF4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.tests.integration", "objectflow.core.integration\objectflow.core.tests.integration.csproj", "{536DD47F-B298-4E53-9A4A-B1E38F02FF4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +27,10 @@ Global
 		{18BFC8BB-222C-4FB4-A949-36EF486E2D23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18BFC8BB-222C-4FB4-A949-36EF486E2D23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18BFC8BB-222C-4FB4-A949-36EF486E2D23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87B114A4-2B84-4A76-8281-5D57B7F81570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87B114A4-2B84-4A76-8281-5D57B7F81570}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87B114A4-2B84-4A76-8281-5D57B7F81570}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87B114A4-2B84-4A76-8281-5D57B7F81570}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1C234BA-0259-43E8-8EC8-A022A987EAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1C234BA-0259-43E8-8EC8-A022A987EAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C234BA-0259-43E8-8EC8-A022A987EAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C234BA-0259-43E8-8EC8-A022A987EAAA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C85F418-5146-4235-A7F7-97EFC84FDB26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C85F418-5146-4235-A7F7-97EFC84FDB26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C85F418-5146-4235-A7F7-97EFC84FDB26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C85F418-5146-4235-A7F7-97EFC84FDB26}.Release|Any CPU.Build.0 = Release|Any CPU
 		{536DD47F-B298-4E53-9A4A-B1E38F02FF4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{536DD47F-B298-4E53-9A4A-B1E38F02FF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536DD47F-B298-4E53-9A4A-B1E38F02FF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU

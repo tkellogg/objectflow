@@ -1,5 +1,4 @@
-﻿
-namespace Rainbow.ObjectFlow.Interfaces
+﻿namespace Rainbow.ObjectFlow.Interfaces
 {
     /// <summary>
     /// Defines the interface of items in a workflow.

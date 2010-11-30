@@ -1,8 +1,19 @@
 ﻿<Project DefaultTargets = "BuildRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
-  <!-- Defines targets for building-->
-  <Target Name="BuildRelease" DependsOnTargets="Build;UnitTest;Documentation;MakeInstaller"/>
+  <PropertyGroup>
+    <Major>1</Major>
+    <Minor>2</Minor>
+    <Build>1</Build>
+    <Revision>1</Revision>
+  </PropertyGroup>
   
-  <Target Name="Build" Outputs="*.cs" DependsOnTargets="Clean">
+  <Import Project="Common.Properties"/>
+  <Import Project="Default.Properties"/>
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+
+  <!-- Defines targets for building-->
+  <Target Name="BuildRelease" DependsOnTargets="Build;UnitTest;Documentation;Sign;MakeInstaller"/>
+  
+  <Target Name="Build" Outputs="*.cs" DependsOnTargets="Clean;SetVersionInfo">
     <MSBuild Targets="Build" Projects="@(Modules)"></MSBuild>
   </Target>
 
@@ -10,15 +21,12 @@
     <MSBuild Targets="Clean" Projects="@(Modules)"></MSBuild>
   </Target>
 
-  <Import Project="Common.Properties"/>
-  <Import Project="Default.Properties"/>
-
   <Target Name="UnitTest" DependsOnTargets="Build">
     <NUnit ToolPath="$(NUnitToolsPath)" ProjectConfiguration="$(Configuration)" Assemblies="$(UnitTestConfig)"/>
   </Target>
 
   <Target Name ="Documentation">
-    <Sandcastle NoInfoMessages="True" Comments="$(SandCastleComments)" Clean="True" ChmName="objectflow" WorkingDirectory="$(HelpDocRoot)" SandcastleRoot="$(SandCastlePath)" Assemblies="@(ApiAssemblies)"></Sandcastle>
+    <Sandcastle  NoInfoMessages="True" Comments="$(SandCastleComments)" Clean="True" ChmName="objectflow" WorkingDirectory="$(HelpDocRoot)" SandcastleRoot="$(SandCastlePath)" Assemblies="@(ApiAssemblies)" ContinueOnError="true" References="$(RootPath)\lib\Castle.MicroKernel.dll;$(RootPath)\lib\Castle.Core.dll"></Sandcastle>
   </Target>
 
   <ItemGroup>
@@ -30,6 +38,34 @@
   </PropertyGroup>
 
   <Target Name="MakeInstaller">
-    <Zip WorkingDirectory="$(RootPath)\Compile" ZipFileName="$(ReleaseCandidate)\objectflow.zip" Flatten="True" Files="$(HelpDocRoot)\vs2005\chm\objectflow.chm;$(BuildRoot)\objectflow.core\bin\Release\objectflow.core.dll;$(BuildRoot)\objectflow.core\bin\Release\objectflow.core.xml"></Zip>
+    <PropertyGroup>
+      <BuildPath>$(BuildRoot)\objectflow.core\bin\Release\</BuildPath>
+    </PropertyGroup>
+    <Zip WorkingDirectory="$(RootPath)\Compile" ZipFileName="$(ReleaseCandidate)\objectflow.zip" Flatten="True" Files="$(HelpDocRoot)\vs2005\chm\objectflow.chm;$(BuildPath)\objectflow.core.dll;$(BuildPath)\objectflow.core.xml;$(BuildPath)\Castle.Core.dll;$(BuildPath)\Castle.MicroKernel.dll"></Zip>
+  </Target>
+
+  <Target Name="Sign">
+    <Message Text="Assembly certificatee=$(AssemblyKeyCertificate)"></Message>
+    <Message Text="rainbow Sign file=$(RainbowSignature)"></Message>
+    <SignFile 
+            CertificateThumbprint="$(AssemblyKeyCertificate)"
+            SigningTarget="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll" />    
+  </Target>
+    
+  <Target Name="SetVersionInfo">
+    <AssemblyInfo CodeLanguage="CS"
+       OutputFile="$(RootPath)\AssemblyInfo.cs"
+       AssemblyTitle="Rainbow ObjectFlow"
+       AssemblyDescription="Fluent workflow frameworks"
+       AssemblyCompany="RainbowSoft"
+       AssemblyProduct="Rainbow.ObjectFlow"
+       AssemblyCopyright="Copyright © G.Moore 2010"
+       ComVisible="false"
+       CLSCompliant="true"
+       Guid="d14b6bea-3ec7-4db0-ad6d-ebec4a192d9f"
+       AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
+       AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
+       Condition="$(Revision) != '0' "/>
+
   </Target>
 </Project>

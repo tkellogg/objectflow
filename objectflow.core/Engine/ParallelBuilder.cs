@@ -6,55 +6,79 @@ namespace Rainbow.ObjectFlow.Engine
 {
     internal class ParallelSplitBuilder<T> : WorkflowBuilder<T> where T : class
     {
-        private readonly Workflow<T> _workflow;
-
-        public ParallelSplitBuilder(Workflow<T> workflow)
+        public ParallelSplitBuilder(TaskList<T> taskList) : base(taskList)
         {
             ParallelOperations = new ParallelInvoker<T>();
-            _workflow = workflow;
 
-            if (_workflow.RegisteredOperations != null && _workflow.RegisteredOperations.Count != 0)
+            if (_taskList.Tasks != null && _taskList.Tasks.Count != 0)
             {
-                OperationConstraintPair<T> leftOver =
-                    _workflow.RegisteredOperations[_workflow.RegisteredOperations.Count - 1];
-                _workflow.RegisteredOperations.RemoveAt(_workflow.RegisteredOperations.Count - 1);
+                OperationDuplex<T> leftOver =
+                    _taskList.Tasks[_taskList.Tasks.Count - 1];
+                _taskList.Tasks.RemoveAt(_taskList.Tasks.Count - 1);
                 ParallelOperations.Add(leftOver);
             }
+
         }
 
         public override void AddOperation(IOperation<T> operation)
         {
-            var operationPair = new OperationConstraintPair<T>(new OperationInvoker<T>(operation as BasicOperation<T>));
+            var operationPair = new OperationDuplex<T>(new OperationInvoker<T>(operation as BasicOperation<T>));
             ParallelOperations.Add(operationPair);
         }
 
         public override void AddOperation(IOperation<T> operation, ICheckConstraint constraint)
         {
-            var operationPair = new OperationConstraintPair<T>(new OperationInvoker<T>(operation as BasicOperation<T>), constraint);
+            var operationPair = new OperationDuplex<T>(new OperationInvoker<T>(operation as BasicOperation<T>), constraint);
             ParallelOperations.Add(operationPair);
         }
 
         public override void AddOperation(Func<T, T> function)
         {
-            var operationPair = new OperationConstraintPair<T>(new FunctionInvoker<T>(function));
+            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function));
             ParallelOperations.Add(operationPair);
         }
 
         public override void AddOperation(Func<T, T> function, ICheckConstraint constraint)
         {
-            var operationPair = new OperationConstraintPair<T>(new FunctionInvoker<T>(function), constraint);
+            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function), constraint);
             ParallelOperations.Add(operationPair);
         }
 
         public override void AddOperation(IWorkflow<T> workflow)
         {
-            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow));
+            var operationPair = new OperationDuplex<T>(new WorkflowInvoker<T>(workflow));
             ParallelOperations.Add(operationPair);
         }
 
         public override void AddOperation(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
-            var operationPair = new OperationConstraintPair<T>(new WorkflowInvoker<T>(workflow), constraint);
+            var operationPair = new OperationDuplex<T>(new WorkflowInvoker<T>(workflow), constraint);
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(Func<bool> function)
+        {
+            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function));
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation(Func<bool> function, ICheckConstraint constraint)
+        {
+            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function),constraint);
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation<TOperation>()
+        {
+            var operation = Activator.CreateInstance<TOperation>();
+            var operationPair = new OperationDuplex<T>(new OperationInvoker<T>(operation as BasicOperation<T>));
+            ParallelOperations.Add(operationPair);
+        }
+
+        public override void AddOperation<TOperation>(ICheckConstraint constraint)
+        {
+            var operation = Activator.CreateInstance<TOperation>() as BasicOperation<T>;
+            var operationPair = new OperationDuplex<T>(new OperationInvoker<T>(operation), constraint);
             ParallelOperations.Add(operationPair);
         }
     }

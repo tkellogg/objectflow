@@ -5,7 +5,7 @@ namespace Rainbow.ObjectFlow.Engine
 {
     internal class ParallelInvoker<T> : MethodInvoker<T> where T : class
     {
-        public IList<OperationConstraintPair<T>> RegisteredOperations = new List<OperationConstraintPair<T>>();
+        public IList<OperationDuplex<T>> RegisteredOperations = new List<OperationDuplex<T>>();
         private WorkflowEngine<T> _engine;
 
         public ParallelInvoker(WorkflowEngine<T> engine)
@@ -42,7 +42,7 @@ namespace Rainbow.ObjectFlow.Engine
             return finishedEvent;
         }
 
-        private ManualResetEvent QueueOperation(OperationConstraintPair<T> function, T data, ManualResetEvent finishedEvent)
+        private ManualResetEvent QueueOperation(OperationDuplex<T> function, T data, ManualResetEvent finishedEvent)
         {
             var threadContainer = new ThreadProxy(ref _engine, function, data, ref finishedEvent);
             ThreadPool.QueueUserWorkItem(a => threadContainer.Start());
@@ -50,7 +50,7 @@ namespace Rainbow.ObjectFlow.Engine
             return finishedEvent;
         }
 
-        public void Add(OperationConstraintPair<T> operation)
+        public void Add(OperationDuplex<T> operation)
         {
             RegisteredOperations.Add(operation);
         }
@@ -59,12 +59,12 @@ namespace Rainbow.ObjectFlow.Engine
         {
             public static int ThreadCount;
 
-            private readonly OperationConstraintPair<T> _function;
+            private readonly OperationDuplex<T> _function;
             private readonly T _data;
             private readonly WorkflowEngine<T> _engine;
             private readonly ManualResetEvent _finishedEvent;
 
-            public ThreadProxy(ref WorkflowEngine<T> engine, OperationConstraintPair<T> threadStartFunction, T parameter, ref ManualResetEvent finishedEvent)
+            public ThreadProxy(ref WorkflowEngine<T> engine, OperationDuplex<T> threadStartFunction, T parameter, ref ManualResetEvent finishedEvent)
             {
                 _finishedEvent = finishedEvent;
                 _function = threadStartFunction;

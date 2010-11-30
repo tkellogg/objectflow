@@ -1,7 +1,7 @@
 ﻿using Objectflow.tests.TestDomain;
 using Rainbow.ObjectFlow.Framework;
 
-namespace Objectflow.tests.TestOperations
+namespace Objectflow.core.tests.TestOperations
 {
     public class DuplicateName : BasicOperation<Colour>
     {

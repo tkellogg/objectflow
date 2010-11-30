@@ -6,7 +6,7 @@ namespace Rainbow.ObjectFlow.Policies
 #pragma warning disable 1591
     public class Interval : Policy, IInterval, ITimePart
     {
-        public int MilliSeconds { get; set; }
+        public int MilliSecondPart { get; set; }
 
         public ITimePart Of
         {
@@ -15,7 +15,7 @@ namespace Rainbow.ObjectFlow.Policies
 
         public void Milliseconds(int millseconds)
         {
-            MilliSeconds = millseconds;
+            MilliSecondPart = millseconds;
         }
 
         public void Seconds(int seconds)
@@ -30,7 +30,7 @@ namespace Rainbow.ObjectFlow.Policies
 
         internal override T Execute<T>(T current)
         {
-            Thread.Sleep(MilliSeconds);
+            Thread.Sleep(MilliSecondPart);
             return current;
         }
     }

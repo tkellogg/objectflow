@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
@@ -18,7 +14,7 @@ namespace objectflow.core.integration
         {
             _workflow = Workflow<string>.Definition() as IWorkflow<string>;
         }
-        
+
         [Test]
         public void ShouldNotThrowErrorWhenUsingRetryWithInterval()
         {
@@ -28,5 +24,7 @@ namespace objectflow.core.integration
 
             Assert.That(result, Is.EqualTo("Red"));
         }
+
+
     }
 }

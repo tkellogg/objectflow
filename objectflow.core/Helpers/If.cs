@@ -53,7 +53,7 @@ namespace Rainbow.ObjectFlow.Helpers
             get
             {
                 var not = new NotConstraintOperator();
-                WorkflowEngine<ICheckConstraint>.CallStack.Push(not);
+                WorkflowEngine<ICheckConstraint>.ExecutionPlan.Push(not);
                 return not;
             }
         }
@@ -66,6 +66,22 @@ namespace Rainbow.ObjectFlow.Helpers
         public static ICheckConstraint IsFalse(bool condition)
         {
             return Not.IsTrue(condition);
+        }
+
+        /// <summary>
+        /// SuccessCheckConstraint that can evaluate the success or failure of a function
+        /// </summary>
+        /// <param name="key">the Operation to evaluate</param>
+        /// <returns>SuccessCheckConstraint</returns>
+        public static ICheckConstraint Successfull(string key)
+        {
+            return new Condition(() =>
+                                     {
+                                         bool result;
+                                         WfExecutionPlan.CallStack.TryGetValue(key.GetHashCode(),
+                                                                                      out result);
+                                         return result;
+                                     });
         }
     }
 }

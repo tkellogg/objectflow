@@ -22,7 +22,7 @@ namespace Objectflow.core.tests.Policy
             function.Policies.Add(new Retry());
             var engine = new WorkflowEngine<string>();
 
-            engine.Execute(new OperationConstraintPair<string>(function));
+            engine.Execute(new OperationDuplex<string>(function));
             Assert.That(operation.ExecuteCount, Is.EqualTo(2));
         }
     }

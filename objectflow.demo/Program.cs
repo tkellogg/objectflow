@@ -1,6 +1,4 @@
 ﻿using System;
-using Rainbow.Demo.Objectflow.Domain;
-using Rainbow.Demo.Objectflow.Domain.Commands;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 
@@ -10,22 +8,54 @@ namespace Rainbow.Demo.Objectflow.Client
     {
         static void Main(string[] args)
         {
-            var colourPipe = new Workflow<Colour>();
             var doubleSpace = new DoubleSpace();
-            var doublespace2 = new DoubleSpace();
 
-            colourPipe
+            Workflow<Colour>.Definition()
                 .Do(doubleSpace)
-                .Do(doublespace2, If.Not.Successfull(doubleSpace))
+                .Do<DoubleSpace>(If.Not.Successfull(doubleSpace))
                 .Do((c) =>
-                             {
-                                 Console.WriteLine(c.Name); return c;
-                             });
-
-            var result = colourPipe.Start(new Colour("green"));
+                        {
+                            Console.WriteLine(c.Name);
+                            return c;
+                        })
+                .Start(new Colour("Green"));
 
             Console.WriteLine("\r\nPress any key");
             Console.ReadKey();
         }
     }
 }
+
+    public class Colour
+    {
+        public Colour(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
+    public class DoubleSpace : BasicOperation<Colour>
+    {
+        public override Colour Execute(Colour input)
+        {
+            string name = string.Empty;
+            char[] chars = input.Name.ToCharArray();
+            foreach (var c in chars)
+            {
+                name = name + c + " ";
+            }
+
+            input.Name = name.Trim();
+
+            SetSuccessResult(true);
+
+            return input;
+        }
+    }

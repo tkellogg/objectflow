@@ -6,7 +6,7 @@ namespace Rainbow.ObjectFlow.Policies
 {
     public abstract class NonTerminatingPolicy : Policy, IExpression, IWith
     {
-        protected Interval _interval;
+        protected Interval IntervalImp;
 
         public IWith With
         {
@@ -17,8 +17,8 @@ namespace Rainbow.ObjectFlow.Policies
         {
             get
             {
-                _interval = new Interval();
-                return _interval;
+                IntervalImp = new Interval();
+                return IntervalImp;
             }
         }
     }

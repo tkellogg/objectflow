@@ -26,9 +26,9 @@ namespace Rainbow.ObjectFlow.Policies
             {
                 if (false == operation.Operation.SuccessResult)
                 {
-                    if (null != _interval)
+                    if (null != IntervalImp)
                     {
-                        _interval.Execute(current);
+                        IntervalImp.Execute(current);
                     }
                     current = operation.Execute(current);
                 }
@@ -63,10 +63,10 @@ namespace Rainbow.ObjectFlow.Policies
         {
             get
             {
-                if (null == _interval)
+                if (null == IntervalImp)
                     return 0;
 
-                return _interval.MilliSeconds;
+                return IntervalImp.MilliSecondPart;
             }
         }
 

@@ -6,9 +6,6 @@ namespace Rainbow.ObjectFlow.Framework
     /// Default in-memory loader for pipeline returns the data it was instantiated with.
     /// The pipeline requires a loader to get data into pipeline.  
     /// This could be a text file, database or other external resource.
-    /// <remarks>
-    /// A loader Operation must be the first operation a Pipeline is ocnfigured to execute.
-    /// </remarks>
     /// </summary>
     /// <typeparam name="T">Type of object the operation will contain.</typeparam>    
     [Obsolete("Use Start(T) method of workflow.  This is included as an example implementation of the abstract BasicOperation class.")]

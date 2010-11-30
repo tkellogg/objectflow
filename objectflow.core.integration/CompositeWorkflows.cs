@@ -5,13 +5,17 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace objectflow.core.integration
 {
+    /// <summary>
+    /// Contains integration tests for workflows that are composed of other workflows.
+    /// </summary>
     [TestFixture]
     public class CompositeWorkflows
     {
         [Test]
-        public void ShouldAllowWorkflowsInDefinition()
+        public void ShouldExecuteregisteredWorkflows()
         {
             IWorkflow<string> inner = Workflow<string>.Definition().Do((c) => c += ", orange, yellow");
+            
             var outer = Workflow<string>.Definition()
                 .Do(c => c += "red")
                 .Do(inner);
@@ -22,7 +26,7 @@ namespace objectflow.core.integration
         }
 
         [Test]
-        public void ShouldAllowWorkflowsWithConstraintInDefinition()
+        public void ShouldExecuteRegisteredWorkflowsWithConstraints()
         {
             var inner = Workflow<string>.Definition().Do((c) => c += ", orange, yellow");
             var outer = Workflow<string>.Definition()

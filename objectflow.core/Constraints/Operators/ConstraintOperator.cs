@@ -10,11 +10,11 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
     /// </summary>
     public abstract class ConstraintOperator : ICheckConstraint
     {
-        private static Stack<ICheckConstraint> CallStack
+        private static Stack<ICheckConstraint> ExecutionPlan
         {
             get
             {
-                return WorkflowEngine<ICheckConstraint>.CallStack;
+                return WorkflowEngine<ICheckConstraint>.ExecutionPlan;
             }
         }
 
@@ -48,9 +48,9 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
         private static IList<ICheckConstraint> UnwindStack()
         {
             IList<ICheckConstraint> exp = new List<ICheckConstraint>();
-            while (CallStack.Count > 0)
+            while (ExecutionPlan.Count > 0)
             {
-                exp.Add(CallStack.Pop());
+                exp.Add(ExecutionPlan.Pop());
             }
 
             return exp;
@@ -71,5 +71,15 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
         /// <returns></returns>
         public abstract bool Matches(bool matches);
         #endregion
+
+        /// <summary>
+        /// Successfulls the specified _function.
+        /// </summary>
+        /// <param name="function">The _function.</param>
+        /// <returns></returns>
+        public ICheckConstraint Successfull(System.Func<bool> function)
+        {
+            return new Condition(()=>false);
+        }
     }
 }

@@ -1,0 +1,125 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>debugKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BaseIntermediateOutputPath>..\compile\objectflow.core.tests\obj\</BaseIntermediateOutputPath>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F1C234BA-0259-43E8-8EC8-A022A987EAAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Objectflow.core.tests</RootNamespace>
+    <AssemblyName>objectflow.core.tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <BaseIntermediateOutputPath>..\compile\objectflow.core.tests\obj\</BaseIntermediateOutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\compile\objectflow.core.tests\bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <BaseIntermediateOutputPath>..\compile\objectflow.core.tests\obj\</BaseIntermediateOutputPath>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\compile\objectflow.core.tests\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.0.10531.7, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComposeSequentialWorkflow\WhenStartingObjectWorkflows.cs" />
+    <Compile Include="FunctionalWorkflows\WhenExecutingOperations.cs" />
+    <Compile Include="ObjectCreation\WhenBuildingParallelOperationFromType.cs" />
+    <Compile Include="ParallelSplit\WhenDefiningParallelWorkflows.cs" />
+    <Compile Include="ParallelSplit\WhenParallisingOperations.cs" />
+    <Compile Include="ObjectCreation\WhenRegisteringTypeSpec.cs" />
+    <Compile Include="Policy\WhenBuildingRetry.cs" />
+    <Compile Include="Policy\WhenExecutingInvokerWithPolicy.cs" />
+    <Compile Include="Policy\WhenUsingIntervalPolicy.cs" />
+    <Compile Include="FunctionalWorkflows\WhenDefiningFunctionalPipe.cs" />
+    <Compile Include="FunctionalWorkflows\WhenExecutingFunctions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestOperations\Colour.cs" />
+    <Compile Include="TestOperations\DoubleSpace.cs" />
+    <Compile Include="TestOperations\DuplicateName.cs" />
+    <Compile Include="FunctionalWorkflows\WhenConfiguringWithFunctions.cs" />
+    <Compile Include="CompositeWorkflows\WhenDefining.cs" />
+    <Compile Include="ConditionallyExecuteOperations\WhenDefiningConstraints.cs" />
+    <Compile Include="ConditionallyExecuteOperations\WhenEvaluatingConditions.cs" />
+    <Compile Include="ComposeSequentialWorkflow\WhenDefiningWorkflow.cs" />
+    <Compile Include="ConditionallyExecuteOperations\WhenEvaluatingLamndaConstraints.cs" />
+    <Compile Include="ComposeSequentialWorkflow\WhenExecutingOperation.cs" />
+    <Compile Include="EngineExceptionhandling\WhenHandlingWorkflowEngineExceptions.cs" />
+    <Compile Include="CompositeWorkflows\WhenStartingWorkflows.cs" />
+    <Compile Include="ConditionallyExecuteOperations\WhenNegatingConstraints.cs" />
+    <Compile Include="ParallelSplit\WhenStartingParallelWorkflows.cs" />
+    <Compile Include="ComposeSequentialWorkflow\WhenStartingWorkflow.cs" />
+    <Compile Include="ConditionallyExecuteOperations\WhenUsingCondition.cs" />
+    <Compile Include="WhenComparingRegisteredOperations.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\objectflow.core\objectflow.core.csproj">
+      <Project>{18BFC8BB-222C-4FB4-A949-36EF486E2D23}</Project>
+      <Name>objectflow.core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="debugKey.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,4 +1,5 @@
 using System;
+using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
 #pragma warning disable 1591
@@ -49,5 +50,18 @@ namespace Rainbow.ObjectFlow.Language
         /// <param name="workflow">The funciton to add</param>
         /// <param name="constraint">condition that determines if the operation is executed</param>
         IWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint);
+
+        /// <summary>
+        /// Registers an instance of the type specified in the workflow
+        /// </summary>
+        /// <typeparam name="TOperation">Type that inherits from BasicOperation of T</typeparam>
+        IWorkflow<T> Do<TOperation>() where TOperation : BasicOperation<T>;
+
+        /// <summary>
+        /// Registers an instance of the type specified in the workflow
+        /// </summary>
+        /// <typeparam name="TOperation">Type that inherits from BasicOperation of T</typeparam>
+        /// <param name="constraint">The constraint to evaluate</param>
+        IWorkflow<T> Do<TOperation>(ICheckConstraint constraint) where TOperation : BasicOperation<T>;
     }
 }

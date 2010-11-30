@@ -1,11 +1,10 @@
-﻿using Rainbow.ObjectFlow.Framework;
-using Rainbow.ObjectFlow.Interfaces;
+﻿using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Engine
 {
     internal class WorkflowInvoker<T> : MethodInvoker<T> where T : class
     {
-        private IWorkflow<T> _workflow;
+        private readonly IWorkflow<T> _workflow;
 
         public WorkflowInvoker(IWorkflow<T> workflow)
         {

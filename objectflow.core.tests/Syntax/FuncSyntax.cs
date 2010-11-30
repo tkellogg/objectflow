@@ -2,13 +2,15 @@
 using System.Diagnostics;
 using NUnit.Framework;
 using Rainbow.ObjectFlow.Framework;
+using Rainbow.ObjectFlow.Helpers;
+using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.Core.Tests.Syntax
 {
     [TestFixture]
     public class FunctionalSyntax
     {
-        private Workflow<string> _pipe;
+        private IWorkflow<string> _pipe;
 
         [SetUp]
         public void BeforeEachTest()
@@ -41,10 +43,26 @@ namespace Objectflow.Core.Tests.Syntax
             _pipe.Start();
         }
 
+        [Test]
+        public void FunctionsWithResults()
+        {
+            _pipe.Do("First", () => true);
+            _pipe.Do("Second", ()=>false, If.Successfull("First"));
+                      
+            _pipe.Start("Richard ");
+
+        }
+
         private string MyMethod(string colour)
         {
             colour = "orange";
             return colour;
+        }
+
+        private bool MyFunction()
+        {
+            bool y;
+            return true;
         }
     }
 }
