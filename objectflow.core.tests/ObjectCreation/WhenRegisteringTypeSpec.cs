@@ -65,7 +65,5 @@ namespace Objectflow.core.tests.ObjectCreation
 
             Assert.That(builder.TaskList.Tasks.Count, Is.EqualTo(1));
         }
-
-
     }   
 }

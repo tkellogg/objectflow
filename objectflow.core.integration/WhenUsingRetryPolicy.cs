@@ -74,8 +74,6 @@ namespace objectflow.core.integration
             DateTime finishTime = DateTime.Now.Subtract(new TimeSpan(0, 0, 2));
             
             Assert.That(finishTime.ToLongTimeString(), Is.EqualTo(beforeTime));
-            
-            // TODO: Add behaviour test to ensure retry object call interval object
         }
     }
 

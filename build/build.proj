@@ -1,4 +1,6 @@
 <Project DefaultTargets = "BuildRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
+
   <PropertyGroup>
     <RootPath Condition="'$(RootPath)' == ''">$(MSBuildProjectDirectory)\..</RootPath>
   </PropertyGroup>
@@ -10,5 +12,7 @@
     <Modules Include="$(RootPath)\Objectflow.core.integration\objectflow.core.tests.integration.csproj"/>
   </ItemGroup>
 
-  <Import Project="Release.Targets"/>    
+  <Target Name="BuildRelease" DependsOnTargets="Build;UnitTest;Documentation;MergeModules;Sign;MakeInstaller"/>
+  
+  <Import Project="Release.Targets"/>
 </Project>
