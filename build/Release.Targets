@@ -1,18 +1,14 @@
 ﻿<Project DefaultTargets = "BuildRelease" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >  
-  <Import Project="Common.Properties"/>
-  <Import Project="Default.Properties"/>
 
-  <PropertyGroup>
-    <Major>1</Major>
-    <Minor>2</Minor>
-    <Build>1</Build>
-    <Revision>2</Revision>
-  </PropertyGroup>
-  
   <Target Name="Build" Outputs="*.cs" DependsOnTargets="Clean;SetVersionInfo">
     <MSBuild Targets="Build" Projects="@(Modules)"></MSBuild>
   </Target>
-
+  
+  <Target Name ="CleanCompileDir">
+    <RemoveDir Directories="$(HelpDocRoot)"/>
+    <RemoveDir Directories="$(ReleaseCandidate)"/>    
+  </Target>
+  
   <Target Name="Clean">
     <MSBuild Targets="Clean" Projects="@(Modules)"></MSBuild>
   </Target>
@@ -22,19 +18,11 @@
   </Target>
 
   <Target Name ="Documentation">
-    <Sandcastle  NoInfoMessages="True" Comments="$(SandCastleComments)" Clean="True" ChmName="objectflow" WorkingDirectory="$(HelpDocRoot)" SandcastleRoot="$(SandCastlePath)" Assemblies="@(ApiAssemblies)" ContinueOnError="true" References="$(RootPath)\lib\Castle.MicroKernel.dll;$(RootPath)\lib\Castle.Core.dll"></Sandcastle>
+    <Sandcastle  NoInfoMessages="True" Comments="$(SandCastleComments)" Clean="True" ChmName="$(HelpOutputFile)" WorkingDirectory="$(HelpDocRoot)" SandcastleRoot="$(SandCastlePath)" Assemblies="@(AssemblyToDocument)" ContinueOnError="true" References="@(ExternalDependancies)"></Sandcastle>
   </Target>
 
-  <ItemGroup>
-    <ApiAssemblies Include="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"></ApiAssemblies>
-  </ItemGroup>
-
-  <PropertyGroup>
-    <SandCastleComments>$(BuildRoot)\objectflow.core\bin\release\objectflow.core.xml</SandCastleComments>
-  </PropertyGroup>
-
   <Target Name="MakeInstaller">
-    <Zip WorkingDirectory="$(BuildRoot)" ZipFileName="$(ReleaseCandidate)\objectflow.zip" Flatten="True" Files="$(ReleaseCandidate)\objectflow\objectflow.chm;$(ReleaseCandidate)\objectflow.core.dll;$(ReleaseCandidate)\objectflow\objectflow.core.xml"></Zip>
+    <Zip WorkingDirectory="$(BuildRoot)" ZipFileName="$(ReleaseCandidate)\$(PackagePrefix)_V$(AssemblyMajor)_$(AssemblyMinor)_$(AssemblyBuild)$(AssemblyRevision).zip" Flatten="True" Files="@(InstallerAssemblies)"></Zip>
   </Target>
 
   <Target Name="Sign">
@@ -42,41 +30,34 @@
     <Message Text="rainbow Sign file=$(RainbowSignature)"></Message>
     <SignFile 
             CertificateThumbprint="$(AssemblyKeyCertificate)"
-            SigningTarget="$(ReleaseCandidate)\objectflow.core.dll" />    
+            SigningTarget="$(ReleaseCandidate)\$(AssemblyToSign)" />    
   </Target>
     
   <Target Name="SetVersionInfo">
-    <AssemblyInfo CodeLanguage="CS"
-       OutputFile="$(RootPath)\AssemblyInfo.cs"
-       AssemblyTitle="Rainbow ObjectFlow"
-       AssemblyDescription="Fluent workflow frameworks"
-       AssemblyCompany="RainbowSoft"
-       AssemblyProduct="Rainbow.ObjectFlow"
-       AssemblyCopyright="Copyright © G.Moore 2010"
+    <AssemblyInfo CodeLanguage="CS" 
+       OutputFile="$(AssemblyInfoPath)"
+       AssemblyTitle="$(AssemblyInfoTitle)"
+       AssemblyDescription="$(AssemblyInfoDescription)"
+       AssemblyCompany="$(AssemblyInfoCompany)"
+       AssemblyProduct="$(AssemblyInfoProduct)"
+       AssemblyCopyright="$(AssemblyInfoCopyright)"
        ComVisible="false"
        CLSCompliant="true"
        Guid="d14b6bea-3ec7-4db0-ad6d-ebec4a192d9f"
-       AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
-       AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
-       Condition="$(Revision) != '0' "/>
+       AssemblyVersion="$(AssemblyMajor).$(AssemblyMinor).$(AssemblyBuild).$(AssemblyRevision)"
+       AssemblyFileVersion="$(AssemblyMajor).$(AssemblyMinor).$(AssemblyBuild).$(AssemblyRevision)"
+       Condition="$(AssemblyRevision) != '0' "/>        
   </Target>
-
-  <PropertyGroup>
-    <IntermediateFolder>$(BuildRoot)\Release\Objectflow</IntermediateFolder>
-  </PropertyGroup>
   
+  <!-- Remove project specific values -->
   <Target Name="MergeModules" DependsOnTargets="CopyFilesToReleaseFolder">
     <ILMerge TargetKind="dll"
-        InputAssemblies="$(IntermediateFolder)\objectflow.core.dll;$(IntermediateFolder)\Castle.Core.dll;$(IntermediateFolder)\Castle.MicroKernel.dll"
+        InputAssemblies="$(IntermediateReleaseFolder)\objectflow.core.dll;$(IntermediateReleaseFolder)\Castle.Core.dll;$(IntermediateReleaseFolder)\Castle.MicroKernel.dll"
         OutputFile="$(ReleaseCandidate)\objectflow.core.dll"
              />             
   </Target>
   
   <Target Name="CopyFilesToReleaseFolder">
-    <Copy DestinationFolder="$(BuildRoot)\Release\Objectflow" SourceFiles="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"/>
-    <Copy DestinationFolder="$(BuildRoot)\Release\Objectflow" SourceFiles="$(LibRoot)\Castle.Core.dll"/>
-    <Copy DestinationFolder="$(BuildRoot)\Release\Objectflow" SourceFiles="$(LibRoot)\Castle.MicroKernel.dll"/>
-    <Copy DestinationFolder="$(BuildRoot)\Release\Objectflow" SourceFiles="$(BuildRoot)\\objectflow.core\bin\release\objectflow.core.xml"/>
-    <Copy DestinationFolder="$(BuildRoot)\Release\Objectflow" SourceFiles="$(HelpDocRoot)\vs2005\chm\objectflow.chm"/>
+        <Copy DestinationFolder="$(IntermediateReleaseFolder)" SourceFiles="@(Package)"/>
   </Target>
 </Project>

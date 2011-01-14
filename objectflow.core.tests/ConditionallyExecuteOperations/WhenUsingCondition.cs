@@ -6,24 +6,23 @@ using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests
 {
-    [TestFixture]
-    public class WhenUsingCondition
+    public class WhenUsingCondition:Specification
     {
-        [Test]
+        [Observation]
         public void ShouldEvaluateTrue()
         {
             var condition = new Condition(new Func<bool>(() => true));
             Assert.That(condition.Matches(), Is.True);
         }
 
-        [Test]
+        [Observation]
         public void ShouldEvaluateFalse()
         {
             var condition = new Condition(new Func<bool>(() => false));
             Assert.That(condition.Matches(), Is.False);
         }
 
-        [Test]
+        [Observation]
         public void ShouldBeAbleToTypes()
         {
             var bo = new Mock<BasicOperation<string>>();

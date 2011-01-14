@@ -9,14 +9,13 @@ using Moq;
 
 namespace Objectflow.core.tests.ComposeSequentialWorkflow
 {
-    [TestFixture]
-    public class WhenStartingObjectWorkflows
+    public class WhenStartingObjectWorkflows : Specification
     {
         private MockRepository _mocker;
         private Colour _colour;
         private Workflow<Colour> _workflow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<Colour>.SetInstance(null);
@@ -24,7 +23,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             _workflow = Workflow<Colour>.Definition() as Workflow<Colour>;
         }
 
-        [Test]
+        [Observation]
         public void ShouldRunOperationsInTopDownOrder()
         {
             var op1 = _mocker.PartialMock<DuplicateName>();
@@ -47,7 +46,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             _mocker.VerifyAll();
         }
 
-        [Test]
+        [Observation]
         public void ShouldUseConstraintWithDeclaringOperationOnly()
         {
             var op1 = _mocker.Stub<DuplicateName>();
@@ -78,7 +77,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             _mocker.VerifyAll();
         }
 
-        [Test]
+        [Observation]
         public void ShouldHandleOperationsInMultipleExecuteStatementsWithConstraintsAsDistinctInstances()
         {
             var op1 = _mocker.Stub<DuplicateName>();

@@ -13,15 +13,14 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.ComposeSequentialWorkflow
 {
-    [TestFixture]
-    public class WhenDefiningWorkflow
+    public class WhenDefiningWorkflow : Specification
     {
         private IOperation<Colour> _doubleSpace;
         private Workflow<Colour> _workflow;
         private IKernel _container;
         private TaskList<Colour> _taskList;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _taskList = new TaskList<Colour>();
@@ -29,12 +28,12 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             ServiceLocator<Colour>.SetInstance(_container);
             _container.Register(Component.For<TaskList<Colour>>().Instance(_taskList));
             _container.Register(Component.For<SequentialBuilder<Colour>>().Instance(new SequentialBuilder<Colour>(_taskList)));
-            _container.Register(Component.For<WorkflowEngine<Colour>>().Instance(new WorkflowEngine<Colour>()));
+            _container.Register(Component.For<Dispatcher<Colour>>().Instance(new Dispatcher<Colour>()));
             _workflow = new Workflow<Colour>();
             _doubleSpace = new DoubleSpace();
         }
 
-        [Test]
+        [Observation]
         public void ShouldRegisterOperation()
         {
             _workflow.Do(_doubleSpace);
@@ -43,14 +42,14 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(_taskList.Tasks[0].Command.Equals(_doubleSpace));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckForNullOperation()
         {
             const BasicOperation<Colour> operation = null;
             Assert.Throws<ArgumentNullException>(() => _workflow.Do(operation), "thrown exception");
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckForNullConstraint()
         {
             Exception exception = Assert.Throws<ArgumentNullException>(() => _workflow.Do(_doubleSpace, null));
@@ -58,7 +57,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(exception.Message, Is.StringContaining("Argument [constraint] cannot be null"));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckForNullOperationWithConstraint()
         {
             const IOperation<Colour> operation = null;
@@ -67,7 +66,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckForNullOperationBeforeNullConstraint()
         {
             const IOperation<Colour> operation = null;
@@ -76,14 +75,14 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(exception.Message, Is.StringContaining("Argument [operation] cannot be null"));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckOperationIsInstanceOfOperationTemplate()
         {
             var operation = new Mock<IOperation<Colour>>();
             Assert.Throws<InvalidCastException>(() => Workflow<Colour>.Definition().Do(operation.Object), "Exception");
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckOperationInstanceWithConstraints()
         {
             var operation = new Mock<IOperation<Colour>>();

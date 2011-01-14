@@ -1,5 +1,4 @@
-﻿using System;
-using Castle.Core;
+﻿using Castle.Core;
 using Castle.MicroKernel;
 using Rainbow.ObjectFlow.Engine;
 
@@ -18,7 +17,7 @@ namespace Rainbow.ObjectFlow.Container
                 _container.AddComponent<SequentialBuilder<T>>(LifestyleType.Transient);
                 _container.AddComponent<ParallelSplitBuilder<T>>(LifestyleType.Transient);
                 _container.AddComponent<TaskList<T>>(LifestyleType.Transient);
-                _container.AddComponent<WorkflowEngine<T>>(LifestyleType.Transient);
+                _container.AddComponent<Dispatcher<T>>(LifestyleType.Transient);
             }
 
             return _container;

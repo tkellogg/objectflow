@@ -5,10 +5,9 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.CompositeWorkflows
 {
-    [TestFixture]
-    public class WhenInvokingWorkflows
+    public class WhenInvokingWorkflows:Specification
     {
-        [Test]
+        [Observation]
         public void ShouldStartInnerWorkflow()
         {
             var innerWorkflow = new Mock<IWorkflow<string>>();

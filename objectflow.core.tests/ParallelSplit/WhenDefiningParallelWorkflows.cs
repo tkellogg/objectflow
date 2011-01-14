@@ -7,13 +7,12 @@ using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests.ParallelSplit
 {
-    [TestFixture]
-    public class WhenDefiningParallelWorkflows
+    public class WhenDefiningParallelWorkflows:Specification
     {
         private Workflow<string> _workflow;
         private DefaultKernel _container;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _container = new DefaultKernel();
@@ -23,7 +22,7 @@ namespace Objectflow.core.tests.ParallelSplit
 
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateSequenceWithOperationsAdded()
         {
             _workflow.Do((a) => "red").And.Do((b) => "orange").And.Do((c) => "yellow").Then();

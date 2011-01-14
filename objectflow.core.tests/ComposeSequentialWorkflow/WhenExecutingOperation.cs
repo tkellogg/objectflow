@@ -8,19 +8,18 @@ using Rainbow.ObjectFlow.Language;
 
 namespace Objectflow.core.tests.ComposeSequentialWorkflow
 {
-    [TestFixture]
-    public class WhenExecutingOperation
+    public class WhenExecutingOperation :Specification
     {
         private Workflow<Colour> _flow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<Colour>.Reset();
             _flow = new Workflow<Colour>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotSetResultBeforeExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
@@ -29,7 +28,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(doublespace.SuccessResult, Is.False);
         }
 
-        [Test]
+        [Observation]
         public void ShouldSetResultAfterExecuting()
         {
             BasicOperation<Colour> doublespace = new DoubleSpace();
@@ -40,7 +39,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
             Assert.That(doublespace.SuccessResult, Is.True);
         }
 
-        [Test]
+        [Observation]
         public void ShouldBeAbleToOverrideDefaultSuccessResult()
         {
             var operation = new Mock<DoubleSpace>();

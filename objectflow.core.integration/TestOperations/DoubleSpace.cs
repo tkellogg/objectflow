@@ -1,7 +1,6 @@
-﻿using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Framework;
+﻿using Rainbow.ObjectFlow.Framework;
 
-namespace Objectflow.tests.TestOperations
+namespace objectflow.core.tests.integration.TestOperations
 {
     public class DoubleSpace : BasicOperation<Colour>
     {

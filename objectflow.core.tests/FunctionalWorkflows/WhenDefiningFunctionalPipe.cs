@@ -8,26 +8,25 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.FunctionalWorkflows
 {
-    [TestFixture]
-    public class WhenDefiningFunctionalPipe
+    public class WhenDefiningFunctionalPipe:Specification
     {
         private Workflow<string> _pipe;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<string>.Reset();
             _pipe = new Workflow<string>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckIfMethodIsNull()
         {
             Func<string, string> method = null;
             Assert.Throws<ArgumentNullException>(() => _pipe.Do(method), "Exception not thrown");
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckIfConstraintIsNull()
         {
             ICheckConstraint expression = null;
@@ -37,7 +36,7 @@ namespace Objectflow.core.tests.FunctionalWorkflows
             Assert.Throws<ArgumentNullException>(() => _pipe.Do(method, expression), "Exception not thrown");
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddFunctionToRegisteredOperations()
         {
             _pipe.Do(new Func<string, string>((b) => { return "true"; }));
@@ -45,7 +44,7 @@ namespace Objectflow.core.tests.FunctionalWorkflows
             Assert.That(1 == _pipe.RegisteredOperations.Tasks.Count);
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddConstraintToRegisteredOperations()
         {
             var constraint = If.IsTrue(true);

@@ -1,17 +1,15 @@
-﻿using NUnit.Framework;
-using Rainbow.ObjectFlow.Framework;
+﻿using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.core.integration
+namespace objectflow.core.tests.integration
 {
     /// <summary>
     /// Contains integration tests for workflows that are composed of other workflows.
     /// </summary>
-    [TestFixture]
-    public class CompositeWorkflows
+    public class CompositeWorkflows : Specification
     {
-        [Test]
+        [Observation]
         public void ShouldExecuteregisteredWorkflows()
         {
             IWorkflow<string> inner = Workflow<string>.Definition().Do((c) => c += ", orange, yellow");
@@ -22,10 +20,10 @@ namespace objectflow.core.integration
 
             var result = outer.Start();
 
-            Assert.That(result, Is.EqualTo("red, orange, yellow"));
+            result.ShouldBe("red, orange, yellow");
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteRegisteredWorkflowsWithConstraints()
         {
             var inner = Workflow<string>.Definition().Do((c) => c += ", orange, yellow");
@@ -35,10 +33,10 @@ namespace objectflow.core.integration
 
             var result = outer.Start();
 
-            Assert.That(result, Is.EqualTo("red, orange, yellow"));
+            result.ShouldBe("red, orange, yellow");
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotRunWorkflowForFailingConstraint()
         {
             var inner = Workflow<string>.Definition().Do((c) => c += ", orange, yellow");
@@ -48,7 +46,7 @@ namespace objectflow.core.integration
 
             var result = outer.Start();
 
-            Assert.That(result, Is.EqualTo("red"));
+            result.ShouldBe("red");
         }
     }
 }

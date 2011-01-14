@@ -11,21 +11,20 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.FunctionalWorkflows
 {
-    [TestFixture]
-    public class WhenExecutingOperations
+    public class WhenExecutingOperations:Specification
     {
-        private WorkflowEngine<string> _engine;
+        private Dispatcher<string> _engine;
         private TaskList<string> _taskList;
         private DefaultKernel _container;
         private Func<string, string> _func;
         private Mock<FunctionInvoker<string>> _function;
         private Mock<ICheckConstraint> _constraint;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
-            _engine = new WorkflowEngine<string>();
-            _taskList = new TaskList<string>();            
+            _engine = new Dispatcher<string>();
+            _taskList = new TaskList<string>();
             _container = new DefaultKernel();
             ServiceLocator<string>.SetInstance(_container);
             _container.Register(Component.For<TaskList<string>>().Instance(_taskList));
@@ -35,30 +34,27 @@ namespace Objectflow.core.tests.FunctionalWorkflows
             _constraint = new Mock<Condition>().As<ICheckConstraint>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteOperation()
         {
-            _function.Setup(s => s.Execute());
-            _function.Object.IsContextBound = true;
-            
+            _function.Setup(s => s.Execute(null));
+
             _taskList.Tasks.Add(new OperationDuplex<string>(_function.Object));
-            _engine.Execute( _taskList.Tasks);
+            _engine.Execute(_taskList.Tasks);
 
             _function.VerifyAll();
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteConstraints()
         {
-            _function.Setup(s => s.Execute());
-            _function.Object.IsContextBound = true;
-           _constraint.Setup(s => s.Matches()).Returns(true);
+            _function.Setup(s => s.Execute(null));
+            _constraint.Setup(s => s.Matches()).Returns(true);
             _taskList.Tasks.Add(new OperationDuplex<string>(_function.Object, _constraint.Object));
 
             _engine.Execute(_taskList.Tasks);
             _function.VerifyAll();
             _constraint.VerifyAll();
         }
-
     }
 }

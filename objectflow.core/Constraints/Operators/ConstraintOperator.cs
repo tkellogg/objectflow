@@ -14,7 +14,7 @@ namespace Rainbow.ObjectFlow.Constraints.Operators
         {
             get
             {
-                return WorkflowEngine<ICheckConstraint>.ExecutionPlan;
+                return Dispatcher<ICheckConstraint>.ExecutionPlan;
             }
         }
 

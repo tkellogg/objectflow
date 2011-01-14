@@ -9,8 +9,7 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests
 {
-    [TestFixture]
-    public class WhenEvaluatingLamdaConstraints
+    public class WhenEvaluatingLamdaConstraints : Specification
     {
         private Workflow<Colour> _pipe;
         private IOperation<Colour> _duplicateNameOne;
@@ -18,7 +17,7 @@ namespace Objectflow.core.tests
         private Colour _redOnly;
         private IOperation<Colour> _defaultLoader;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<Colour>.Reset();
@@ -32,7 +31,7 @@ namespace Objectflow.core.tests
             _pipe.Do(_defaultLoader);
         }
 
-        [Test]
+        [Observation]
         public void ShouldEvaluateNegativeExpression()
         {
             string z = "djnz";
@@ -47,7 +46,7 @@ namespace Objectflow.core.tests
             Assert.That(result.ToString(), Is.EqualTo("RedRed"));
         }
 
-        [Test]
+        [Observation]
         public void ShouldEvaluatePositiveExpression()
         {
             string z = "djnz";

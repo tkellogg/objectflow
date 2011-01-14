@@ -10,7 +10,7 @@ namespace Rainbow.ObjectFlow.Engine
         {
             ParallelOperations = new ParallelInvoker<T>();
 
-            if (_taskList.Tasks != null && _taskList.Tasks.Count != 0)
+            if (null != _taskList.Tasks && 0 != _taskList.Tasks.Count)
             {
                 OperationDuplex<T> leftOver =
                     _taskList.Tasks[_taskList.Tasks.Count - 1];
@@ -53,18 +53,6 @@ namespace Rainbow.ObjectFlow.Engine
         public override void AddOperation(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
             var operationPair = new OperationDuplex<T>(new WorkflowInvoker<T>(workflow), constraint);
-            ParallelOperations.Add(operationPair);
-        }
-
-        public override void AddOperation(Func<bool> function)
-        {
-            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function));
-            ParallelOperations.Add(operationPair);
-        }
-
-        public override void AddOperation(Func<bool> function, ICheckConstraint constraint)
-        {
-            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function),constraint);
             ParallelOperations.Add(operationPair);
         }
 

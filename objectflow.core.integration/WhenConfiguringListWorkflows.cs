@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
 using Rainbow.ObjectFlow.Framework;
 
-namespace objectflow.core.integration
+namespace objectflow.core.tests.integration
 {
-    [TestFixture]
-    public class WhenConfiguringListWorkflows
+    public class WhenConfiguringListWorkflows : Specification
     {        
         private Workflow<IEnumerable<string>> _pipe;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _pipe = new Workflow<IEnumerable<string>>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteListMethod()
         {
             _pipe
@@ -42,8 +40,8 @@ namespace objectflow.core.integration
                                              "vain"
                                          });
 
-            Assert.That(result, Is.InstanceOf<IEnumerable<string>>());
-            Assert.That(((IList)result)[0].ToString().Contains("Rainbow rhyme member"));
+            result.IsInstanceOf<IEnumerable<string>>();
+            ((IList)result)[0].ToString().ShouldBe("Rainbow rhyme member: Richard");
         }
 
         private static IEnumerable<string> Sort(IEnumerable<string> arg)

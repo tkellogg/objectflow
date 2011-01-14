@@ -4,10 +4,9 @@ using Rainbow.ObjectFlow.Helpers;
 
 namespace Objectflow.tests
 {
-    [TestFixture]
-    public class WhenNegatingConstraints
+    public class WhenNegatingConstraints:Specification
     {
-        [Test]
+        [Observation]
         public void ShouldResolveNotOperationConstraint()
         {
             var operation = new DoubleSpace();
@@ -16,7 +15,7 @@ namespace Objectflow.tests
             Assert.That(successConstraint.Matches(), Is.True);
         }
 
-        [Test]
+        [Observation]
         public void ShouldPassIsFalseForFalseValue()
         {
             var successConstraint = If.IsFalse(false);
@@ -24,7 +23,7 @@ namespace Objectflow.tests
             Assert.That(successConstraint.Matches(), Is.True);
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotPassNotIsTrueFalseForTrueValue()
         {
             var constraint = If.Not.IsTrue(true);
@@ -32,7 +31,7 @@ namespace Objectflow.tests
             Assert.That(constraint.Matches(), Is.False);
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotPassIsFalseForTrueValue()
         {
             var constraint = If.IsFalse(true);

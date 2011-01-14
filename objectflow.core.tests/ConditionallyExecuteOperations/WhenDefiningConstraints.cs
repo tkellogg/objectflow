@@ -6,15 +6,14 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.ConditionallyExecuteOperations
 {
-    [TestFixture]
-    public class WhenCreatingConstraints
+    public class WhenCreatingConstraints:Specification
     {
-        [SetUp]
+        [Scenario]
         public void Given()
         {          
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckOperationInstanceOnSuccessfull()
         {
             var operation = new Mock<IOperation<string>>();
@@ -22,7 +21,7 @@ namespace Objectflow.core.tests.ConditionallyExecuteOperations
             Assert.Throws<InvalidCastException>(() => If.Successfull(operation.Object), "Exception");
         }
 
-        [Test]
+        [Observation]
         public void ShouldCheckOperationInstanceOnNotSuccessful()
         {
             var operation = new Mock<IOperation<string>>();

@@ -53,7 +53,7 @@ namespace Rainbow.ObjectFlow.Helpers
             get
             {
                 var not = new NotConstraintOperator();
-                WorkflowEngine<ICheckConstraint>.ExecutionPlan.Push(not);
+                Dispatcher<ICheckConstraint>.ExecutionPlan.Push(not);
                 return not;
             }
         }

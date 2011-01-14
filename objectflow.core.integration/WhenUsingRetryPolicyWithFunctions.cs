@@ -2,29 +2,26 @@
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.core.integration
+namespace objectflow.core.tests.integration
 {
-    [TestFixture]
-    public class WhenUsingRetryPolicyWithFunctions
+    public class WhenUsingRetryPolicyWithFunctions : Specification
     {
         private IWorkflow<string> _workflow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _workflow = Workflow<string>.Definition() as IWorkflow<string>;
         }
 
-        [Test]
-        public void ShouldNotThrowErrorWhenUsingRetryWithInterval()
+        [Observation]
+        public void ShouldNotRetrySuccessfullFunction()
         {
-            _workflow.Do((s) => "Red").Retry().Twice().With.Interval.Of.Seconds(2);
+            _workflow.Do((s) => s += "Red").Retry().Twice().With.Interval.Of.Seconds(2);
 
             var result = _workflow.Start();
 
-            Assert.That(result, Is.EqualTo("Red"));
+           result.ShouldBe("Red");
         }
-
-
     }
 }

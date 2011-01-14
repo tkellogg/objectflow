@@ -5,19 +5,18 @@ using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests.ParallelSplit
 {
-    [TestFixture]
-    public class WhenStartingParallelWorkflows
+    public class WhenStartingParallelWorkflows:Specification
     {
         private Mock<Workflow<string>> _workflow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<string>.Reset();
             _workflow = new Mock<Workflow<string>>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldImplicitlyCloseParallelDefinitionOnStart()
         {
             _workflow.Setup(m => m.Then());

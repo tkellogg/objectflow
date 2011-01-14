@@ -5,21 +5,20 @@ using Rainbow.ObjectFlow.Policies;
 
 namespace Objectflow.core.tests.Policy
 {
-    [TestFixture]
-    public class WhenUsingIntervalPolicy
+    public class WhenUsingIntervalPolicy: Specification
     {
         private IInterval _interval;
         private Rainbow.ObjectFlow.Policies.Policy _policy;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
-            _interval = new Interval();
+            _interval = new Interval(null);
             _policy = _interval as Rainbow.ObjectFlow.Policies.Policy;
             Assert.IsNotNull(_policy);
         }
 
-        [Test]
+        [Observation]
         public void ShouldWaitForSpecifiedTime()
         {
             _interval.Of.Seconds(1);

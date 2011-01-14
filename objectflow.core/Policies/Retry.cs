@@ -1,3 +1,4 @@
+using System;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Language;
 
@@ -7,43 +8,70 @@ namespace Rainbow.ObjectFlow.Policies
 {
     public class Retry : NonTerminatingPolicy, IRetryPolicy
     {
-        public Retry()
+        protected Retry()
         {
             Attempts(1);
         }
 
+        internal Retry(object parent): this()
+        {
+            Parent = parent;
+        }
         internal override T Execute<T>(T current)
         {
             var operation = Invoker as OperationInvoker<T>;
 
-            // TODO: Extend to accept FunctionInvokers
             if (null == operation)
             {
-                return current;
-            }
-
-            for (int i = 0; i < Times; i++)
-            {
-                if (false == operation.Operation.SuccessResult)
+                var function = Invoker as FunctionInvoker<T>;
+                if (null != function)
                 {
-                    if (null != IntervalImp)
+                    for (int i = 0; i < Count; i++)
                     {
-                        IntervalImp.Execute(current);
+                        try
+                        {
+                            if (null != IntervalImp)
+                            {
+                                IntervalImp.Execute(current);
+                            }
+                            if (!Dispatcher<T>.LastOperationSucceeded)
+                                current = function.Execute(current);
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                     }
-                    current = operation.Execute(current);
-                }
-                else
-                {
-                    break;
+
+                    return current;
                 }
             }
-
+            else
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    if (false == operation.Operation.SuccessResult)
+                    {
+                        if (null != IntervalImp)
+                        {
+                            IntervalImp.Execute(current);
+                        }
+                        current = operation.Execute(current);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            
             return current;
         }
 
         public IExpression Attempts(int number)
         {
-            Times = number;
+            Count = number;
             return this;
         }
 
@@ -70,6 +98,6 @@ namespace Rainbow.ObjectFlow.Policies
             }
         }
 
-        internal int Times { get; set; }
+        internal int Count { get; set; }
     }
 }

@@ -8,29 +8,28 @@ using Moq;
 
 namespace Objectflow.core.tests.ComposeSequentialWorkflow
 {
-    [TestFixture]
-    public class WhenStartingWorkflow
+    public class WhenStartingWorkflow : Specification
     {
         private Workflow<string> _workflow;
-        private Mock<WorkflowEngine<string>> _engine;
+        private Mock<Dispatcher<string>> _engine;
         private DefaultKernel _container;
         private TaskList<string> _taskList;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
-            _engine = new Mock<WorkflowEngine<string>>();
+            _engine = new Mock<Dispatcher<string>>();
 
             _container = new DefaultKernel();
             ServiceLocator<string>.SetInstance(_container);
             _taskList = new TaskList<string>();
             _container.Register(Component.For<TaskList<string>>().Instance(_taskList));
             _container.Register(Component.For<SequentialBuilder<string>>().Instance(new SequentialBuilder<string>(_taskList)));
-            _container.Register(Component.For<WorkflowEngine<string>>().Instance(_engine.Object));
+            _container.Register(Component.For<Dispatcher<string>>().Instance(_engine.Object));
             _workflow = new Workflow<string>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldUseExecutionEngine()
         {
             var operation =

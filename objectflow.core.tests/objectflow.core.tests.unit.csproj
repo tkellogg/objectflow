@@ -1,7 +1,12 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>debugKey.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation />
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,7 +19,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Objectflow.core.tests</RootNamespace>
     <AssemblyName>objectflow.core.tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
@@ -57,6 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Rainbow.Nunit.Extensions">
+      <HintPath>..\lib\Rainbow.Nunit.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Rhino.Mocks.dll</HintPath>
@@ -81,16 +89,22 @@
     <Compile Include="ParallelSplit\WhenDefiningParallelWorkflows.cs" />
     <Compile Include="ParallelSplit\WhenParallisingOperations.cs" />
     <Compile Include="ObjectCreation\WhenRegisteringTypeSpec.cs" />
+    <Compile Include="Policy\FailOnceOperation.cs" />
+    <Compile Include="Policy\WhenRetryingFunctions.cs" />
     <Compile Include="Policy\WhenBuildingRetry.cs" />
     <Compile Include="Policy\WhenExecutingInvokerWithPolicy.cs" />
+    <Compile Include="Policy\WhenTerminatingRetry.cs" />
     <Compile Include="Policy\WhenUsingIntervalPolicy.cs" />
     <Compile Include="FunctionalWorkflows\WhenDefiningFunctionalPipe.cs" />
     <Compile Include="FunctionalWorkflows\WhenExecutingFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepeatUntil\WhenExecutingRepeatingOperation.cs" />
+    <Compile Include="RepeatUntil\WhenConfiguringRepeat.cs" />
+    <Compile Include="RepeatUntil\WhenTerminatingRepeat.cs" />
+    <Compile Include="RepeatUntil\WhenUsingRepeatPolicy.cs" />
     <Compile Include="TestOperations\Colour.cs" />
     <Compile Include="TestOperations\DoubleSpace.cs" />
     <Compile Include="TestOperations\DuplicateName.cs" />
-    <Compile Include="FunctionalWorkflows\WhenConfiguringWithFunctions.cs" />
     <Compile Include="CompositeWorkflows\WhenDefining.cs" />
     <Compile Include="ConditionallyExecuteOperations\WhenDefiningConstraints.cs" />
     <Compile Include="ConditionallyExecuteOperations\WhenEvaluatingConditions.cs" />

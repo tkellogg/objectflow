@@ -3,16 +3,56 @@
 
   <PropertyGroup>
     <RootPath Condition="'$(RootPath)' == ''">$(MSBuildProjectDirectory)\..</RootPath>
+  
+    <AssemblyMajor>1</AssemblyMajor>
+    <AssemblyMinor>3</AssemblyMinor>
+    <AssemblyBuild>1</AssemblyBuild>
+    <AssemblyRevision>1</AssemblyRevision>
+    <AssemblyInfoPath>$(RootPath)\AssemblyInfo.cs</AssemblyInfoPath>
+    <AssemblyInfoTitle>Rainbow ObjectFlow</AssemblyInfoTitle>
+    <AssemblyInfoDescription>Fluent workflow frameworks</AssemblyInfoDescription>
+    <AssemblyInfoCompany>RainbowSoft</AssemblyInfoCompany>
+    <AssemblyInfoProduct>Rainbow.ObjectFlow</AssemblyInfoProduct>
+    <AssemblyInfoCopyright>Copyright © G.Moore 2010</AssemblyInfoCopyright>
+
+    <UnitTestConfig Condition="'$(UnitTestConfig)'==''">$(RootPath)\objectflow.Release.Tests.nunit</UnitTestConfig>
+    <HelpOutputFile>objectflow</HelpOutputFile>
+    <PackagePrefix>Objectflow</PackagePrefix>
+    <AssemblyToSign>objectflow.core.dll</AssemblyToSign>
   </PropertyGroup>
 
-  <!-- Defines the projects included in the release-->
+  <Import Project="Common.Properties"/>
+  <Import Project="Default.Properties"/>
+
+  <PropertyGroup>
+    <IntermediateReleaseFolder>$(ReleaseCandidate)\Build</IntermediateReleaseFolder>
+    <SandCastleComments>$(BuildRoot)\objectflow.core\bin\release\objectflow.core.xml</SandCastleComments>
+  </PropertyGroup>
+
   <ItemGroup>
+    <!--Documentation settings-->
+    <DocumentationAssemblies Include="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"></DocumentationAssemblies>
+    <ExternalDependancies Include ="$(LibRoot)\Castle.MicroKernel.dll"></ExternalDependancies>
+    <ExternalDependancies Include ="$(LibRoot)\Castle.Core.dll"></ExternalDependancies>
+    <AssemblyToDocument Include="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"/>
+    <!-- Defines the files required for packaging (pre-merge) -->
+    <Package Include ="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.dll"></Package>
+    <Package Include ="$(LibRoot)\Castle.Core.dll"></Package>
+    <Package Include ="$(LibRoot)\Castle.MicroKernel.dll"></Package>
+    <Package Include ="$(BuildRoot)\objectflow.core\bin\release\objectflow.core.xml"></Package>
+    <Package Include ="$(HelpDocRoot)\vs2005\chm\objectflow.chm"></Package>
+    <InstallerAssemblies Include="$(ReleaseCandidate)\Build\objectflow.chm"></InstallerAssemblies>
+    <InstallerAssemblies Include="$(ReleaseCandidate)\objectflow.core.dll;"></InstallerAssemblies>
+    <InstallerAssemblies Include="$(ReleaseCandidate)\Build\objectflow.core.xml"></InstallerAssemblies>
+    <!-- Defines the projects MsBuild compiles-->
+    <Modules Include="$(RootPath)\NunitExtensions\NunitExtensions.csproj"/>
     <Modules Include="$(RootPath)\Objectflow.core\objectflow.core.csproj"/>
     <Modules Include="$(RootPath)\Objectflow.core.tests\objectflow.core.tests.unit.csproj"/>
     <Modules Include="$(RootPath)\Objectflow.core.integration\objectflow.core.tests.integration.csproj"/>
   </ItemGroup>
 
-  <Target Name="BuildRelease" DependsOnTargets="Build;UnitTest;Documentation;MergeModules;Sign;MakeInstaller"/>
-  
+  <Target Name="BuildRelease" DependsOnTargets="CleanCompileDir;Build;UnitTest;Documentation;MergeModules;Sign;MakeInstaller"/>
+  <Target Name="DevBuild" DependsOnTargets="CleanCompileDir;Build;UnitTest"/>
+
   <Import Project="Release.Targets"/>
 </Project>

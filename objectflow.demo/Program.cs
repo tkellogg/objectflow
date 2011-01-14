@@ -10,8 +10,8 @@ namespace Rainbow.Demo.Objectflow.Client
         {
             var doubleSpace = new DoubleSpace();
 
-            Workflow<Colour>.Definition()
-                .Do(doubleSpace)
+            var result = Workflow<Colour>.Definition()
+                .Do(doubleSpace).Retry().Attempts(3).With.Interval.Of.Seconds(30).Then<Colour>()
                 .Do<DoubleSpace>(If.Not.Successfull(doubleSpace))
                 .Do((c) =>
                         {
@@ -26,36 +26,36 @@ namespace Rainbow.Demo.Objectflow.Client
     }
 }
 
-    public class Colour
+public class Colour
+{
+    public Colour(string name)
     {
-        public Colour(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; set; }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+        Name = name;
     }
 
-    public class DoubleSpace : BasicOperation<Colour>
+    public string Name { get; set; }
+
+    public override string ToString()
     {
-        public override Colour Execute(Colour input)
-        {
-            string name = string.Empty;
-            char[] chars = input.Name.ToCharArray();
-            foreach (var c in chars)
-            {
-                name = name + c + " ";
-            }
-
-            input.Name = name.Trim();
-
-            SetSuccessResult(true);
-
-            return input;
-        }
+        return Name;
     }
+}
+
+public class DoubleSpace : BasicOperation<Colour>
+{
+    public override Colour Execute(Colour input)
+    {
+        string name = string.Empty;
+        char[] chars = input.Name.ToCharArray();
+        foreach (var c in chars)
+        {
+            name = name + c + " ";
+        }
+
+        input.Name = name.Trim();
+
+        SetSuccessResult(true);
+
+        return input;
+    }
+}

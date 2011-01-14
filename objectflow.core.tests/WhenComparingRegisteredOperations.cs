@@ -2,35 +2,33 @@
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
 using Rainbow.ObjectFlow.Engine;
+using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 
 namespace Objectflow.core.tests
 {
-    [TestFixture]
-    public class WhenComparingRegisteredOperations
+    public class WhenComparingRegisteredOperations : Specification
     {
         private DoubleSpace _operation;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _operation = new DoubleSpace();
-            If.IsTrue(true);
         }
 
-        [Test]
+        [Observation]
         public void ShouldReturnTrueForEqualOperations()
         {
             var operationDuplex = new OperationDuplex<Colour>(new OperationInvoker<Colour>(_operation));
-            Assert.IsTrue(operationDuplex.Command.Equals(_operation));
+            operationDuplex.Command.ShouldEqual(_operation);
         }
 
-        [Test]
+        [Observation]
         public void ShouldReturnFalseForUnequalOperations()
         {
             var operationDuplex = new OperationDuplex<Colour>(new OperationInvoker<Colour>(_operation));
-            Assert.IsFalse(operationDuplex.Command.Equals(new DoubleSpace()));
-            
+            operationDuplex.Command.ShouldNotEqual(new DoubleSpace());
         }
     }
 }

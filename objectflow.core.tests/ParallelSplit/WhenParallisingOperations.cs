@@ -5,22 +5,21 @@ using Rhino.Mocks;
 
 namespace Objectflow.core.tests.ParallelSplit
 {
-    [TestFixture]
-    public class WhenParallisingOperations
+    public class WhenParallisingOperations:Specification
     {
         private Workflow<string> _workflow;
         private MockRepository _mocker;
-        private WorkflowEngine<string> _engine;
+        private Dispatcher<string> _engine;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _mocker = new MockRepository();
-            _engine = _mocker.DynamicMock<WorkflowEngine<string>>();
+            _engine = _mocker.DynamicMock<Dispatcher<string>>();
             _workflow = new Workflow<string>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldUseExecutonEngine()
         {
             _workflow.Do(a => a += ", yellow").And.Do(b => b += ", orange").Then();

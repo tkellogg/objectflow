@@ -8,14 +8,13 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.CompositeWorkflows
 {
-    [TestFixture]
-    public class WhenDefiningCompositeWorkflows
+    public class WhenDefiningCompositeWorkflows:Specification
     {
         private Workflow<string> _childWorkflow;
         private Workflow<string> _parentWorkflow;
         private TaskList<string> _taskList;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             ServiceLocator<string>.SetInstance(null);
@@ -25,13 +24,13 @@ namespace Objectflow.core.tests.CompositeWorkflows
 
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateTaskListForEachWorkflow()
         {
             Assert.IsFalse(ReferenceEquals(_parentWorkflow.RegisteredOperations, _childWorkflow.RegisteredOperations), "Reference");
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotAllowNullWorkflows()
         {
             IWorkflow<string> workflow = null;
@@ -39,7 +38,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.Throws<ArgumentNullException>(() => Workflow<string>.Definition().Do(workflow));
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotAllowNullConstraints()
         {
             IWorkflow<string> workflow = Workflow<string>.Definition() as IWorkflow<string>;
@@ -48,7 +47,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.Throws<ArgumentNullException>(() => Workflow<string>.Definition().Do(workflow, constraint));
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotAllowNullworkflowsWithConstraints()
         {
             IWorkflow<string> workflow = null;
@@ -57,7 +56,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.Throws<ArgumentNullException>(() => Workflow<string>.Definition().Do(workflow, constraint));
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddToWorkflowDefinition()
         {
             _parentWorkflow.Do(_childWorkflow);
@@ -65,7 +64,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.That(_parentWorkflow.RegisteredOperations.Tasks.Count, Is.EqualTo(1), "number of operations in workflow");
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddWorkflowWithconstraints()
         {
             var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
@@ -74,7 +73,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.That(workflow.RegisteredOperations.Tasks.Count, Is.EqualTo(1), "number of operations in workflow");
         }
 
-        [Test]
+        [Observation]
         public void AddWorkflowWithConstraint()
         {
             var childWorkflow = Workflow<string>.Definition() as IWorkflow<string>;
@@ -83,7 +82,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.That(_parentWorkflow.RegisteredOperations.Tasks.Count, Is.EqualTo(1), "number of operations in workflow");
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddWhenDefiningParallelCompositeWorkflow()
         {
             Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;
@@ -95,7 +94,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             Assert.That(builder.ParallelOperations.RegisteredOperations.Count, Is.EqualTo(1), "number of operations in workflow");
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddWhenDefiningParallelCompositeWorkflowWithConstraint()
         {
             Workflow<string> workflow = Workflow<string>.Definition() as Workflow<string>;

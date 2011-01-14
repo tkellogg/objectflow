@@ -6,16 +6,16 @@ namespace Rainbow.ObjectFlow.Engine
     internal class ParallelInvoker<T> : MethodInvoker<T> where T : class
     {
         public IList<OperationDuplex<T>> RegisteredOperations = new List<OperationDuplex<T>>();
-        private WorkflowEngine<T> _engine;
+        private Dispatcher<T> _engine;
 
-        public ParallelInvoker(WorkflowEngine<T> engine)
+        public ParallelInvoker(Dispatcher<T> engine)
         {
             _engine = engine;
         }
 
         public ParallelInvoker()
         {
-            _engine = new WorkflowEngine<T>();
+            _engine = new Dispatcher<T>();
         }
 
         public override T Execute(T data)
@@ -61,10 +61,10 @@ namespace Rainbow.ObjectFlow.Engine
 
             private readonly OperationDuplex<T> _function;
             private readonly T _data;
-            private readonly WorkflowEngine<T> _engine;
+            private readonly Dispatcher<T> _engine;
             private readonly ManualResetEvent _finishedEvent;
 
-            public ThreadProxy(ref WorkflowEngine<T> engine, OperationDuplex<T> threadStartFunction, T parameter, ref ManualResetEvent finishedEvent)
+            public ThreadProxy(ref Dispatcher<T> engine, OperationDuplex<T> threadStartFunction, T parameter, ref ManualResetEvent finishedEvent)
             {
                 _finishedEvent = finishedEvent;
                 _function = threadStartFunction;

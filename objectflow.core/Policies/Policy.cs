@@ -7,9 +7,9 @@ namespace Rainbow.ObjectFlow.Policies
 {
     public abstract class Policy : IHideObjectMembers
     {
-        protected object Invoker;
+        internal object Invoker;
 
-        internal void SetParent<T>(MethodInvoker<T> method)
+        internal void SetInvoker<T>(MethodInvoker<T> method)
         {
             Invoker = method;
         }

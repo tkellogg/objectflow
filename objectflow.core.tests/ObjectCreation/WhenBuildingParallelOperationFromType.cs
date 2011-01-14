@@ -10,18 +10,17 @@ using Rainbow.ObjectFlow.Helpers;
 
 namespace Objectflow.core.tests.ObjectCreation
 {
-    [TestFixture]
-    public class WhenBuildingParallelOperationFromType
+    public class WhenBuildingParallelOperationFromType:Specification
     {
         private ParallelSplitBuilder<Colour> _builder;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _builder = new ParallelSplitBuilder<Colour>(new TaskList<Colour>());            
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateInstance()
         {
             _builder.AddOperation<DuplicateName>();
@@ -29,7 +28,7 @@ namespace Objectflow.core.tests.ObjectCreation
             Assert.That(_builder.ParallelOperations.RegisteredOperations.Count, Is.EqualTo(1));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateInstanceAndConstraints()
         {
             _builder.AddOperation<DuplicateName>(If.IsTrue(true));

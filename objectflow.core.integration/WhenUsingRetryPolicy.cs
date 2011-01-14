@@ -1,69 +1,66 @@
 ﻿using System;
-using NUnit.Framework;
+using objectflow.core.tests.integration.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.core.integration
+namespace objectflow.core.tests.integration 
 {
-    [TestFixture]
-    public class WhenUsingRetryPolicy
+    public class WhenUsingRetryPolicy : Specification
     {
-        private FailOnceOperation _operation;
+        private OperationThatFailsNTimes _operation;
         private IWorkflow<string> _workflow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
-            _operation = new FailOnceOperation();
+            _operation = new OperationThatFailsNTimes();
             _workflow = Workflow<string>.Definition() as IWorkflow<string>;
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteFailedOperationAgain()
         {
-            // TODO: remove use of workflow as retry can be used directly now we have moved
-            // execution responsbility to that instead of all on engine
             _workflow.Do(_operation).Retry();
             _workflow.Start();
 
-            Assert.That(_operation.ExecuteCount, Is.EqualTo(2));
+            _operation.ExecuteCount.ShouldBe(2);
         }
 
-        [Test]
+        [Observation]
         public void ShouldRetryManyTimes()
         {
-            _workflow.Do(_operation).Retry().Attempts(2);
+            _workflow.Do(_operation).Retry().Attempts(3);
             _workflow.Start();
-            Assert.That(_operation.ExecuteCount, Is.EqualTo(2));                       
+            _operation.ExecuteCount.ShouldBe(2);                       
         }
 
-        [Test]
+        [Observation]
         public void ShouldRetryOnce()
         {
             _workflow.Do(_operation).Retry().Once();
             _workflow.Start();
-            Assert.That(_operation.ExecuteCount, Is.EqualTo(2));
+            _operation.ExecuteCount.ShouldBe(2);
         }
 
-        [Test]
+        [Observation]
         public void ShouldRetryTwice()
         {
-            _operation = new FailOnceOperation(3);
+            _operation = new OperationThatFailsNTimes(3);
             _workflow.Do(_operation).Retry().Twice();
             _workflow.Start();
-            Assert.That(_operation.ExecuteCount, Is.EqualTo(3));
+            _operation.ExecuteCount.ShouldBe(3);
         }     
   
-        [Test]
+        [Observation]
         public void ShouldStopRetryingWhenSuccessful()
         {
             _workflow.Do(_operation).Retry().Attempts(4);
             _workflow.Start();
 
-            Assert.That(_operation.ExecuteCount, Is.EqualTo(2));
+            _operation.ExecuteCount.ShouldBe(2);
         }
 
-        [Test]
+        [Observation]
         public void ShouldRetryWithInterval()
         {
             _workflow.Do(_operation).Retry().Twice().With.Interval.Of.Seconds(2);
@@ -73,37 +70,19 @@ namespace objectflow.core.integration
 
             DateTime finishTime = DateTime.Now.Subtract(new TimeSpan(0, 0, 2));
             
-            Assert.That(finishTime.ToLongTimeString(), Is.EqualTo(beforeTime));
+            finishTime.ToLongTimeString().ShouldBe(beforeTime);
         }
-    }
 
-    // TODO: remove this and use mock objects
-    public class FailOnceOperation : BasicOperation<string>
-    {
-        public int ExecuteCount;
-        private readonly int _failcount;
-
-        public FailOnceOperation()
-            : this(1)
+        [Observation]
+        public void ShouldNotRetrySuccessfulOperation()
         {
+            var workflow = new Workflow<Colour>();
+                workflow.Do<DuplicateName>().Retry().Twice();
+            
+            var result = workflow.Start(new Colour("Red"));
 
+            result.Name.ShouldBe("RedRed");
         }
 
-        public FailOnceOperation(int failcount)
-        {
-            _failcount = failcount;
-        }
-
-        public override string Execute(string data)
-        {
-            ExecuteCount++;
-
-            if (ExecuteCount <= _failcount)
-                SetSuccessResult(false);
-            else
-                SetSuccessResult(true);
-
-            return data;
-        }
     }
 }

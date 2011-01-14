@@ -5,13 +5,12 @@ using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests
 {
-    [TestFixture]
-    public class WhenHandlingWorkflowEngineExceptions
+    public class WhenHandlingWorkflowEngineExceptions:Specification
     {
-        [Test]
+        [Observation]
         public void ShouldReturnUnsuccessfull()
         {
-            var engine = new WorkflowEngine<string>();
+            var engine = new Dispatcher<string>();
             var operation = new FailedOperation();
 
             var operationWrapper =

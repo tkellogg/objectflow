@@ -13,27 +13,26 @@ using Rainbow.ObjectFlow.Language;
 
 namespace Objectflow.core.tests.ObjectCreation
 {
-    [TestFixture]
-    public class WhenRegisteringTypeSpec
+    public class WhenRegisteringTypeSpec:Specification
     {
         private IKernel _container;
         private Mock<SequentialBuilder<Colour>> _builder;
         private IDefine<Colour> _flow;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _builder = new Mock<SequentialBuilder<Colour>>(new []{new TaskList<Colour>()});
             _container = new DefaultKernel();
             _container.Register(Component.For<SequentialBuilder<Colour>>().Instance(_builder.Object));
-            _container.Register(Component.For<WorkflowEngine<Colour>>().Instance(new WorkflowEngine<Colour>()));
+            _container.Register(Component.For<Dispatcher<Colour>>().Instance(new Dispatcher<Colour>()));
 
             ServiceLocator<Colour>.SetInstance(null);
             ServiceLocator<Colour>.SetInstance(_container);
             _flow = Workflow<Colour>.Definition();
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateInstanceOfSpecifiedOperation()
         {
             _builder.Setup(s => s.AddOperation<DuplicateName>());
@@ -48,7 +47,7 @@ namespace Objectflow.core.tests.ObjectCreation
             _flow.Do<DuplicateName>();
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateInstance()
         {
             var builder = new SequentialBuilder<Colour>(new TaskList<Colour>());
@@ -57,7 +56,7 @@ namespace Objectflow.core.tests.ObjectCreation
             Assert.That(builder.TaskList.Tasks.Count, Is.EqualTo(1));
         }
 
-        [Test]
+        [Observation]
         public void ShouldCreateInstanceAndConstraints()
         {
             var builder = new SequentialBuilder<Colour>(new TaskList<Colour>());

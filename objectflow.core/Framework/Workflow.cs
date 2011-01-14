@@ -15,7 +15,7 @@ namespace Rainbow.ObjectFlow.Framework
     public class Workflow<T> : IWorkflow<T>, IDefine<T>, ICompose<T>, IMerge<T> where T : class
     {
         private WorkflowBuilder<T> _workflowBuilder;
-        private readonly WorkflowEngine<T> _workflowEngine;
+        private readonly Dispatcher<T> _workflowEngine;
         private readonly IKernel _container;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Rainbow.ObjectFlow.Framework
         public Workflow()
         {
             _container = ServiceLocator<T>.Get();
-            _workflowEngine = _container.Resolve<WorkflowEngine<T>>();            
+            _workflowEngine = _container.Resolve<Dispatcher<T>>();            
             _workflowBuilder = _container.Resolve<SequentialBuilder<T>>();
         }
 
@@ -142,39 +142,6 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
         /// <summary>
-        /// Adds a function that returns its' success result into the execution path
-        /// <remarks>
-        /// The function returns the success result as a bool (True for success) to enable functions to be used in the evaluation of future contraints
-        /// </remarks>
-        /// </summary>
-        /// <param name="function">The function to add</param>
-        public IWorkflow<T> Do(Func<bool> function)
-        {
-            Check.IsNotNull(function, "function");
-
-            _workflowBuilder.AddOperation(function);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds a function that returns its' success result into the execution path
-        /// <remarks>
-        /// The function returns the success result as a bool (True for success) to enable functions to be used in the evaluation of future contraints
-        /// </remarks>
-        /// </summary>
-        /// <param name="function">The function to add</param>
-        /// <param name="constraint">The condition whose evaluation determines if the workflow is executed</param>
-        public IWorkflow<T> Do(Func<bool> function, ICheckConstraint constraint)
-        {
-            Check.IsNotNull(function, "function");
-            Check.IsNotNull(constraint, "constraint");
-
-            _workflowBuilder.AddOperation(function, constraint);
-
-            return this;
-        }
-
-        /// <summary>
         /// Begins the execution of a workflow
         /// </summary>
         /// <returns>The data after being transformed by the Operation objects</returns>
@@ -271,7 +238,22 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         public IRetryPolicy Retry()
         {
-            IRetryPolicy policy = new Retry();
+            IRetryPolicy policy = new Retry(this);
+            if (_workflowBuilder.TaskList.Tasks.Count > 0)
+            {
+                _workflowBuilder.TaskList.Tasks[_workflowBuilder.TaskList.Tasks.Count - 1].Command.Policies.Add(policy);
+            }
+
+            return policy;
+        }
+
+        /// <summary>
+        /// Does the operation again.  Unlike Retry, this does not check on success or failure
+        /// </summary>
+        /// <returns></returns>
+        public IRepeat Repeat()
+        {
+            IRepeat policy= new Repeat(this);
             if (_workflowBuilder.TaskList.Tasks.Count > 0)
             {
                 _workflowBuilder.TaskList.Tasks[_workflowBuilder.TaskList.Tasks.Count - 1].Command.Policies.Add(policy);

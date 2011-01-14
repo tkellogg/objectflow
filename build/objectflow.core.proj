@@ -1,4 +1,4 @@
 ﻿<Project DefaultTargets = "Build"  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Import Project="..\Objectflow.core\objectflow.core.csproj"/>
+    <Projects Include="$(RootPath)\Objectflow.core\objectflow.core.csproj"/>
 </Project>

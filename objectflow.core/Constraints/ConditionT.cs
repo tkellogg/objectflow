@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Constraints

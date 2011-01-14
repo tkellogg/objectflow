@@ -10,15 +10,14 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.core.tests.FunctionalWorkflows
 {
-    [TestFixture]
-    public class WhenConfiguringWithFunctionsSpec
+    public class WhenConfiguringWithFunctionsSpec:Specification
     {
         private IWorkflow<string> _workflow;
         private Func<bool> _function;
         private IKernel _container;
         private TaskList<string> _taskList;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
             _taskList = new TaskList<string>();
@@ -31,7 +30,7 @@ namespace Objectflow.core.tests.FunctionalWorkflows
             _function = new Func<bool>(RedOrangeYellow);
         }
 
-        [Test]
+        [Observation]
         public void ShouldRegisterFunction()
         {
             When();
@@ -39,7 +38,7 @@ namespace Objectflow.core.tests.FunctionalWorkflows
             Assert.That(_taskList.Tasks.Count == 1, "Number of registered operations");
         }
 
-        [Test]
+        [Observation]
         public void ShouldRegisterFunctionWithConstraint()
         {
             var constraint = If.Not.Successfull(_function);

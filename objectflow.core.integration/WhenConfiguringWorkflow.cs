@@ -1,15 +1,11 @@
-﻿using System;
-using NUnit.Framework;
-using Objectflow.tests.TestDomain;
-using Objectflow.tests.TestOperations;
+﻿using objectflow.core.tests.integration.TestOperations;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 
-namespace objectflow.core.integration
+namespace objectflow.core.tests.integration
 {
-    [TestFixture]
-    public class WhenConfiguringWorkflow
+    public class WhenConfiguringWorkflow : Specification
     {
         private IOperation<Colour> _doubleSpace;
         private IOperation<Colour> _duplicateName;
@@ -18,7 +14,7 @@ namespace objectflow.core.integration
         private Colour _colour;
         private IOperation<Colour> _defaultLoader;
 
-        [SetUp]
+        [ScenarioAttribute]
         public void Given()
         {
             _doubleSpace = new DoubleSpace();
@@ -31,48 +27,48 @@ namespace objectflow.core.integration
             _workflow.Do(_defaultLoader);
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteSingleOperation()
         {
             _workflow.Do(_doubleSpace);
 
             var result = _workflow.Start();
 
-            Assert.That(result, Is.Not.Null, "No results");
-            Assert.That(result.ToString(), Is.EqualTo("R e d"), "Colour name value");
+            result.ShouldNotbeNull();
+            result.ShouldBe("R e d");
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteChainedOperations()
         {
             _workflow.Do(_duplicateName).Do(_doubleSpace);
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("R e d R e d"), "Colour name value");
+            result.ShouldBe("R e d R e d");
         }
 
-        [Test]
+        [Observation]
         public void ShouldNotExecuteFalseConditionalOperations()
         {
             _workflow.Do(_duplicateName).Do(_doubleSpace, If.IsTrue(false));
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("RedRed"));
+            result.ShouldBe("RedRed");
         }
 
-        [Test]
+        [Observation]
         public void ShouldExecuteTrueConditionalOperations()
         {
             _workflow.Do(_duplicateName).Do(_doubleSpace, If.IsTrue(true));
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("R e d R e d"));
+            result.ShouldBe("R e d R e d");
         }
 
-        [Test]
+        [Observation]
         public void ShouldChainNotOperationsCorrectly()
         {
             _workflow
@@ -82,10 +78,10 @@ namespace objectflow.core.integration
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
+            result.ShouldBe("RedRedRedRed");
         }
 
-        [Test]
+        [Observation]
         public void ShouldBeAbleToAssignMultipleConstraintsToOperationExecutionClause()
         {
             _workflow
@@ -95,10 +91,10 @@ namespace objectflow.core.integration
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("RedRedRedRed"));
+            result.ShouldBe("RedRedRedRed");
         }
 
-        [Test]
+        [Observation]
         public void ShouldHandleMultipleTypeReuseWithConstraints()
         {
             _workflow
@@ -109,10 +105,10 @@ namespace objectflow.core.integration
 
             var result = _workflow.Start();
 
-            Assert.That(result.ToString(), Is.EqualTo("RedRedRedRedRedRedRedRed"));
+            result.ShouldBe("RedRedRedRedRedRedRedRed");
         }
 
-        [Test]
+        [Observation]
         public void ShouldAddOperationRegisteredByType()
         {
             string result =
@@ -121,7 +117,7 @@ namespace objectflow.core.integration
                     .Do<DuplicateName>(If.IsTrue(true))
                     .Start(new Colour("Red")).ToString();
 
-            Assert.That(result, Is.EqualTo("RedRedRedRed"));
+            result.ShouldBe("RedRedRedRed");
         }
     }
 }

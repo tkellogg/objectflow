@@ -5,17 +5,16 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Objectflow.tests
 {
-    [TestFixture]
-    public sealed class WhenEvaluatingConditions
+    public sealed class WhenEvaluatingConditions:Specification
     {
         private ICheckConstraint _checkBoolean;
 
-        [SetUp]
+        [Scenario]
         public void Given()
         {
         }
 
-        [Test]
+        [Observation]
         public void ShouldResolveFalseCheckCondition()
         {
             _checkBoolean = If.IsTrue(false);
@@ -23,7 +22,7 @@ namespace Objectflow.tests
             Assert.That(((Condition)_checkBoolean).Matches(), Is.False);
         }
 
-        [Test]
+        [Observation]
         public void ShouldResolveTrueCheckCondition()
         {
             _checkBoolean = If.IsTrue(true);

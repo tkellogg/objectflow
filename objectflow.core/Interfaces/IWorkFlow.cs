@@ -10,8 +10,7 @@ namespace Rainbow.ObjectFlow.Interfaces
         ///<summary>
         /// Chained operations will be executed concurrently
         ///</summary>
-        ICompose<T> 
-            And { get; }
+        ICompose<T> And { get; }
 
         /// <summary>
         /// Gets or sets the context used by operations and functions in the workflow
@@ -42,5 +41,10 @@ namespace Rainbow.ObjectFlow.Interfaces
         ///</summary>
         /// <remarks>Currently ignores any operations that do not inherit from BasicOperation</remarks>
         IRetryPolicy Retry();
+
+        /// <summary>
+        /// Do the operation again
+        /// </summary>
+        IRepeat Repeat();
     }
 }

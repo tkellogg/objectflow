@@ -12,12 +12,13 @@ namespace Rainbow.ObjectFlow.Constraints
         private readonly Func<bool> _condition;
         private readonly IList<ICheckConstraint> _contraints;
 
+
         ///<summary>
         /// Provided for mocking framework
         ///</summary>
-        public Condition()
+        internal Condition()
         {
-            
+
         }
 
         ///<summary>
