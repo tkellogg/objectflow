@@ -11,7 +11,7 @@ namespace Rainbow.Demo.Objectflow.Client
             var doubleSpace = new DoubleSpace();
 
             var result = Workflow<Colour>.Definition()
-                .Do(doubleSpace).Retry().Attempts(3).With.Interval.Of.Seconds(30).Then<Colour>()
+                .Do(doubleSpace)
                 .Do<DoubleSpace>(If.Not.Successfull(doubleSpace))
                 .Do((c) =>
                         {

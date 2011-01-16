@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>objectflow.core.tests.integration</RootNamespace>
     <AssemblyName>objectflow.core.tests.integration</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -61,10 +61,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Rainbow.Nunit.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f53a9149e8cfefaa, processorArchitecture=MSIL">
+    <Reference Include="Rainbow.Nunit.Extensions">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Rainbow.Nunit.Extensions.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
