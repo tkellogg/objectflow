@@ -1,0 +1,5 @@
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core.tests\obj\Debug\ResolveAssemblyReference.cache
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core.tests\bin\debug\objectflow.core.tests.dll
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core.tests\bin\debug\objectflow.core.tests.pdb
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core.tests\obj\Debug\objectflow.core.tests.dll
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core.tests\obj\Debug\objectflow.core.tests.pdb

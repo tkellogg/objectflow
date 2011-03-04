@@ -101,6 +101,9 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Framework\StatefulWorkflow.cs" />
+    <Compile Include="Interfaces\IStatefulWorkflow.cs" />
+    <Compile Include="Interfaces\IStatefulObject.cs" />
     <Compile Include="Policies\Repeat.cs" />
     <Compile Include="Language\IRepeat.cs" />
     <Compile Include="Properties\CommonAssemblyInfo.cs" />

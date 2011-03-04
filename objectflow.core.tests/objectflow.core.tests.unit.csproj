@@ -103,6 +103,7 @@
     <Compile Include="RepeatUntil\WhenConfiguringRepeat.cs" />
     <Compile Include="RepeatUntil\WhenTerminatingRepeat.cs" />
     <Compile Include="RepeatUntil\WhenUsingRepeatPolicy.cs" />
+    <Compile Include="StatefulWorkflows\WhenStartingFromScratch.cs" />
     <Compile Include="TestOperations\Colour.cs" />
     <Compile Include="TestOperations\DoubleSpace.cs" />
     <Compile Include="TestOperations\DuplicateName.cs" />
