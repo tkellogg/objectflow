@@ -107,6 +107,7 @@
     <Compile Include="RepeatUntil\WhenTerminatingRepeat.cs" />
     <Compile Include="RepeatUntil\WhenUsingRepeatPolicy.cs" />
     <Compile Include="Testability\WhenUnitTestingWorkflow.cs" />
+    <Compile Include="StatefulWorkflows\WhenStartingFromScratch.cs" />
     <Compile Include="TestOperations\Colour.cs" />
     <Compile Include="TestOperations\DoubleSpace.cs" />
     <Compile Include="TestOperations\DuplicateName.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="ParallelSplit\WhenStartingParallelWorkflows.cs" />
     <Compile Include="ComposeSequentialWorkflow\WhenStartingWorkflow.cs" />
     <Compile Include="ConditionallyExecuteOperations\WhenUsingCondition.cs" />
+    <Compile Include="WhenComparingRegisteredOperations.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\objectflow.core\objectflow.core.csproj">
