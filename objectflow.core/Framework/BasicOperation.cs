@@ -1,4 +1,5 @@
-﻿using Rainbow.ObjectFlow.Interfaces;
+﻿using System;
+using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Framework
 {

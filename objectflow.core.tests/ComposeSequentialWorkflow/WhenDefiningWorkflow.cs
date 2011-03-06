@@ -38,8 +38,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
         {
             _workflow.Do(_doubleSpace);
 
-            Assert.That(_taskList.Tasks.Count, Is.EqualTo(1));
-            Assert.That(_taskList.Tasks[0].Command.Equals(_doubleSpace));
+            _taskList.Tasks.Count.ShouldBe(1);
         }
 
         [Observation]

@@ -21,12 +21,12 @@ namespace Rainbow.ObjectFlow.Engine
 
         public Dispatcher()
         {
-            WfExecutionPlan._callStack = new Dictionary<int, bool>();
+            WfExecutionPlan.CallStack = new List<bool>();
         }
 
         public virtual T Execute(IEnumerable operations)
         {
-            WfExecutionPlan._callStack = new Dictionary<int, bool>();
+            WfExecutionPlan.CallStack = new List<bool>();
             return Execute(operations, default(T));
         }
 

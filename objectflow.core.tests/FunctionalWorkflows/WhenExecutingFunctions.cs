@@ -1,11 +1,8 @@
 ﻿using System;
-using Moq;
 using NUnit.Framework;
 using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
-using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
-using Rainbow.ObjectFlow.Policies;
 using Rhino.Mocks;
 
 namespace Objectflow.core.tests.FunctionalWorkflows
@@ -68,12 +65,6 @@ namespace Objectflow.core.tests.FunctionalWorkflows
         {
             _result = "rainbow: ";
             return _result;
-        }
-
-        private bool Myfunc()
-        {
-            _workflow.Context += "A";
-            return false;
         }
     }
 }

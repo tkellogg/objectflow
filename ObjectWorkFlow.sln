@@ -4,7 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B208E65-C53F-4F73-ACF1-B1FABD1DDF3C}"
 	ProjectSection(SolutionItems) = preProject
 		build\build.proj = build\build.proj
-		ChessCommandLine.txt = ChessCommandLine.txt
 		build\Common.Properties = build\Common.Properties
 		build\Default.Properties = build\Default.Properties
 		build\objectflow.core.proj = build\objectflow.core.proj

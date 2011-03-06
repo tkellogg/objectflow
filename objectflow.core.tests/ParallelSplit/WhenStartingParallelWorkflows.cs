@@ -1,29 +1,36 @@
-﻿using Moq;
-using NUnit.Framework;
-using Rainbow.ObjectFlow.Container;
+﻿using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests.ParallelSplit
 {
     public class WhenStartingParallelWorkflows:Specification
     {
-        private Mock<Workflow<string>> _workflow;
+        private Workflow<string> _workflow;
 
         [Scenario]
-        public void Given()
+        public void Given_a_workflow_with_unclosed_parallel_operations()
         {
             ServiceLocator<string>.Reset();
-            _workflow = new Mock<Workflow<string>>();
+            _workflow = new Workflow<string>();
+            _workflow.Do((a) => "red").And.Do((b) => "orange");
         }
 
         [Observation]
-        public void ShouldImplicitlyCloseParallelDefinitionOnStart()
+        public void Should_implicitly_close_operations()
         {
-            _workflow.Setup(m => m.Then());
+            _workflow.Start();
 
-            _workflow.Object.Do((a) => "red").And.Do((b) => "orange");
-            _workflow.Object.Start();
-            _workflow.VerifyAll();
+            _workflow.RegisteredOperations.Tasks.Count.ShouldBe(1);
         }
+
+        [Observation]
+        public void Should_implicitly_close_operations_on_start()
+        {
+            _workflow.Start("Orange");
+
+            _workflow.RegisteredOperations.Tasks.Count.ShouldBe(1);
+    
+        }
+
     }
 }

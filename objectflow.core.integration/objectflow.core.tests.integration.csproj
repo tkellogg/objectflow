@@ -80,6 +80,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeWorkflows.cs" />
+    <Compile Include="PreviousOperationsConstraint.cs" />
+    <Compile Include="RainbowColours.cs" />
     <Compile Include="TestOperations\OperationThatFailsNTimes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepeatUntil.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="WhenConfiguringWorkflow.cs" />
     <Compile Include="WhenUsingRetryPolicy.cs" />
     <Compile Include="WhenUsingRetryPolicyWithFunctions.cs" />
+    <Compile Include="WorkflowAbstractions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\objectflow.core\objectflow.core.csproj">

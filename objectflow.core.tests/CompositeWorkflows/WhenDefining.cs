@@ -70,7 +70,8 @@ namespace Objectflow.core.tests.CompositeWorkflows
             var innerWorkflow = Workflow<string>.Definition().Do(c => "red");
             var workflow = Workflow<string>.Definition().Do(innerWorkflow, If.IsTrue(true)) as Workflow<string>;
 
-            Assert.That(workflow.RegisteredOperations.Tasks.Count, Is.EqualTo(1), "number of operations in workflow");
+            workflow.ShouldNotbeNull();
+            workflow.RegisteredOperations.Tasks.Count.ShouldBe(1);
         }
 
         [Observation]
@@ -79,7 +80,7 @@ namespace Objectflow.core.tests.CompositeWorkflows
             var childWorkflow = Workflow<string>.Definition() as IWorkflow<string>;
             _parentWorkflow = Workflow<string>.Definition().Do(childWorkflow, If.IsTrue(true)) as Workflow<string>;
 
-            Assert.That(_parentWorkflow.RegisteredOperations.Tasks.Count, Is.EqualTo(1), "number of operations in workflow");
+            _parentWorkflow.RegisteredOperations.Tasks.Count.ShouldBe(1);
         }
 
         [Observation]

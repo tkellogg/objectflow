@@ -7,6 +7,15 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Helpers
 {
+    ///<summary>
+    ///</summary>
+    public enum Step
+    {
+        ///<summary>
+        ///</summary>
+        Previous = 1
+    }
+
     /// <summary>
     /// Helper class for building constraints
     /// </summary>
@@ -68,20 +77,13 @@ namespace Rainbow.ObjectFlow.Helpers
             return Not.IsTrue(condition);
         }
 
-        /// <summary>
-        /// SuccessCheckConstraint that can evaluate the success or failure of a function
-        /// </summary>
-        /// <param name="key">the Operation to evaluate</param>
-        /// <returns>SuccessCheckConstraint</returns>
-        public static ICheckConstraint Successfull(string key)
+        ///<summary>
+        ///</summary>
+        ///<param name="offset"></param>
+        ///<returns></returns>
+        public static ICheckConstraint Successfull(Step offset)
         {
-            return new Condition(() =>
-                                     {
-                                         bool result;
-                                         WfExecutionPlan.CallStack.TryGetValue(key.GetHashCode(),
-                                                                                      out result);
-                                         return result;
-                                     });
+            return null;
         }
     }
 }
