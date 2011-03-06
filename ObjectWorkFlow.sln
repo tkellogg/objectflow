@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.core.tests.integ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NunitExtensions", "NunitExtensions\NunitExtensions.csproj", "{CC644633-8550-4466-8237-6683B6D4EB84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.stateful", "objectflow.stateful\objectflow.stateful.csproj", "{D8C4D517-ECAA-4706-A79C-0A55EA443A17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "objectflow.stateful.tests.unit", "objectflow.stateful.tests.unit\objectflow.stateful.tests.unit.csproj", "{FC891DC2-08FC-4D5C-AAF6-5A705212043B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{CC644633-8550-4466-8237-6683B6D4EB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC644633-8550-4466-8237-6683B6D4EB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC644633-8550-4466-8237-6683B6D4EB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8C4D517-ECAA-4706-A79C-0A55EA443A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8C4D517-ECAA-4706-A79C-0A55EA443A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8C4D517-ECAA-4706-A79C-0A55EA443A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8C4D517-ECAA-4706-A79C-0A55EA443A17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC891DC2-08FC-4D5C-AAF6-5A705212043B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC891DC2-08FC-4D5C-AAF6-5A705212043B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC891DC2-08FC-4D5C-AAF6-5A705212043B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC891DC2-08FC-4D5C-AAF6-5A705212043B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

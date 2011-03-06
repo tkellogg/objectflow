@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Rainbow.ObjectFlow.Interfaces;
+using Rainbow.ObjectFlow.Framework;
 
-namespace Rainbow.ObjectFlow.Framework
+namespace Rainbow.ObjectFlow.Stateful
 {
     /// <summary>
     /// 
