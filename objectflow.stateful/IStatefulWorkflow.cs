@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Rainbow.ObjectFlow.Framework;
+using Rainbow.ObjectFlow.Interfaces;
 
-namespace Rainbow.ObjectFlow.Interfaces
+namespace Rainbow.ObjectFlow.Stateful
 {
     /// <summary>
     /// A workflow that is able to pause at states and be resumed later.

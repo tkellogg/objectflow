@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rainbow.ObjectFlow.Interfaces
+namespace Rainbow.ObjectFlow.Stateful
 {
     /// <summary>
     /// <para>
