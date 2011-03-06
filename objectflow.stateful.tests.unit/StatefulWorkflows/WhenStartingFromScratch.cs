@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Rainbow.ObjectFlow.Framework;
-using Rainbow.ObjectFlow.Interfaces;
+using Rainbow.ObjectFlow.Stateful;
 using Moq;
 
-namespace Objectflow.core.tests.StatefulWorkflows
+namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
 {
     public class WhenStartingFromScratch : Specification
     {

@@ -1,0 +1,5 @@
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful\obj\Debug\ResolveAssemblyReference.cache
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.stateful\bin\debug\objectflow.stateful.dll
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.stateful\bin\debug\objectflow.stateful.pdb
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful\obj\Debug\objectflow.stateful.dll
+D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful\obj\Debug\objectflow.stateful.pdb
