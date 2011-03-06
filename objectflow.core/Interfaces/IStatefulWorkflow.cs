@@ -14,13 +14,36 @@ namespace Rainbow.ObjectFlow.Interfaces
         where T : class, IStatefulObject
     {
         /// <summary>
+        /// Gets an identifier that describes the workflow. This can be a string,
+        /// number, Guid, or any other object that provides a meaningful implementation
+        /// of the <c>.Equals(object)</c> method.
+        /// </summary>
+        object WorkflowId { get; }
+
+        /// <summary>
         /// Signal that the workflow should pause here and then resume later
-        /// at this same point
+        /// at this same point. This can be used to persist the state of the 
+        /// object and resumed later when <c>Continue</c> is called.
         /// </summary>
         /// <param name="breakPointId">The identifier that describes where the workflow
         /// yielded so that it can return to this point later.</param>
         /// <returns></returns>
         IStatefulWorkflow<T> Yield(object breakPointId);
+
+        /// <summary>
+        /// Continues execution of the workflow where <c>obj</c> last left off 
+        /// after <c>Yield</c> was called.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        T Continue(T data);
+
+        /// <summary>
+        /// Indicates that <c>obj</c> has not yet passed through all workflow steps.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        bool IsMidlife(T data);
 
         #region overriden from base class, but returning IStatefulWorkflow
 

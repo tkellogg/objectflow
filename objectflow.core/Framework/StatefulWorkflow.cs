@@ -13,20 +13,96 @@ namespace Rainbow.ObjectFlow.Framework
     public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
         where T : class, IStatefulObject
     {
-        #region IStatefulWorkflow<T> Members
+        /// <summary>Index for </summary>
+        private Dictionary<object, IWorkflow<T>> subflows = 
+                                            new Dictionary<object, IWorkflow<T>>();
+
+        /// <summary>An ordered list of keys</summary>
+        private List<object> keys = new List<object>();
+
+        private IWorkflow<T> current = new Workflow<T>();
+        private IWorkflow<T> first;
+
+        /// <summary>
+        /// Creates a workflow that has persistable states and is identified by
+        /// <c>workflowId</c>.
+        /// </summary>
+        /// <param name="workflowId">Persistable value that represents this workflow.
+        /// </param>
+        public StatefulWorkflow(object workflowId)
+        {
+            WorkflowId = workflowId;
+        }
+
+        /// <summary>
+        /// Creates a new workflow that has persistable states. Usage of this 
+        /// constructure asserts that an object that might pass through this workflow
+        /// will pass through only this workflow and no other stateful workflow.
+        /// Because of this restriction, it is recommended that you use 
+        /// <see cref="StatefulWorkflow(object)"/> instead.
+        /// </summary>
+        public StatefulWorkflow() :this(null) {}
+
+        #region new IStatefulWorkflow<T> Members
+
+        /// <summary>
+        /// Gets an identifier that describes the workflow. This can be a string,
+        /// number, Guid, or any other object that provides a meaningful implementation
+        /// of the <c>.Equals(object)</c> method.
+        /// </summary>
+        public virtual object WorkflowId { get; private set; }
 
         /// <summary>
         /// Continue the workflow where the given object left off.
         /// </summary>
         /// <returns></returns>
-        public IStatefulWorkflow<T> Yield(object breakPointId)
+        public virtual IStatefulWorkflow<T> Yield(object breakPointId)
         {
-            throw new NotImplementedException();
+            if (first == null)
+                first = current;
+            else {
+                keys.Add(breakPointId);
+                subflows[breakPointId] = current;
+                current = new Workflow<T>();
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Continues execution of the workflow where <c>obj</c> last left off 
+        /// after <c>Yield</c> was called.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public virtual T Continue(T data)
+        {
+
+            return data;
+        }
+
+        /// <summary>
+        /// Indicates that <c>obj</c> is currently passing through this workflow
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public virtual bool IsMidlife(T data)
+        {
+            return data != null && data.GetStateId(WorkflowId) != null;
+        }
+
+        /// <summary>
+        /// Start the workflow
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public override T Start(T data)
+        {
+            return base.Start(data);
         }
 
         #endregion
 
-        #region IStatefulWorkflow<T> Members
+        #region Members that hide IWorkflow<T> Members
 
         /// <summary>
         /// Registers an instance of the specified type in the workflow

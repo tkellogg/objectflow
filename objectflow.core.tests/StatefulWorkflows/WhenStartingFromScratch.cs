@@ -22,7 +22,10 @@ namespace Objectflow.core.tests.StatefulWorkflows
         [Scenario]
         public void Given()
         {
-            _workflow = new StatefulWorkflow<A1>();
+            _workflow = new StatefulWorkflow<A1>("test");
+            _workflow.Do(x => x.GotHere("starting"))
+                .Yield("stop point")
+                .Do(x => x.GotHere("finished"));
             _object = new Mock<A1>();
             _object.Setup(x => x.GotHere(It.IsAny<string>())).Returns(_object.Object);
         }
@@ -30,29 +33,21 @@ namespace Objectflow.core.tests.StatefulWorkflows
         [Observation]
         public void ShouldBeAbleToPauseSmoothly()
         {
-            _workflow.Do(x => x.GotHere("starting"))
-                .Yield("stop point")
-                .Do(x => x.GotHere("finished"));
-
             var obj = _workflow.Start();
 
             _object.Verify(x => x.GotHere("starting"), Times.Once());
-            obj.StateId.ShouldBe("stop point");
+            obj.GetStateId("test").ShouldBe("stop point");
             _object.Verify(x => x.GotHere("finished"), Times.Never());
         }
 
         [Observation]
         public void ShouldBeAbleToResumeSmoothly()
         {
-            _workflow.Do(x => x.GotHere("starting"))
-                .Yield("stop point")
-                .Do(x => x.GotHere("finished"));
-
             var obj = _workflow.Start();
             _workflow.Start(obj);
 
             _object.Verify(x => x.GotHere("starting"), Times.Once());
-            obj.StateId.ShouldBe("stop point");
+            obj.GetStateId("test").ShouldBe("stop point");
             _object.Verify(x => x.GotHere("finished"), Times.Once());
         }
     }
