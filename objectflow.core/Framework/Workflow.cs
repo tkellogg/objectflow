@@ -149,7 +149,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// The concrete implementation is responsible for definng how the data is passed to the pipeline.
         /// A common implementation is to use a constructor and an operation that returns the data with no transformations
         /// </remarks>
-        public T Start()
+        public virtual T Start()
         {
             Then();
             _workflowEngine.Execute( _workflowBuilder.TaskList.Tasks);
