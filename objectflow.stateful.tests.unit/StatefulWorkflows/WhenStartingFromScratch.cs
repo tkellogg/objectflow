@@ -14,7 +14,7 @@ namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
         
         #region Types used for testing
 
-        interface A1 : IStatefulObject { A1 GotHere(string msg); }
+        public interface A1 : IStatefulObject { A1 GotHere(string msg); }
         
         #endregion
         
@@ -26,28 +26,42 @@ namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
                 .Yield("stop point")
                 .Do(x => x.GotHere("finished"));
             _object = new Mock<A1>();
-            _object.Setup(x => x.GotHere(It.IsAny<string>())).Returns(_object.Object);
+            _object.Setup(x => x.GotHere("starting")).Returns(_object.Object);
+            _object.Setup(x => x.GotHere("finished")).Returns(_object.Object);
         }
 
         [Observation]
-        public void ShouldBeAbleToPauseSmoothly()
+        public void ShouldPause()
         {
-            var obj = _workflow.Start();
+            var obj = _workflow.Start(_object.Object);
 
             _object.Verify(x => x.GotHere("starting"), Times.Once());
-            obj.GetStateId("test").ShouldBe("stop point");
+            _object.Verify(x => x.SetStateId("test", "stop point"), Times.Once());
             _object.Verify(x => x.GotHere("finished"), Times.Never());
         }
 
         [Observation]
-        public void ShouldBeAbleToResumeSmoothly()
+        public void ShouldResume()
         {
-            var obj = _workflow.Start();
+            var obj = _workflow.Start(_object.Object);
+            _object.Setup(x => x.GetStateId("test")).Returns("stop point");
             _workflow.Start(obj);
 
             _object.Verify(x => x.GotHere("starting"), Times.Once());
             obj.GetStateId("test").ShouldBe("stop point");
             _object.Verify(x => x.GotHere("finished"), Times.Once());
         }
+
+        [Observation]
+        public void ShouldResumeWithNoFormerMemoryOfTheObject()
+        {
+            _object.Setup(x => x.GetStateId("test")).Returns("stop point");
+            var obj = _workflow.Start(_object.Object);
+
+            _object.Verify(x => x.GotHere("starting"), Times.Never());
+            obj.GetStateId("test").ShouldBe("stop point");
+            _object.Verify(x => x.GotHere("finished"), Times.Once());
+        }
+
     }
 }

@@ -31,21 +31,6 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         IStatefulWorkflow<T> Yield(object breakPointId);
 
-        /// <summary>
-        /// Continues execution of the workflow where <c>obj</c> last left off 
-        /// after <c>Yield</c> was called.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        T Continue(T data);
-
-        /// <summary>
-        /// Indicates that <c>obj</c> has not yet passed through all workflow steps.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        bool IsMidlife(T data);
-
         #region overriden from base class, but returning IStatefulWorkflow
 
         /// <summary>

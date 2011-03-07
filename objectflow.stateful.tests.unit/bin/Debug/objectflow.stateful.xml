@@ -26,21 +26,6 @@
             yielded so that it can return to this point later.</param>
             <returns></returns>
         </member>
-        <member name="M:Rainbow.ObjectFlow.Stateful.IStatefulWorkflow`1.Continue(`0)">
-            <summary>
-            Continues execution of the workflow where <c>obj</c> last left off 
-            after <c>Yield</c> was called.
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Rainbow.ObjectFlow.Stateful.IStatefulWorkflow`1.IsMidlife(`0)">
-            <summary>
-            Indicates that <c>obj</c> has not yet passed through all workflow steps.
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
         <member name="M:Rainbow.ObjectFlow.Stateful.IStatefulWorkflow`1.Do``1">
             <summary>
             Registers an instance of the specified type in the workflow
@@ -97,11 +82,8 @@
             of the <c>.Equals(object)</c> method.
             </summary>
         </member>
-        <member name="F:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.subflows">
+        <member name="F:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.subflow_idx">
             <summary>Index for </summary>
-        </member>
-        <member name="F:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.keys">
-            <summary>An ordered list of keys</summary>
         </member>
         <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.#ctor(System.Object)">
             <summary>
@@ -117,28 +99,15 @@
             constructure asserts that an object that might pass through this workflow
             will pass through only this workflow and no other stateful workflow.
             Because of this restriction, it is recommended that you use 
-            <see cref="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.#ctor(System.Object)"/> instead.
+            <c>StatefulWorkflow(object)</c> instead.
             </summary>
         </member>
         <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.Yield(System.Object)">
             <summary>
             Continue the workflow where the given object left off.
             </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.Continue(`0)">
-            <summary>
-            Continues execution of the workflow where <c>obj</c> last left off 
-            after <c>Yield</c> was called.
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.IsMidlife(`0)">
-            <summary>
-            Indicates that <c>obj</c> is currently passing through this workflow
-            </summary>
-            <param name="data"></param>
+            <param name="stateId">Define the state ID that an object will be given as
+            it leaves this step.</param>
             <returns></returns>
         </member>
         <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.Start(`0)">
@@ -147,6 +116,12 @@
             </summary>
             <param name="data"></param>
             <returns></returns>
+        </member>
+        <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.Start">
+            <summary>
+            Begins the execution of a workflow
+            </summary>
+            <returns>The data after being transformed by the Operation objects</returns>
         </member>
         <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.Do``1">
             <summary>
@@ -197,6 +172,9 @@
             <param name="workflow">The funciton to add</param>
             <param name="constraint">constraint that determines if the workflow is executed</param>
         </member>
+        <member name="P:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.First">
+            <summary>The first flow of the workflow</summary>
+        </member>
         <member name="P:Rainbow.ObjectFlow.Stateful.StatefulWorkflow`1.WorkflowId">
             <summary>
             Gets an identifier that describes the workflow. This can be a string,
@@ -240,6 +218,28 @@
             null, this object is expected to either be valid for only a single workflow
             or should throw a NotSupportedException</param>
             <param name="stateId">The state identifier for the workflow. </param>
+        </member>
+        <member name="T:Rainbow.ObjectFlow.Stateful.StatefulWorkflowExtensions">
+            <summary>
+            Extension methods used to work with stateful workflows
+            and stateful objects
+            </summary>
+        </member>
+        <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflowExtensions.IsAliveInWorkflow(Rainbow.ObjectFlow.Stateful.IStatefulObject,System.Object)">
+            <summary>
+            Indicates that this object is currently passing through the specific workflow
+            </summary>
+            <param name="self"></param>
+            <param name="workflowId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Rainbow.ObjectFlow.Stateful.StatefulWorkflowExtensions.IsAliveInWorkflow``1(Rainbow.ObjectFlow.Stateful.IStatefulObject,Rainbow.ObjectFlow.Stateful.IStatefulWorkflow{``0})">
+            <summary>
+            Indicates that this object is currently passing through the specific workflow
+            </summary>
+            <param name="self"></param>
+            <param name="workflow"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>
