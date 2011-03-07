@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\objectflow.stateful.tests.unit.csproj" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-03-07" time="12:18:18">
+  <environment nunit-version="2.5.7.10213" clr-version="2.0.50727.4952" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="C:\Program Files (x86)\NUnit 2.5.7\bin\net-2.0" machine-name="KPALT1135" user="tkellogg" user-domain="KPAHQ" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Test Project" name="D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\objectflow.stateful.tests.unit.csproj" executed="True" result="Success" success="True" time="0.095" asserts="0">
+    <results>
+      <test-suite type="Assembly" name="D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\bin\Debug\objectflow.stateful.tests.unit.dll" executed="True" result="Success" success="True" time="0.061" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Objectflow" executed="True" result="Success" success="True" time="0.060" asserts="0">
+            <results>
+              <test-suite type="Namespace" name="Stateful" executed="True" result="Success" success="True" time="0.060" asserts="0">
+                <results>
+                  <test-suite type="Namespace" name="tests" executed="True" result="Success" success="True" time="0.060" asserts="0">
+                    <results>
+                      <test-suite type="Namespace" name="unit" executed="True" result="Success" success="True" time="0.057" asserts="0">
+                        <results>
+                          <test-suite type="Namespace" name="StatefulWorkflows" executed="True" result="Success" success="True" time="0.051" asserts="0">
+                            <results>
+                              <test-suite type="TestFixture" name="WhenStartingFromScratch" executed="True" result="Success" success="True" time="0.050" asserts="0">
+                                <results>
+                                  <test-case name="Objectflow.Stateful.tests.unit.StatefulWorkflows.WhenStartingFromScratch.ShouldPause" executed="True" result="Success" success="True" time="0.022" asserts="0" />
+                                  <test-case name="Objectflow.Stateful.tests.unit.StatefulWorkflows.WhenStartingFromScratch.ShouldResume" executed="True" result="Success" success="True" time="0.009" asserts="1" />
+                                  <test-case name="Objectflow.Stateful.tests.unit.StatefulWorkflows.WhenStartingFromScratch.ShouldResumeWithNoFormerMemoryOfTheObject" executed="True" result="Success" success="True" time="0.011" asserts="1" />
+                                </results>
+                              </test-suite>
+                            </results>
+                          </test-suite>
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
