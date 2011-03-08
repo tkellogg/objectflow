@@ -32,7 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.stateful\bin\Release\objectflow.stateful.XML</DocumentationFile>
+    <DocumentationFile>..\compile\objectflow.stateful\bin\Release\objectflow.stateful.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
