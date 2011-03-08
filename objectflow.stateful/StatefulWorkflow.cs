@@ -152,6 +152,33 @@ namespace Rainbow.ObjectFlow.Stateful
             return ret;
         }
 
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        public virtual IStatefulWorkflow<T> Do(Action<T> function)
+        {
+            return Do(x =>
+            {
+                function(x);
+                return x;
+            });
+        }
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        /// <param name="constraint">constraint that determines if the operation is executed</param>
+        public virtual IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint)
+        {
+            return Do(x =>
+            {
+                function(x);
+                return x;
+            }, constraint);
+        }
+
         #endregion
 
         #region Members that hide IWorkflow<T> Members
@@ -168,7 +195,8 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <summary>
         /// Registers an instance of the specified type in the workflow
         /// </summary>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do<TOperation>(ICheckConstraint constraint)
+        public new IStatefulWorkflow<T> Do<TOperation>(ICheckConstraint constraint)
+            where TOperation : BasicOperation<T>
         {
             current.Do<TOperation>(constraint);
             return this;
@@ -188,7 +216,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// Adds a function into the execution path
         /// </summary>
         /// <param name="function">The function to add</param>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do(Func<T, T> function)
+        public new IStatefulWorkflow<T> Do(Func<T, T> function)
         {
             current.Do(function);
             return this;
@@ -199,7 +227,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The funciton to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do(Func<T, T> function, ICheckConstraint constraint)
+        public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
         {
             current.Do(function, constraint);
             return this;
@@ -210,7 +238,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="operation">operatio to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do(IOperation<T> operation, ICheckConstraint constraint)
+        public new IStatefulWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
         {
             current.Do(operation, constraint);
             return this;
@@ -220,7 +248,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// Adds a sub-workflow into the execution path
         /// </summary>
         /// <param name="workflow">The function to add</param>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do(IWorkflow<T> workflow)
+        public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow)
         {
             current.Do(workflow);
             return this;
@@ -231,7 +259,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="workflow">The funciton to add</param>
         /// <param name="constraint">constraint that determines if the workflow is executed</param>
-        IStatefulWorkflow<T> IStatefulWorkflow<T>.Do(IWorkflow<T> workflow, ICheckConstraint constraint)
+        public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
             current.Do(workflow, constraint);
             return this;

@@ -82,5 +82,22 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the workflow is executed</param>
         new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint);
         #endregion
+
+        #region Similar extensions of IWorkflow
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        IStatefulWorkflow<T> Do(Action<T> function);
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        /// <param name="constraint">constraint that determines if the operation is executed</param>
+        IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint);
+
+        #endregion
     }
 }
