@@ -1,2 +1,7 @@
-%windir%\Microsoft.NET\Framework\v3.5\msbuild.exe build\build.proj /filelogger /p:configuration=Release	/property:RainbowSignature=3e6fe24a616cf37890520e048a868e9c6467adde
+if "%1%" == "" goto ReleaseBuild
+%windir%\Microsoft.NET\Framework\v3.5\msbuild.exe build\build.proj %1%
+
+
+:ReleaseBuild
+%windir%\Microsoft.NET\Framework\v3.5\msbuild.exe build\build.proj /filelogger /p:configuration=Release
 pause

@@ -7,7 +7,7 @@
     <AssemblyMajor>1</AssemblyMajor>
     <AssemblyMinor>3</AssemblyMinor>
     <AssemblyBuild>1</AssemblyBuild>
-    <AssemblyRevision>2</AssemblyRevision>
+    <AssemblyRevision>3</AssemblyRevision>
     <AssemblyInfoPath>$(RootPath)\AssemblyInfo.cs</AssemblyInfoPath>
     <AssemblyInfoTitle>Rainbow ObjectFlow</AssemblyInfoTitle>
     <AssemblyInfoDescription>Fluent workflow frameworks</AssemblyInfoDescription>
