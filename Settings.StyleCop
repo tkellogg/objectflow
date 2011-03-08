@@ -1,4 +1,11 @@
 <StyleCopSettings Version="4.3">
+  <Parsers>
+    <Parser ParserId="Microsoft.StyleCop.CSharp.CsParser">
+      <ParserSettings>
+        <BooleanProperty Name="AnalyzeDesignerFiles">False</BooleanProperty>
+      </ParserSettings>
+    </Parser>
+  </Parsers>
   <Analyzers>
     <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.DocumentationRules">
       <Rules>
@@ -280,7 +287,7 @@
       </Rules>
       <AnalyzerSettings />
     </Analyzer>
-	    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
+    <Analyzer AnalyzerId="Microsoft.StyleCop.CSharp.LayoutRules">
       <Rules>
         <Rule Name="SingleLineCommentMustBePrecededByBlankLine">
           <RuleSettings>

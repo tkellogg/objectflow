@@ -5,7 +5,7 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// <summary>
     /// Interface for the workflow pipeline
     ///</summary>
-    public interface IWorkflow<T> : IDefine<T> where T : class
+    public interface IWorkflow<T> : IDefine<T>, IExecuteWorkflow<T> where T : class
     {
         ///<summary>
         /// Chained operations will be executed concurrently
@@ -22,19 +22,6 @@ namespace Rainbow.ObjectFlow.Interfaces
         ///</summary>
         /// <remarks>The default is to wait for all concurrent operatins to finish before continuing with sequential the following sequential operations</remarks>
         IMerge<T> Then();
-
-        /// <summary>
-        /// Runs the workflow definition
-        /// </summary>
-        /// <returns>Result of the workflow</returns>
-        T Start();
-
-        /// <summary>
-        /// Runs the workflow definition
-        /// </summary>
-        /// <param name="data">data to transform</param>
-        /// <returns>Result of the workflow</returns>
-        T Start(T data);
 
         ///<summary>
         /// Attempt the operation again if it does not finish successfully

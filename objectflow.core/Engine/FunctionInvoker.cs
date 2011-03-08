@@ -25,6 +25,7 @@ namespace Rainbow.ObjectFlow.Engine
             return _function.Invoke(data);
         }
 
+        /// <exception cref="System.MemberAccessException">Thrown when accessed with late binding</exception>
         public override int GetHashCode()
         {
             return _function.GetHashCode();

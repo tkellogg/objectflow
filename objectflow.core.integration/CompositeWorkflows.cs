@@ -1,4 +1,5 @@
-﻿using Rainbow.ObjectFlow.Framework;
+﻿using objectflow.core.tests.integration.TestOperations;
+using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
 

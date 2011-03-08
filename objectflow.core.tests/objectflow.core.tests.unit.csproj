@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComposeSequentialWorkflow\WhenStartingObjectWorkflows.cs" />
+    <Compile Include="FrameworkExtensions\WhenStartingWorkflowContainer.cs" />
+    <Compile Include="FrameworkExtensions\RainbowWorkflow.cs" />
     <Compile Include="FunctionalWorkflows\WhenExecutingOperations.cs" />
     <Compile Include="ObjectCreation\WhenBuildingParallelOperationFromType.cs" />
     <Compile Include="ParallelSplit\WhenDefiningParallelWorkflows.cs" />
@@ -98,11 +100,13 @@
     <Compile Include="Policy\WhenUsingIntervalPolicy.cs" />
     <Compile Include="FunctionalWorkflows\WhenDefiningFunctionalPipe.cs" />
     <Compile Include="FunctionalWorkflows\WhenExecutingFunctions.cs" />
+    <Compile Include="PreviousOperationSuccess\WhenCheckingPreviousOperationConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepeatUntil\WhenExecutingRepeatingOperation.cs" />
     <Compile Include="RepeatUntil\WhenConfiguringRepeat.cs" />
     <Compile Include="RepeatUntil\WhenTerminatingRepeat.cs" />
     <Compile Include="RepeatUntil\WhenUsingRepeatPolicy.cs" />
+    <Compile Include="Testability\WhenUnitTestingWorkflow.cs" />
     <Compile Include="TestOperations\Colour.cs" />
     <Compile Include="TestOperations\DoubleSpace.cs" />
     <Compile Include="TestOperations\DuplicateName.cs" />

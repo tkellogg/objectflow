@@ -36,23 +36,5 @@ namespace Rainbow.ObjectFlow.Engine
 
             return result;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            var concrete = obj as BasicOperation<T>;
-
-            if (concrete == null)
-                return false;
-
-            return ReferenceEquals(obj, _operation);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-    }
+   }
 }
