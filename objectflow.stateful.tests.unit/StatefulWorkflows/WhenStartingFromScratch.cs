@@ -31,7 +31,7 @@ namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
         }
 
         [Observation]
-        public void ShouldPause()
+        public void ShouldPauseWhenArrivesAtYield()
         {
             var obj = _workflow.Start(_object.Object);
 
@@ -41,24 +41,13 @@ namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
         }
 
         [Observation]
-        public void ShouldResume()
+        public void ShouldResumeWhenGivenAValidKey()
         {
             var obj = _workflow.Start(_object.Object);
             _object.Setup(x => x.GetStateId("test")).Returns("stop point");
             _workflow.Start(obj);
 
             _object.Verify(x => x.GotHere("starting"), Times.Once());
-            obj.GetStateId("test").ShouldBe("stop point");
-            _object.Verify(x => x.GotHere("finished"), Times.Once());
-        }
-
-        [Observation]
-        public void ShouldResumeWithNoFormerMemoryOfTheObject()
-        {
-            _object.Setup(x => x.GetStateId("test")).Returns("stop point");
-            var obj = _workflow.Start(_object.Object);
-
-            _object.Verify(x => x.GotHere("starting"), Times.Never());
             obj.GetStateId("test").ShouldBe("stop point");
             _object.Verify(x => x.GotHere("finished"), Times.Once());
         }

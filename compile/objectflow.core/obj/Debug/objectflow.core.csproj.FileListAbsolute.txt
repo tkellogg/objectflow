@@ -1,5 +1,0 @@
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core\obj\Debug\ResolveAssemblyReference.cache
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core\obj\Debug\objectflow.core.pdb
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core\bin\debug\objectflow.core.dll
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core\bin\debug\objectflow.core.pdb
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.core\obj\Debug\objectflow.core.dll

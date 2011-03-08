@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatefulWorkflows\Constraints.cs" />
     <Compile Include="StatefulWorkflows\WhenStartingFromScratch.cs" />
   </ItemGroup>
   <ItemGroup>
