@@ -32,6 +32,16 @@ namespace Rainbow.ObjectFlow.Helpers
         }
 
         /// <summary>
+        /// Returns a BooleanCheckConstraint that can use a function to evaluate
+        /// </summary>
+        /// <param name="evaluator">The function to use</param>
+        /// <returns>BooleanCheckConstraint</returns>
+        public static ICheckConstraint IsTrue(Func<bool> evaluator, IDeclaredOperation onFalse)
+        {
+            return new BranchCondition(evaluator, onFalse);
+        }
+
+        /// <summary>
         /// Returns a BooleanCheckConstraint that can evaluate a boolean.
         /// </summary>
         /// <param name="condition">true/false</param>

@@ -46,15 +46,17 @@ namespace Rainbow.ObjectFlow.Engine
         {
             if (ConstraintResult(operationPair.Constraint))
             {
-                    try
-                    {
-                        current = operationPair.Command.Execute(current);
-                        LastOperationSucceeded = true;
-                    }
-                    catch (Exception)
-                    {
-                        LastOperationSucceeded = false;
-                    }
+                try
+                {
+                    current = operationPair.Command.Execute(current);
+                    LastOperationSucceeded = true;
+                }
+                catch (Exception)
+                {
+                    // TODO: create a mechanism to retrieve this error. This could be highly
+                    // obnoxious to debug
+                    LastOperationSucceeded = false;
+                }
 
                 current = ExecutePolicies(operationPair.Command, current);
             }

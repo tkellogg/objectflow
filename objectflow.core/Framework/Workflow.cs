@@ -5,6 +5,9 @@ using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Language;
 using Rainbow.ObjectFlow.Policies;
+using System.Collections.Generic;
+using Rainbow.ObjectFlow.Constraints;
+using System.Collections;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -128,6 +131,20 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="branch"></param>
+        /// <returns></returns>
+        public IWorkflow<T> Do(Func<T,T> function, out IDeclaredOperation branch)
+        {
+            Check.IsNotNull(function, "function");
+
+            _workflowBuilder.AddOperation(function, out branch);
+            return this;
+        }
+
+        /// <summary>
         /// Adds a function into the workflow definition
         /// </summary>
         /// <param name="function">Function to add</param>
@@ -164,7 +181,7 @@ namespace Rainbow.ObjectFlow.Framework
         public virtual T Start(T data)
         {
             Then();
-            _workflowEngine.Execute(_workflowBuilder.TaskList.Tasks, data);
+            _workflowEngine.Execute(_workflowBuilder.TaskList.GenerateTaskList(), data);
             return Context;
         }
 

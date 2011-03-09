@@ -9,8 +9,10 @@ namespace Rainbow.ObjectFlow.Constraints
     /// </summary>
     public class Condition : ICheckConstraint
     {
-        private readonly Func<bool> _condition;
-        private readonly IList<ICheckConstraint> _contraints;
+        /// <summary></summary>
+        protected readonly Func<bool> _condition;
+        /// <summary></summary>
+        protected readonly IList<ICheckConstraint> _contraints;
 
 
         ///<summary>
@@ -44,7 +46,7 @@ namespace Rainbow.ObjectFlow.Constraints
         /// Evaluates the constraint
         /// </summary>
         /// <returns>True if the constraint evaluated to true, false otherwise</returns>
-        public bool Matches()
+        public virtual bool Matches()
         {
             if (_contraints != null && _contraints.Count > 0)
             {
@@ -59,7 +61,7 @@ namespace Rainbow.ObjectFlow.Constraints
         /// Evaluates the constraint
         /// </summary>
         /// <returns>True if the constraint evaluated to true, false otherwise</returns>
-        public bool Matches(bool matches)
+        public virtual bool Matches(bool matches)
         {
             bool match = false;
             for (int i = 0; i < _contraints.Count; i++)

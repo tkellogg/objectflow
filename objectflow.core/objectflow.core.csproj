@@ -101,8 +101,11 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Constraints\BranchCondition.cs" />
+    <Compile Include="Engine\DeclaredOperation.cs" />
     <Compile Include="Framework\AsAWorkflow.cs" />
     <Compile Include="Interfaces\IConfigureSequence.cs" />
+    <Compile Include="Interfaces\IDeclaredOperation.cs" />
     <Compile Include="Interfaces\IExecuteWorkflow.cs" />
     <Compile Include="Policies\Repeat.cs" />
     <Compile Include="Language\IRepeat.cs" />

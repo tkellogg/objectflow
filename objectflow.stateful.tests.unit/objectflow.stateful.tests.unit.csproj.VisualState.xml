@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\objectflow.stateful.tests.unit.csproj</TopNode>
+  <SelectedNode>[1-1000]Objectflow.Stateful.tests.unit.StatefulWorkflows.WhenStartingFromScratch</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\objectflow.stateful.tests.unit.csproj" Expanded="true" />
+    <Node UniqueName="[1-1004]D:\code\MKO\Components\References\kpa.framework\References\objectflow\objectflow.stateful.tests.unit\bin\Debug\objectflow.stateful.tests.unit.dll" Expanded="true" />
+    <Node UniqueName="[1-1005]Objectflow" Expanded="true" />
+    <Node UniqueName="[1-1006]Objectflow.Stateful" Expanded="true" />
+    <Node UniqueName="[1-1007]Objectflow.Stateful.tests" Expanded="true" />
+    <Node UniqueName="[1-1008]Objectflow.Stateful.tests.unit" Expanded="true" />
+    <Node UniqueName="[1-1009]Objectflow.Stateful.tests.unit.StatefulWorkflows" Expanded="true" />
+    <Node UniqueName="[1-1000]Objectflow.Stateful.tests.unit.StatefulWorkflows.WhenStartingFromScratch" Expanded="true" />
+  </Nodes>
+</VisualState>

@@ -24,7 +24,7 @@ namespace Rainbow.ObjectFlow.Constraints
         /// Evaluates the constraint
         /// </summary>
         /// <returns>True if the constraint evaluated to true, false otherwise</returns>
-        public bool Matches()
+        public virtual bool Matches()
         {
             return bool.Parse(_condition.Invoke(_operation).ToString());
         }
@@ -33,9 +33,9 @@ namespace Rainbow.ObjectFlow.Constraints
         /// Evaluates the constraint
         /// </summary>
         /// <returns>True if the constraint evaluated to true, false otherwise</returns>
-        public bool Matches(bool match)
+        public virtual bool Matches(bool match)
         {
-            return false;
+            return match;
         }
     }
 }

@@ -38,6 +38,11 @@ namespace Rainbow.ObjectFlow.Engine
             ParallelOperations.Add(operationPair);
         }
 
+        public override void AddOperation(Func<T, T> function, out IDeclaredOperation name)
+        {
+            throw new Exception();
+        }
+
         public override void AddOperation(Func<T, T> function, ICheckConstraint constraint)
         {
             var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function), constraint);

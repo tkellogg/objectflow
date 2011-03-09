@@ -1,5 +1,0 @@
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\NunitExtensions\bin\Release\Rainbow.Nunit.Extensions.dll
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\NunitExtensions\bin\Release\Rainbow.Nunit.Extensions.pdb
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\NunitExtensions\obj\Release\ResolveAssemblyReference.cache
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\NunitExtensions\obj\Release\Rainbow.Nunit.Extensions.dll
-D:\code\MKO\Components\References\kpa.framework\References\objectflow\NunitExtensions\obj\Release\Rainbow.Nunit.Extensions.pdb
