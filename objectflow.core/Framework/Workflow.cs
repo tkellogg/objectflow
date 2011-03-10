@@ -119,6 +119,21 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
         /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The funciton to add</param>
+        /// <param name="constraint">constraint that determines if the operation is executed</param>
+        /// <param name="branchPoint"></param>
+        public virtual IWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation branchPoint)
+        {
+            Check.IsNotNull(function, "function");
+            Check.IsNotNull(constraint, "constraint");
+
+            _workflowBuilder.AddOperation(function, constraint, out branchPoint);
+            return this;
+        }
+
+        /// <summary>
         /// Adds a function into the workflow definition
         /// </summary>
         /// <param name="function">Function to add</param>

@@ -95,8 +95,46 @@ namespace Rainbow.ObjectFlow.Stateful
         /// Adds a function into the execution path
         /// </summary>
         /// <param name="function">The function to add</param>
+        /// <param name="branch">Branch point to initialize</param>
+        IStatefulWorkflow<T> Do(Action<T> function, out IDeclaredOperation branch);
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
         IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint);
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        /// <param name="constraint">constraint that determines if the operation is executed</param>
+        /// <param name="branch">Branch point to initialize</param>
+        IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, out IDeclaredOperation branch);
+
+        /// <summary>
+        /// When function returns true, branch to the specified operation
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="branchTo"></param>
+        /// <returns></returns>
+        IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation branchTo);
+        
+        /// <summary>
+        /// When function returns false, branch to the specified operation
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="branchTo"></param>
+        /// <returns></returns>
+        IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation branchTo);
+
+        /// <summary>
+        /// Declare a point that you may wish to branch to later
+        /// </summary>
+        /// <param name="branchPoint"></param>
+        /// <returns></returns>
+        IStatefulWorkflow<T> Declare(out IDeclaredOperation branchPoint);
 
         #endregion
     }

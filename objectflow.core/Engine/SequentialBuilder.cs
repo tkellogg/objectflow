@@ -42,6 +42,13 @@ namespace Rainbow.ObjectFlow.Engine
             _taskList.Tasks.Add(operationPair);
         }
 
+        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation name)
+        {
+            name = new DeclaredOperation((System.Collections.IList)_taskList.Tasks);
+            var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function), constraint);
+            _taskList.Tasks.Add(operationPair);
+        }
+
         public override void AddOperation(IWorkflow<T> workflow)
         {
             var operationPair = new OperationDuplex<T>(new WorkflowInvoker<T>(workflow));

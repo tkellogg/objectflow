@@ -26,6 +26,8 @@ namespace Rainbow.ObjectFlow.Engine
 
         public abstract void AddOperation(Func<T, T> function, ICheckConstraint constraint);
 
+        public abstract void AddOperation(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation name);
+
         public abstract void AddOperation(IWorkflow<T> operation);
 
         public abstract void AddOperation(IWorkflow<T> workflow, ICheckConstraint constraint);
