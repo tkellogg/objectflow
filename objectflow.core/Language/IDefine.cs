@@ -35,8 +35,8 @@ namespace Rainbow.ObjectFlow.Language
         /// Adds a function into the execution path
         /// </summary>
         /// <param name="function">The function to add</param>
-        /// <param name="branchPoint"></param>
-        IWorkflow<T> Do(Func<T, T> function, out IDeclaredOperation branchPoint);
+        /// <param name="defineAs"></param>
+        IWorkflow<T> Do(Func<T, T> function, IDeclaredOperation defineAs);
 
         /// <summary>
         /// Adds a function into the execution path
@@ -50,8 +50,8 @@ namespace Rainbow.ObjectFlow.Language
         /// </summary>
         /// <param name="function">The funciton to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
-        /// <param name="branchPoint">Define this step as a named point to branch back to</param>
-        IWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation branchPoint);
+        /// <param name="defineAs">Define this step as a named point to branch back to</param>
+        IWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation defineAs);
 
         /// <summary>
         /// Adds an operation into the execution path 

@@ -17,5 +17,12 @@ namespace Rainbow.ObjectFlow.Interfaces
         /// </summary>
         /// <returns></returns>
         IEnumerable GetRemainingOperations();
+
+        
+        /// <summary>
+        /// Set the remaining tasks
+        /// </summary>
+        /// <param name="tasks"></param>
+        void SetTasks(IList tasks);
     }
 }

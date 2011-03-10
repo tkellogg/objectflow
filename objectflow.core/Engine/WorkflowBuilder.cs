@@ -22,11 +22,11 @@ namespace Rainbow.ObjectFlow.Engine
 
         public abstract void AddOperation(Func<T, T> function);
 
-        public abstract void AddOperation(Func<T, T> function, out IDeclaredOperation name);
+        public abstract void AddOperation(Func<T, T> function, IDeclaredOperation name);
 
         public abstract void AddOperation(Func<T, T> function, ICheckConstraint constraint);
 
-        public abstract void AddOperation(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation name);
+        public abstract void AddOperation(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation name);
 
         public abstract void AddOperation(IWorkflow<T> operation);
 

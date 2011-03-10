@@ -104,6 +104,7 @@
     <Compile Include="Constraints\BranchCondition.cs" />
     <Compile Include="Engine\DeclaredOperation.cs" />
     <Compile Include="Framework\AsAWorkflow.cs" />
+    <Compile Include="Helpers\Declare.cs" />
     <Compile Include="Interfaces\IConfigureSequence.cs" />
     <Compile Include="Interfaces\IDeclaredOperation.cs" />
     <Compile Include="Interfaces\IExecuteWorkflow.cs" />

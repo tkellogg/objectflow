@@ -9,10 +9,17 @@ namespace Rainbow.ObjectFlow.Engine
 {
     internal class DeclaredOperation : IDeclaredOperation
     {
-        private readonly IList _tasks;
-        private readonly int _taskOffset;
+        private IList _tasks;
+        private int _taskOffset;
 
-        public DeclaredOperation(IList tasks) {
+        /// <summary>
+        /// Set the remaining tasks
+        /// </summary>
+        /// <param name="tasks"></param>
+        public virtual void SetTasks(IList tasks)
+        {
+            if (_tasks != null)
+                throw new InvalidOperationException("Redefinition of declared operations is not allowed");
             _tasks = tasks;
             _taskOffset = tasks.Count;
         }

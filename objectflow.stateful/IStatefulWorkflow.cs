@@ -96,7 +96,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The function to add</param>
         /// <param name="branch">Branch point to initialize</param>
-        IStatefulWorkflow<T> Do(Action<T> function, out IDeclaredOperation branch);
+        IStatefulWorkflow<T> Do(Action<T> function, IDeclaredOperation branch);
 
         /// <summary>
         /// Adds a function into the execution path
@@ -110,8 +110,8 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The function to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
-        /// <param name="branch">Branch point to initialize</param>
-        IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, out IDeclaredOperation branch);
+        /// <param name="defineAs">Branch point to initialize</param>
+        IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, IDeclaredOperation defineAs);
 
         /// <summary>
         /// When function returns true, branch to the specified operation
@@ -132,9 +132,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <summary>
         /// Declare a point that you may wish to branch to later
         /// </summary>
-        /// <param name="branchPoint"></param>
+        /// <param name="defineAs"></param>
         /// <returns></returns>
-        IStatefulWorkflow<T> Declare(out IDeclaredOperation branchPoint);
+        IStatefulWorkflow<T> Define(IDeclaredOperation defineAs);
 
         #endregion
     }

@@ -152,13 +152,13 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The function to add</param>
         /// <param name="branch">Branch point to initialize</param>
-        public virtual IStatefulWorkflow<T> Do(Action<T> function, out IDeclaredOperation branch)
+        public virtual IStatefulWorkflow<T> Do(Action<T> function, IDeclaredOperation branch)
         {
             return Do(x =>
             {
                 function(x);
                 return x;
-            }, out branch);
+            }, branch);
         }
 
         /// <summary>
@@ -180,14 +180,14 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The function to add</param>
         /// <param name="constraint">constraint that determines if the operation is executed</param>
-        /// <param name="branch">Branch point to initialize</param>
-        public virtual IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, out IDeclaredOperation branch)
+        /// <param name="defineAs">Branch point to initialize</param>
+        public virtual IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, IDeclaredOperation defineAs)
         {
             return Do(x =>
             {
                 function(x);
                 return x;
-            }, constraint, out branch);
+            }, constraint, defineAs);
         }
 
         #region Convenience methods for the fluent interface
@@ -226,9 +226,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="branchPoint"></param>
         /// <returns></returns>
-        public virtual IStatefulWorkflow<T> Declare(out IDeclaredOperation branchPoint)
+        public virtual IStatefulWorkflow<T> Define(IDeclaredOperation branchPoint)
         {
-            current.Do(x => x, out branchPoint);
+            current.Do(x => x, branchPoint);
             return this;
         }
 
@@ -282,9 +282,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="function">The function to add</param>
         /// <param name="branch"></param>
-        public new IStatefulWorkflow<T> Do(Func<T, T> function, out IDeclaredOperation branch)
+        public new IStatefulWorkflow<T> Do(Func<T, T> function, IDeclaredOperation branch)
         {
-            current.Do(function, out branch);
+            current.Do(function, branch);
             return this;
         }
 
@@ -294,9 +294,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="function">The function to add</param>
         /// <param name="constraint"></param>
         /// <param name="branch"></param>
-        public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation branch)
+        public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation branch)
         {
-            current.Do(function, constraint, out branch);
+            current.Do(function, constraint, branch);
             return this;
         }
 

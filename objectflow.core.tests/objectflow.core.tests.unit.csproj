@@ -85,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComposeSequentialWorkflow\WhenStartingObjectWorkflows.cs" />
+    <Compile Include="DeclaredOperations\WithForwardReferences.cs" />
     <Compile Include="DeclaredOperations\WithOneDeclaredOperation.cs" />
+    <Compile Include="DeclaredOperations\WithRedefinitions.cs" />
     <Compile Include="FrameworkExtensions\WhenStartingWorkflowContainer.cs" />
     <Compile Include="FrameworkExtensions\RainbowWorkflow.cs" />
     <Compile Include="FunctionalWorkflows\WhenExecutingOperations.cs" />

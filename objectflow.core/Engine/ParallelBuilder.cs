@@ -38,7 +38,7 @@ namespace Rainbow.ObjectFlow.Engine
             ParallelOperations.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, out IDeclaredOperation name)
+        public override void AddOperation(Func<T, T> function, IDeclaredOperation name)
         {
             throw new Exception();
         }
@@ -75,7 +75,7 @@ namespace Rainbow.ObjectFlow.Engine
             ParallelOperations.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation name)
+        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation name)
         {
             throw new NotImplementedException();
         }

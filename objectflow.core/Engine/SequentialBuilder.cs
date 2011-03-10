@@ -29,11 +29,18 @@ namespace Rainbow.ObjectFlow.Engine
             _taskList.Tasks.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, out IDeclaredOperation name)
+        public override void AddOperation(Func<T, T> function, IDeclaredOperation name)
         {
-            name = new DeclaredOperation((System.Collections.IList)_taskList.Tasks);
+            InitializeDeclaredOperation(name);
             var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function), null);
             _taskList.Tasks.Add(operationPair);
+        }
+
+        private void InitializeDeclaredOperation(IDeclaredOperation name)
+        {
+            if (name == null)
+                throw new ArgumentException("argument hasn't been initialized");
+            name.SetTasks((System.Collections.IList)_taskList.Tasks);
         }
 
         public override void AddOperation(Func<T, T> function, ICheckConstraint constraint)
@@ -42,9 +49,9 @@ namespace Rainbow.ObjectFlow.Engine
             _taskList.Tasks.Add(operationPair);
         }
 
-        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint, out IDeclaredOperation name)
+        public override void AddOperation(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation name)
         {
-            name = new DeclaredOperation((System.Collections.IList)_taskList.Tasks);
+            InitializeDeclaredOperation(name);
             var operationPair = new OperationDuplex<T>(new FunctionInvoker<T>(function), constraint);
             _taskList.Tasks.Add(operationPair);
         }

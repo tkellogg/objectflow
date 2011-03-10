@@ -45,9 +45,9 @@ namespace Objectflow.Stateful.tests.unit.DeclaredOperationsStillWork
         [Scenario]
         public void Given()
         {
-            IDeclaredOperation branchPoint;
+            var branchPoint = Declare.Step();
             w = new StatefulWorkflow<IObject>("test")
-                .Do(x => x.Feedback("branch point"), out branchPoint)
+                .Do(x => x.Feedback("branch point"), branchPoint)
                 .Do(x => x.Feedback("first point"), If.IsTrue(() => tracker < 2, branchPoint))
                 .Yield(1)
                 .Do(x => x.Feedback("second point"), If.IsTrue(() => tracker < 1, branchPoint))
