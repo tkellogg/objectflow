@@ -195,9 +195,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// When function returns true, branch to the specified operation
         /// </summary>
         /// <param name="function"></param>
-        /// <param name="branchTo"></param>
+        /// <param name="otherwise"></param>
         /// <returns></returns>
-        public virtual IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation branchTo)
+        public virtual IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise)
         {
             bool failedCheck = false;
             current.Do(x =>
@@ -206,7 +206,7 @@ namespace Rainbow.ObjectFlow.Stateful
                     failedCheck = true;
                 return x;
             });
-            current.Do(x => x, If.IsTrue(() => !failedCheck, branchTo));
+            current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
             return this;
         }
 
@@ -214,11 +214,11 @@ namespace Rainbow.ObjectFlow.Stateful
         /// When function returns false, branch to the specified operation
         /// </summary>
         /// <param name="function"></param>
-        /// <param name="branchTo"></param>
+        /// <param name="otherwise"></param>
         /// <returns></returns>
-        public virtual IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation branchTo)
+        public virtual IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation otherwise)
         {
-            return When(x => !function(x), branchTo);
+            return When(x => !function(x), otherwise);
         }
 
         /// <summary>

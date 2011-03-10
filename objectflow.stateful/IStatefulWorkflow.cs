@@ -117,17 +117,17 @@ namespace Rainbow.ObjectFlow.Stateful
         /// When function returns true, branch to the specified operation
         /// </summary>
         /// <param name="function"></param>
-        /// <param name="branchTo"></param>
+        /// <param name="otherwise"></param>
         /// <returns></returns>
-        IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation branchTo);
+        IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise);
         
         /// <summary>
         /// When function returns false, branch to the specified operation
         /// </summary>
         /// <param name="function"></param>
-        /// <param name="branchTo"></param>
+        /// <param name="otherwise"></param>
         /// <returns></returns>
-        IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation branchTo);
+        IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation otherwise);
 
         /// <summary>
         /// Declare a point that you may wish to branch to later
