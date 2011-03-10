@@ -10,9 +10,9 @@ namespace Rainbow.ObjectFlow.Constraints
     public class Condition : ICheckConstraint
     {
         /// <summary></summary>
-        protected readonly Func<bool> _condition;
+        protected internal readonly Func<bool> condition;
         /// <summary></summary>
-        protected readonly IList<ICheckConstraint> _contraints;
+        protected internal readonly IList<ICheckConstraint> contraints;
 
 
         ///<summary>
@@ -28,7 +28,7 @@ namespace Rainbow.ObjectFlow.Constraints
         ///<param name="condition"></param>
         public Condition(Func<bool> condition)
         {
-            _condition = condition;
+            this.condition = condition;
         }
 
         ///<summary>
@@ -39,7 +39,7 @@ namespace Rainbow.ObjectFlow.Constraints
         public Condition(Func<bool> condition, IList<ICheckConstraint> constraints)
             : this(condition)
         {
-            _contraints = constraints;
+            this.contraints = constraints;
         }
 
         /// <summary>
@@ -48,13 +48,13 @@ namespace Rainbow.ObjectFlow.Constraints
         /// <returns>True if the constraint evaluated to true, false otherwise</returns>
         public virtual bool Matches()
         {
-            if (_contraints != null && _contraints.Count > 0)
+            if (contraints != null && contraints.Count > 0)
             {
-                bool match = Matches(_condition.Invoke());
+                bool match = Matches(condition.Invoke());
                 return match;
             }
 
-            return _condition.Invoke();
+            return condition.Invoke();
         }
 
         /// <summary>
@@ -64,9 +64,9 @@ namespace Rainbow.ObjectFlow.Constraints
         public virtual bool Matches(bool matches)
         {
             bool match = false;
-            for (int i = 0; i < _contraints.Count; i++)
+            for (int i = 0; i < contraints.Count; i++)
             {
-                match = _contraints[i].Matches(matches);
+                match = contraints[i].Matches(matches);
             }
 
             return match;

@@ -25,6 +25,7 @@ namespace Rainbow.ObjectFlow.Engine
             for (; enumerator.MoveNext(); )
             {
                 var task = (OperationDuplex<T>)enumerator.Current;
+                // TODO: this smells like object incest. Interface maybe??
                 if (task.Constraint is BranchCondition)
                 {
                     var constraint = (BranchCondition)task.Constraint;

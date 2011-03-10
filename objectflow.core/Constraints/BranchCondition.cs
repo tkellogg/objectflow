@@ -15,7 +15,6 @@ namespace Rainbow.ObjectFlow.Constraints
         /// Constructor used to define a path
         /// </summary>
         /// <param name="condition"></param>
-        /// <param name="operation"></param>
         /// <param name="branchPoint"></param>
         public BranchCondition(Func<bool> condition, IDeclaredOperation branchPoint)
             : base(condition)
@@ -29,7 +28,7 @@ namespace Rainbow.ObjectFlow.Constraints
         /// <param name="object"></param>
         /// <param name="alterTaskChainForBranch">Action to execute when match fails</param>
         internal BranchCondition(BranchCondition @object, Action alterTaskChainForBranch)
-            : this (@object._condition, @object.BranchPoint)
+            : this (@object.condition, @object.BranchPoint)
         {
             _alterTaskChainForBranch = alterTaskChainForBranch;
         }

@@ -9,6 +9,9 @@ namespace Rainbow.ObjectFlow.Framework
     ///<typeparam name="T">Type the workflow transforms</typeparam>
     public abstract class AsAWorkflow<T> : IConfigureSequence<T>, IExecuteWorkflow<T> where T : class
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected IWorkflow<T> Workflow;
 
         ///<summary>

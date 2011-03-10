@@ -35,6 +35,7 @@ namespace Rainbow.ObjectFlow.Language
         /// Adds a function into the execution path
         /// </summary>
         /// <param name="function">The function to add</param>
+        /// <param name="branchPoint"></param>
         IWorkflow<T> Do(Func<T, T> function, out IDeclaredOperation branchPoint);
 
         /// <summary>

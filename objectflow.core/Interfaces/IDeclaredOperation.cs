@@ -9,7 +9,6 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public interface IDeclaredOperation
     {
         /// <summary>

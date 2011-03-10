@@ -35,6 +35,7 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             if (nextKey != null && !subflow_idx.ContainsKey(nextKey))
             {
+                current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
                 subflow_idx[nextKey] = subflows.Count;
                 subflows.Add(current);
             }
@@ -63,13 +64,6 @@ namespace Rainbow.ObjectFlow.Stateful
                 else
                     throw new InvalidOperationException("Object is not passing through workflow " + this.WorkflowId);
             }
-        }
-
-        private object GetKeyFromIndex(int index)
-        {
-            return (from x in subflow_idx
-                    where x.Value == index
-                    select x.Key).FirstOrDefault();
         }
 
         private IWorkflow<T> current = new Workflow<T>();
@@ -111,6 +105,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Yield(object stateId)
         {
+            current.Do(x => { x.SetStateId(WorkflowId, stateId); return x; });
             AddFlow(stateId, current);
             current = new Workflow<T>();
             return this;
@@ -124,21 +119,8 @@ namespace Rainbow.ObjectFlow.Stateful
         public override T Start(T data)
         {
             EndDefinitionPhase();
-            int oldIndex = 0;
-            if (data.IsAliveInWorkflow(this))
-                oldIndex = subflow_idx[data.GetStateId(this.WorkflowId)];
             var ret = GetCurrentFlowForObject(data).Start(data);
-            SetStateIndex(oldIndex, ret);
             return ret;
-        }
-
-        private void SetStateIndex(int oldIndex, T ret)
-        {
-            EndDefinitionPhase();
-            if (ret != null && subflows.Count >= oldIndex)
-                ret.SetStateId(this.WorkflowId, GetKeyFromIndex(oldIndex + 1));
-            else
-                ret.SetStateId(this.WorkflowId, null);
         }
 
         /// <summary>
@@ -148,7 +130,6 @@ namespace Rainbow.ObjectFlow.Stateful
         public override T Start()
         {
             var ret = First.Start();
-            SetStateIndex(0, ret);
             return ret;
         }
 
@@ -219,6 +200,17 @@ namespace Rainbow.ObjectFlow.Stateful
         public new IStatefulWorkflow<T> Do(Func<T, T> function)
         {
             current.Do(function);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a function into the execution path
+        /// </summary>
+        /// <param name="function">The function to add</param>
+        /// <param name="branch"></param>
+        public new IStatefulWorkflow<T> Do(Func<T, T> function, out IDeclaredOperation branch)
+        {
+            current.Do(function, out branch);
             return this;
         }
 
