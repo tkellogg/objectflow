@@ -7,6 +7,9 @@ using Rainbow.ObjectFlow.Engine;
 
 namespace Rainbow.ObjectFlow.Helpers
 {
+    /// <summary>
+    /// Declare operations for branching
+    /// </summary>
     public static class Declare
     {
         /// <summary>

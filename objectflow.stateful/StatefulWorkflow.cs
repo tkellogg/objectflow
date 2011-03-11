@@ -15,11 +15,17 @@ namespace Rainbow.ObjectFlow.Stateful
     public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
         where T : class, IStatefulObject
     {
+        private IWorkflow<T> current = new Workflow<T>();
+        private ITransitionGateway gateway;
+        private List<ITransition> transitions;
+
         /// <summary>Index for </summary>
         private Dictionary<object, int> subflow_idx
                             = new Dictionary<object, int>();
         private List<IWorkflow<T>> subflows = new List<IWorkflow<T>>();
         private object nextKey;
+        /// <summary>Used for transitions to know what key we're building from</summary>
+        private object currentKey;
         
         private void AddFlow(object key, IWorkflow<T> flow)
         {
@@ -28,18 +34,26 @@ namespace Rainbow.ObjectFlow.Stateful
                 if (nextKey != null)
                     subflow_idx[nextKey] = subflows.Count;
                 subflows.Add(flow);
+                AddTransition(nextKey, key);
+                currentKey = nextKey;
                 nextKey = key;
             }
         }
 
         private void EndDefinitionPhase()
         {
-            if (nextKey != null && !subflow_idx.ContainsKey(nextKey))
+            if (nextKey != null)
             {
-                current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
-                subflow_idx[nextKey] = subflows.Count;
-                subflows.Add(current);
+                if (!subflow_idx.ContainsKey(nextKey))
+                {
+                    current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
+                    subflow_idx[nextKey] = subflows.Count;
+                    subflows.Add(current);
+                    AddTransition(nextKey, null);
+                }
             }
+            else
+                AddTransition(null, null);
         }
 
         /// <summary>The first flow of the workflow</summary>
@@ -67,10 +81,8 @@ namespace Rainbow.ObjectFlow.Stateful
             }
         }
 
-        private IWorkflow<T> current = new Workflow<T>();
-
         /// <summary>
-        /// Creates a workflow that has persistable states and is identified by
+        /// Creates a workflow that has persistable states identified by
         /// <c>workflowId</c>.
         /// </summary>
         /// <param name="workflowId">Persistable value that represents this workflow.
@@ -78,6 +90,20 @@ namespace Rainbow.ObjectFlow.Stateful
         public StatefulWorkflow(object workflowId)
         {
             WorkflowId = workflowId;
+        }
+
+        /// <summary>
+        /// Creates a workflow that has persistable states identified by
+        /// <c>workflowId</c> and provided by a transition security layer
+        /// </summary>
+        /// <param name="workflowId"></param>
+        /// <param name="gateway">The security gateway that has the ability to diallow
+        /// a transition from ever happening.</param>
+        public StatefulWorkflow(object workflowId, ITransitionGateway gateway)
+            : this(workflowId)
+        {
+            this.gateway = gateway;
+            this.transitions = new List<ITransition>();
         }
 
         /// <summary>
@@ -341,6 +367,35 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             current.Do(workflow, constraint);
             return this;
+        }
+
+        #endregion
+
+        #region Transitions
+
+        private void AddTransition(object from, object to)
+        {
+            transitions.Add(new Transition(from, to));
+        }
+
+        /// <summary>
+        /// <para>
+        /// Get an enumeration of only possible transitions of this workflow. Usage
+        /// of this method before workflow definition is finished is meaningless, so
+        /// refrain from calling this until the workflow is entirely defined to a 
+        /// point that you could call <c>.Start()</c>
+        /// </para>
+        /// <para>
+        /// If an ITransitionGateway instance has not been supplied to this object 
+        /// (i.e. in the constructor), this property will throw an exception.
+        /// </para>
+        /// </summary>
+        public virtual IEnumerable<ITransition> PossibleTransitions
+        {
+            get {
+                EndDefinitionPhase();
+                return transitions; 
+            }
         }
 
         #endregion

@@ -136,6 +136,22 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         IStatefulWorkflow<T> Define(IDeclaredOperation defineAs);
 
+        /// <summary>
+        /// <para>
+        /// Get an enumeration of only possible transitions of this workflow. Usage
+        /// of this method before workflow definition is finished is meaningless, so
+        /// refrain from calling this until the workflow is entirely defined to a 
+        /// point that you could call <c>.Start()</c>
+        /// </para>
+        /// <para>
+        /// If an ITransitionGateway instance has not been supplied to this object 
+        /// (i.e. in the constructor), this property may return null or throw an 
+        /// exception. This enumeration is unordered, no code should rely on the 
+        /// ordering being the same between versions or even between calls.
+        /// </para>
+        /// </summary>
+        IEnumerable<ITransition> PossibleTransitions { get; }
+
         #endregion
     }
 }
