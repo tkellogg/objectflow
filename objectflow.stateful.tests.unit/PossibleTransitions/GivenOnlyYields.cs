@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Moq;
 
-namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
+namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 {
     [TestFixture]
     public class GivenOnlyYields

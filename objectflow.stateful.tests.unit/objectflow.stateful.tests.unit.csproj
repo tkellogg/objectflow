@@ -57,9 +57,9 @@
     <Compile Include="DeclaredOperationsStillWork\WithOneDeclaredOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatefulWorkflows\WhenStartingFromScratch.cs" />
-    <Compile Include="TransitionGateways\GivenBranchesAndYields.cs" />
-    <Compile Include="TransitionGateways\GivenOnlyBranches.cs" />
-    <Compile Include="TransitionGateways\GivenOnlyYields.cs" />
+    <Compile Include="PossibleTransitions\GivenBranchesAndYields.cs" />
+    <Compile Include="PossibleTransitions\GivenOnlyBranches.cs" />
+    <Compile Include="PossibleTransitions\GivenOnlyYields.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NunitExtensions\NunitExtensions.csproj">

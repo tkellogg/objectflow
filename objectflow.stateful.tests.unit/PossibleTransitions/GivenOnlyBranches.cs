@@ -5,7 +5,7 @@ using System.Text;
 using Moq;
 using Rainbow.ObjectFlow.Helpers;
 
-namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
+namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 {
     public class GivenOnlyBranches : Specification
     {
