@@ -59,6 +59,7 @@
     <Compile Include="StatefulWorkflow.cs" />
     <Compile Include="StatefulWorkflowExtensions.cs" />
     <Compile Include="Transition.cs" />
+    <Compile Include="UnallowedTransitionException.cs" />
     <Compile Include="WorkflowFactory.cs" />
   </ItemGroup>
   <ItemGroup>

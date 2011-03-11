@@ -150,6 +150,7 @@ namespace Rainbow.ObjectFlow.Stateful
         public override T Start(T data)
         {
             EndDefinitionPhase();
+            CheckThatTransitionIsAllowed(data.GetStateId(this.WorkflowId));
             var ret = GetCurrentFlowForObject(data).Start(data);
             return ret;
         }
@@ -234,6 +235,7 @@ namespace Rainbow.ObjectFlow.Stateful
             bool failedCheck = false;
             current.Do(x =>
             {
+                CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
                 if (!function(x))
                     failedCheck = true;
                 return x;
@@ -390,6 +392,10 @@ namespace Rainbow.ObjectFlow.Stateful
         private Dictionary<IDeclaredOperation, object> definedRefs
             = new Dictionary<IDeclaredOperation, object>();
 
+        /// <summary>Need to hold onto these for all eternity</summary>
+        private Dictionary<IDeclaredOperation, object> allDefinedRefs
+            = new Dictionary<IDeclaredOperation, object>();
+
         private List<IDeclaredOperation> currentFlowDefs = new List<IDeclaredOperation>();
 
         /// <summary>
@@ -400,7 +406,7 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             if (definedRefs.ContainsKey(branchPoint))
             {
-                AddTransition(nextKey, definedRefs[branchPoint]);
+                AddTransition(nextKey, definedRefs[branchPoint], branchPoint);
             }
             else
             {
@@ -424,7 +430,7 @@ namespace Rainbow.ObjectFlow.Stateful
             {
                 foreach (var key in undefinedForwardRefs[branchPoint])
                 {
-                    AddTransition(nextKey, key);
+                    AddTransition(nextKey, key, branchPoint);
                 }
                 undefinedForwardRefs.Remove(branchPoint);
             }
@@ -440,10 +446,16 @@ namespace Rainbow.ObjectFlow.Stateful
             }
         }
 
+        private void AddTransition(object from, object to, IDeclaredOperation op)
+        {
+            AddTransition(from, to);
+            if (transitions != null)
+                allDefinedRefs[op] = to;
+        }
+
         private void AddRemainingTransitions()
         {
             AddTransition(nextKey, null);
-
         }
 
         /// <summary>
@@ -463,6 +475,31 @@ namespace Rainbow.ObjectFlow.Stateful
             get {
                 EndDefinitionPhase();
                 return transitions; 
+            }
+        }
+
+        private void CheckThatTransitionIsAllowed(object from)
+        {
+            if (gateway != null)
+            {
+                var list = PossibleTransitions.Where(x => gateway.IsTransitionAllowed(x) && object.Equals(x.From, from)).ToList();
+                int count = PossibleTransitions.Where(x => gateway.IsTransitionAllowed(x)
+                                && object.Equals(x.From, from)).Count();
+                if (count == 0)
+                    throw new UnallowedTransitionException("No transitions allowed from state: {0}", from);
+            }
+        }
+
+        private void CheckThatTransitionIsAllowed(object from, IDeclaredOperation to)
+        {
+            if (gateway != null)
+            {
+                object toState = allDefinedRefs[to];
+                var list = PossibleTransitions.Where(x => 
+                            gateway.IsTransitionAllowed(new Transition(from, toState))).ToList();
+                if (list.Count == 0)
+                    throw new UnallowedTransitionException("No transitions allowed from states: {0} to {1}", 
+                        from, toState);
             }
         }
 

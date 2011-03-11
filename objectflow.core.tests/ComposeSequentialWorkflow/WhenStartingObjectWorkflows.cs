@@ -5,7 +5,6 @@ using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rhino.Mocks;
-using Moq;
 
 namespace Objectflow.core.tests.ComposeSequentialWorkflow
 {
