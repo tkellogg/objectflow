@@ -49,11 +49,15 @@ namespace Rainbow.ObjectFlow.Stateful
                     current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
                     subflow_idx[nextKey] = subflows.Count;
                     subflows.Add(current);
-                    AddTransition(nextKey, null);
+                    AddRemainingTransitions();
                 }
             }
             else
                 AddTransition(null, null);
+            
+            // free up some memory that won't be required anymore
+            undefinedForwardRefs = null;
+            definedRefs = null;
         }
 
         /// <summary>The first flow of the workflow</summary>
@@ -217,6 +221,7 @@ namespace Rainbow.ObjectFlow.Stateful
         }
 
         #region Convenience methods for the fluent interface
+
         /// <summary>
         /// When function returns true, branch to the specified operation
         /// </summary>
@@ -225,6 +230,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise)
         {
+            AnalyzeTransitionPaths(otherwise);
             bool failedCheck = false;
             current.Do(x =>
             {
@@ -250,11 +256,12 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <summary>
         /// Declare a point that you may wish to branch to later
         /// </summary>
-        /// <param name="branchPoint"></param>
+        /// <param name="defineAs"></param>
         /// <returns></returns>
-        public virtual IStatefulWorkflow<T> Define(IDeclaredOperation branchPoint)
+        public virtual IStatefulWorkflow<T> Define(IDeclaredOperation defineAs)
         {
-            current.Do(x => x, branchPoint);
+            current.Do(x => x, defineAs);
+            CreateDecisionPath(defineAs);
             return this;
         }
 
@@ -373,9 +380,70 @@ namespace Rainbow.ObjectFlow.Stateful
 
         #region Transitions
 
+        /// <summary>Accumulates all refs that refer to this, and stores workflows where
+        /// they might go.</summary>
+        private Dictionary<IDeclaredOperation, List<object>> undefinedForwardRefs
+            = new Dictionary<IDeclaredOperation, List<object>>();
+
+        /// <summary>a single ref maps to the first yield. Although, if there
+        /// are branches before that first Yield, this will map to multiple paths</summary>
+        private Dictionary<IDeclaredOperation, object> definedRefs
+            = new Dictionary<IDeclaredOperation, object>();
+
+        private List<IDeclaredOperation> currentFlowDefs = new List<IDeclaredOperation>();
+
+        /// <summary>
+        /// Called when making decisions
+        /// </summary>
+        /// <param name="branchPoint"></param>
+        private void AnalyzeTransitionPaths(IDeclaredOperation branchPoint)
+        {
+            if (definedRefs.ContainsKey(branchPoint))
+            {
+                AddTransition(nextKey, definedRefs[branchPoint]);
+            }
+            else
+            {
+                if (!undefinedForwardRefs.ContainsKey(branchPoint))
+                    undefinedForwardRefs[branchPoint] = new List<object>();
+                undefinedForwardRefs[branchPoint].Add(nextKey);
+            }
+        }
+
+        /// <summary>
+        /// Called when .Define()'ing points
+        /// </summary>
+        /// <param name="branchPoint"></param>
+        private void CreateDecisionPath(IDeclaredOperation branchPoint)
+        {
+            if (definedRefs.ContainsKey(branchPoint))
+                throw new InvalidOperationException("branch point is already defined. "
+                        + "Cannot multiply define branch points");
+            definedRefs[branchPoint] = nextKey;
+            if (undefinedForwardRefs.ContainsKey(branchPoint))
+            {
+                foreach (var key in undefinedForwardRefs[branchPoint])
+                {
+                    AddTransition(nextKey, key);
+                }
+                undefinedForwardRefs.Remove(branchPoint);
+            }
+        }
+
         private void AddTransition(object from, object to)
         {
-            transitions.Add(new Transition(from, to));
+            if (transitions != null)
+            {
+                var t = new Transition(from, to);
+                if (!transitions.Contains(t))
+                    transitions.Add(t);
+            }
+        }
+
+        private void AddRemainingTransitions()
+        {
+            AddTransition(nextKey, null);
+
         }
 
         /// <summary>
