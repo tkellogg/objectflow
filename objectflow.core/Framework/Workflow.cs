@@ -34,11 +34,11 @@ namespace Rainbow.ObjectFlow.Framework
         /// <summary>
         /// Create a workflow with a default error handler class.
         /// </summary>
-        /// <param name="faultHandler"></param>
-        public Workflow(IFaultHandler<T> faultHandler)
+        /// <param name="errorHandler"></param>
+        public Workflow(IErrorHandler<T> errorHandler)
             :this()
         {
-            _workflowEngine.FaultHandler = faultHandler;
+            _workflowEngine.ErrorHandler = errorHandler;
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Rainbow.ObjectFlow.Stateful
     public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
         where T : class, IStatefulObject
     {
-        private IFaultHandler<T> _faultHandler;
+        private IErrorHandler<T> _faultHandler;
         private IWorkflow<T> _current;
         private ITransitionGateway _gateway;
         private List<ITransition> _transitions;
@@ -95,7 +95,7 @@ namespace Rainbow.ObjectFlow.Stateful
         public StatefulWorkflow(object workflowId)
         {
             WorkflowId = workflowId;
-            _faultHandler = new FaultHandler<T>();
+            _faultHandler = new ErrorHandler<T>();
             _current = new Workflow<T>(_faultHandler);
         }
 
@@ -109,7 +109,7 @@ namespace Rainbow.ObjectFlow.Stateful
         public StatefulWorkflow(object workflowId, ITransitionGateway gateway)
         {
             WorkflowId = workflowId;
-            _faultHandler = new StatefulFaultHandler<T>();
+            _faultHandler = new StatefulErrorHandler<T>();
             _current = new Workflow<T>(_faultHandler);
             this._gateway = gateway;
             this._transitions = new List<ITransition>();

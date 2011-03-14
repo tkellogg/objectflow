@@ -8,7 +8,7 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// <summary>
     /// Describes the level of which a fault was handled
     /// </summary>
-    public enum FaultLevel
+    public enum ErrorLevel
     {
         /// <summary>The operation should be considered successful</summary>
         Ignored,
@@ -24,7 +24,7 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IFaultHandler<T>
+    public interface IErrorHandler<T>
     {
         /// <summary>
         /// Called when an exception occurs in a workflow step. Different return values 
@@ -33,6 +33,6 @@ namespace Rainbow.ObjectFlow.Interfaces
         /// <param name="ex">The exception that caused the fault</param>
         /// <param name="data">The data object being manipulated by the workflow</param>
         /// <returns>The FaultLevel indicating how workflow execution should continue</returns>
-        FaultLevel HandleFault(Exception ex, T data);
+        ErrorLevel Handle(Exception ex, T data);
     }
 }

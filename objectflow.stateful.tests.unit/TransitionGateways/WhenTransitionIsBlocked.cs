@@ -77,9 +77,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
                 .Returns(false);
             wf.Start(obj.Object);
             wf.Start(obj.Object);
-            /* Test is failing because Dispatcher is swalling the fucking exception. This is
-             * too much work for a friday afternoon when I started working at 4:30 am
-             */
+
             Assert.Throws<UnallowedTransitionException>(() => wf.Start(obj.Object));
             obj.Verify(x => x.Feedback("middle"), Times.Once()); // not twice
         }

@@ -13,7 +13,7 @@ namespace Rainbow.ObjectFlow.Engine
         internal static Stack<ICheckConstraint> ExecutionPlan { get; set; }
         internal static bool LastOperationSucceeded;
 
-        public virtual IFaultHandler<T> FaultHandler { get; set; }
+        public virtual IErrorHandler<T> ErrorHandler { get; set; }
 
         public T Context { get; set; }
         
@@ -24,7 +24,7 @@ namespace Rainbow.ObjectFlow.Engine
 
         public Dispatcher()
         {
-            FaultHandler = new FaultHandler<T>();
+            ErrorHandler = new ErrorHandler<T>();
             WfExecutionPlan.CallStack = new List<bool>();
         }
 
@@ -57,20 +57,20 @@ namespace Rainbow.ObjectFlow.Engine
                 }
                 catch (Exception ex)
                 {
-                    switch (FaultHandler.HandleFault(ex, current))
+                    switch (ErrorHandler.Handle(ex, current))
                     {
-                        case FaultLevel.Ignored:
+                        case ErrorLevel.Ignored:
                             LastOperationSucceeded = true;
                             break;
-                        case FaultLevel.Handled:
+                        case ErrorLevel.Handled:
                             LastOperationSucceeded = false;
                             break;
-                        case FaultLevel.Fatal:
+                        case ErrorLevel.Fatal:
                             LastOperationSucceeded = false;
                             throw;
                         default:
                             // This line should theoretically be dead code.
-                            throw new ArgumentOutOfRangeException("invalid member of FaultLevel enum");
+                            throw new ArgumentOutOfRangeException("invalid member of ErrorLevel enum");
                     }
                 }
 
