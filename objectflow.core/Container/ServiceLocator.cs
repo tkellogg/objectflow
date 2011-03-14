@@ -1,6 +1,8 @@
 ﻿using Castle.Core;
 using Castle.MicroKernel;
 using Rainbow.ObjectFlow.Engine;
+using Rainbow.ObjectFlow.Interfaces;
+using Castle.MicroKernel.Registration;
 
 namespace Rainbow.ObjectFlow.Container
 {
@@ -8,6 +10,12 @@ namespace Rainbow.ObjectFlow.Container
 #pragma warning disable 1591
     internal static class ServiceLocator<T> where T :class 
     {
+        /** 
+         * TODO: this seems strange that we create a new container, with all transient types
+         * for each type that a workflow might use. Memory hog??  How about we refactor this
+         * into a non-generic base class and just do registrations in the generic child class?
+         * Honestly, the method should have been generic, not the class.
+         */
         private static IKernel _container;
         public static IKernel Get()
         {

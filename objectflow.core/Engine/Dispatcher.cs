@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Policies;
+using Rainbow.ObjectFlow.Framework;
 
 namespace Rainbow.ObjectFlow.Engine
 {
@@ -11,6 +12,8 @@ namespace Rainbow.ObjectFlow.Engine
     {
         internal static Stack<ICheckConstraint> ExecutionPlan { get; set; }
         internal static bool LastOperationSucceeded;
+
+        public virtual IFaultHandler<T> FaultHandler { get; set; }
 
         public T Context { get; set; }
         
@@ -21,6 +24,7 @@ namespace Rainbow.ObjectFlow.Engine
 
         public Dispatcher()
         {
+            FaultHandler = new FaultHandler<T>();
             WfExecutionPlan.CallStack = new List<bool>();
         }
 
@@ -51,11 +55,23 @@ namespace Rainbow.ObjectFlow.Engine
                     current = operationPair.Command.Execute(current);
                     LastOperationSucceeded = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // TODO: create a mechanism to retrieve this error. This could be highly
-                    // obnoxious to debug
-                    LastOperationSucceeded = false;
+                    switch (FaultHandler.HandleFault(ex, current))
+                    {
+                        case FaultLevel.Ignored:
+                            LastOperationSucceeded = true;
+                            break;
+                        case FaultLevel.Handled:
+                            LastOperationSucceeded = false;
+                            break;
+                        case FaultLevel.Fatal:
+                            LastOperationSucceeded = false;
+                            throw;
+                        default:
+                            // This line should theoretically be dead code.
+                            throw new ArgumentOutOfRangeException("invalid member of FaultLevel enum");
+                    }
                 }
 
                 current = ExecutePolicies(operationPair.Command, current);

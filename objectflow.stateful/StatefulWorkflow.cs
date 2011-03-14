@@ -15,9 +15,10 @@ namespace Rainbow.ObjectFlow.Stateful
     public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
         where T : class, IStatefulObject
     {
-        private IWorkflow<T> current = new Workflow<T>();
-        private ITransitionGateway gateway;
-        private List<ITransition> transitions;
+        private IFaultHandler<T> _faultHandler;
+        private IWorkflow<T> _current;
+        private ITransitionGateway _gateway;
+        private List<ITransition> _transitions;
 
         /// <summary>Index for </summary>
         private Dictionary<object, int> subflow_idx
@@ -46,9 +47,9 @@ namespace Rainbow.ObjectFlow.Stateful
             {
                 if (!subflow_idx.ContainsKey(nextKey))
                 {
-                    current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
+                    _current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
                     subflow_idx[nextKey] = subflows.Count;
-                    subflows.Add(current);
+                    subflows.Add(_current);
                     AddRemainingTransitions();
                 }
             }
@@ -94,6 +95,8 @@ namespace Rainbow.ObjectFlow.Stateful
         public StatefulWorkflow(object workflowId)
         {
             WorkflowId = workflowId;
+            _faultHandler = new FaultHandler<T>();
+            _current = new Workflow<T>(_faultHandler);
         }
 
         /// <summary>
@@ -104,10 +107,12 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="gateway">The security gateway that has the ability to diallow
         /// a transition from ever happening.</param>
         public StatefulWorkflow(object workflowId, ITransitionGateway gateway)
-            : this(workflowId)
         {
-            this.gateway = gateway;
-            this.transitions = new List<ITransition>();
+            WorkflowId = workflowId;
+            _faultHandler = new StatefulFaultHandler<T>();
+            _current = new Workflow<T>(_faultHandler);
+            this._gateway = gateway;
+            this._transitions = new List<ITransition>();
         }
 
         /// <summary>
@@ -136,9 +141,9 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Yield(object stateId)
         {
-            current.Do(x => { x.SetStateId(WorkflowId, stateId); return x; });
-            AddFlow(stateId, current);
-            current = new Workflow<T>();
+            _current.Do(x => { x.SetStateId(WorkflowId, stateId); return x; });
+            AddFlow(stateId, _current);
+            _current = new Workflow<T>(_faultHandler);
             return this;
         }
 
@@ -233,14 +238,14 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             AnalyzeTransitionPaths(otherwise);
             bool failedCheck = false;
-            current.Do(x =>
+            _current.Do(x =>
             {
                 CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
                 if (!function(x))
                     failedCheck = true;
                 return x;
             });
-            current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
+            _current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
             return this;
         }
 
@@ -262,7 +267,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Define(IDeclaredOperation defineAs)
         {
-            current.Do(x => x, defineAs);
+            _current.Do(x => x, defineAs);
             CreateDecisionPath(defineAs);
             return this;
         }
@@ -278,7 +283,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         public new IStatefulWorkflow<T> Do<TOperation>() where TOperation : BasicOperation<T>
         {
-            current.Do<TOperation>();
+            _current.Do<TOperation>();
             return this;
         }
 
@@ -288,7 +293,7 @@ namespace Rainbow.ObjectFlow.Stateful
         public new IStatefulWorkflow<T> Do<TOperation>(ICheckConstraint constraint)
             where TOperation : BasicOperation<T>
         {
-            current.Do<TOperation>(constraint);
+            _current.Do<TOperation>(constraint);
             return this;
         }
 
@@ -298,7 +303,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="operation">The operation to add</param>
         public new IStatefulWorkflow<T> Do(IOperation<T> operation)
         {
-            current.Do(operation);
+            _current.Do(operation);
             return this;
         }
 
@@ -308,7 +313,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="function">The function to add</param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function)
         {
-            current.Do(function);
+            _current.Do(function);
             return this;
         }
 
@@ -319,7 +324,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="branch"></param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, IDeclaredOperation branch)
         {
-            current.Do(function, branch);
+            _current.Do(function, branch);
             return this;
         }
 
@@ -331,7 +336,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="branch"></param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation branch)
         {
-            current.Do(function, constraint, branch);
+            _current.Do(function, constraint, branch);
             return this;
         }
 
@@ -342,7 +347,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the operation is executed</param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
         {
-            current.Do(function, constraint);
+            _current.Do(function, constraint);
             return this;
         }
 
@@ -353,7 +358,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the operation is executed</param>
         public new IStatefulWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
         {
-            current.Do(operation, constraint);
+            _current.Do(operation, constraint);
             return this;
         }
 
@@ -363,7 +368,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="workflow">The function to add</param>
         public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow)
         {
-            current.Do(workflow);
+            _current.Do(workflow);
             return this;
         }
         
@@ -374,7 +379,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the workflow is executed</param>
         public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
-            current.Do(workflow, constraint);
+            _current.Do(workflow, constraint);
             return this;
         }
 
@@ -438,18 +443,18 @@ namespace Rainbow.ObjectFlow.Stateful
 
         private void AddTransition(object from, object to)
         {
-            if (transitions != null)
+            if (_transitions != null)
             {
                 var t = new Transition(from, to);
-                if (!transitions.Contains(t))
-                    transitions.Add(t);
+                if (!_transitions.Contains(t))
+                    _transitions.Add(t);
             }
         }
 
         private void AddTransition(object from, object to, IDeclaredOperation op)
         {
             AddTransition(from, to);
-            if (transitions != null)
+            if (_transitions != null)
                 allDefinedRefs[op] = to;
         }
 
@@ -474,16 +479,16 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             get {
                 EndDefinitionPhase();
-                return transitions; 
+                return _transitions; 
             }
         }
 
         private void CheckThatTransitionIsAllowed(object from)
         {
-            if (gateway != null)
+            if (_gateway != null)
             {
-                var list = PossibleTransitions.Where(x => gateway.IsTransitionAllowed(x) && object.Equals(x.From, from)).ToList();
-                int count = PossibleTransitions.Where(x => gateway.IsTransitionAllowed(x)
+                var list = PossibleTransitions.Where(x => _gateway.IsTransitionAllowed(x) && object.Equals(x.From, from)).ToList();
+                int count = PossibleTransitions.Where(x => _gateway.IsTransitionAllowed(x)
                                 && object.Equals(x.From, from)).Count();
                 if (count == 0)
                     throw new UnallowedTransitionException("No transitions allowed from state: {0}", from);
@@ -492,11 +497,11 @@ namespace Rainbow.ObjectFlow.Stateful
 
         private void CheckThatTransitionIsAllowed(object from, IDeclaredOperation to)
         {
-            if (gateway != null)
+            if (_gateway != null)
             {
                 object toState = allDefinedRefs[to];
                 var list = PossibleTransitions.Where(x => 
-                            gateway.IsTransitionAllowed(new Transition(from, toState))).ToList();
+                            _gateway.IsTransitionAllowed(new Transition(from, toState))).ToList();
                 if (list.Count == 0)
                     throw new UnallowedTransitionException("No transitions allowed from states: {0} to {1}", 
                         from, toState);

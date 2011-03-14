@@ -103,6 +103,8 @@
     </Compile>
     <Compile Include="Constraints\BranchCondition.cs" />
     <Compile Include="Engine\DeclaredOperation.cs" />
+    <Compile Include="Framework\FaultHandler.cs" />
+    <Compile Include="Engine\IFaultHandler.cs" />
     <Compile Include="Framework\AsAWorkflow.cs" />
     <Compile Include="Helpers\Declare.cs" />
     <Compile Include="Interfaces\IConfigureSequence.cs" />

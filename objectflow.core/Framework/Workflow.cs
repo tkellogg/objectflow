@@ -27,8 +27,18 @@ namespace Rainbow.ObjectFlow.Framework
         public Workflow()
         {
             _container = ServiceLocator<T>.Get();
-            _workflowEngine = _container.Resolve<Dispatcher<T>>();            
+            _workflowEngine = _container.Resolve<Dispatcher<T>>();
             _workflowBuilder = _container.Resolve<SequentialBuilder<T>>();
+        }
+
+        /// <summary>
+        /// Create a workflow with a default error handler class.
+        /// </summary>
+        /// <param name="faultHandler"></param>
+        public Workflow(IFaultHandler<T> faultHandler)
+            :this()
+        {
+            _workflowEngine.FaultHandler = faultHandler;
         }
 
         /// <summary>
