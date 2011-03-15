@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Castle.DynamicProxy;
+using Rainbow.ObjectFlow.Stateful;
 
 namespace Rainbow.ObjectFlow.Stateful
 {
@@ -9,7 +11,7 @@ namespace Rainbow.ObjectFlow.Stateful
     /// Describes a workflow process or sub-process that an object can go through. Actual
     /// processes will descend from this class.
     /// </summary>
-    public abstract class WorkflowFactory<T> : IWorkflowFactory<T>
+    public abstract class WorkflowFactory<T> : Rainbow.ObjectFlow.Stateful.IWorkflowFactory<T>
         where T : class, IStatefulObject
     {
         private IStatefulWorkflow<T> workflow;
@@ -19,7 +21,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <remarks>We'll pass this a DP to record the steps that must happen and proxy
         /// the steps to an actual WorkFlow object. This way we have a full ordering built
-        /// up in memory so we can easily jump steps and start part-way through.</remarks>
+        /// up in memory so we can easily jump steps and start part-way through."/></remarks>
         protected abstract IStatefulWorkflow<T> Define();
 
         /// <summary>
@@ -46,6 +48,18 @@ namespace Rainbow.ObjectFlow.Stateful
             if (Validate(initializer))
                 return workflow.Start(initializer);
             else return initializer;
+        }
+
+        /// <summary>
+        /// Calculate whether or not the current role can make the transition from one state
+        /// to the next. This looks up in the transition table
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        public virtual bool CanDoTransition(object from, object to)
+        {
+            return true;
         }
     }
 }

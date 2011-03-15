@@ -13,6 +13,11 @@ namespace Rainbow.ObjectFlow.Stateful
     public interface ITransition
     {
         /// <summary>
+        /// The workflow for which this applies
+        /// </summary>
+        object WorkflowId { get; }
+
+        /// <summary>
         /// Gets the starting transition point
         /// </summary>
         object From { get; }

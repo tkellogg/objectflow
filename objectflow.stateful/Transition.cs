@@ -7,15 +7,16 @@ namespace Rainbow.ObjectFlow.Stateful
 {
     internal class Transition : ITransition
     {
-        public Transition(object from, object to)
+        public Transition(object workflowId, object from, object to)
         {
+            WorkflowId = workflowId;
             From = from;
             To = to;
         }
 
-        public object From { get; set; }
-
-        public object To { get; set; }
+        public object WorkflowId { get; private set; }
+        public object From { get; private set; }
+        public object To { get; private set; }
 
         public override bool Equals(object obj)
         {
