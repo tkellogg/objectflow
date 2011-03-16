@@ -13,7 +13,7 @@ namespace Rainbow.ObjectFlow.Stateful
     public interface IWorkflowFactory<T>
     {
         /// <summary>
-        /// Creates a workflow with the correct security & error handling constraints and 
+        /// Creates a workflow with the correct security &amp; error handling constraints and 
         /// processes the object through the correct portion and returns the result.
         /// </summary>
         /// <param name="initializer">object to be processed</param>

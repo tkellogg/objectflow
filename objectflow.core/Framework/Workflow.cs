@@ -19,16 +19,14 @@ namespace Rainbow.ObjectFlow.Framework
     {
         private WorkflowBuilder<T> _workflowBuilder;
         private readonly Dispatcher<T> _workflowEngine;
-        private readonly IKernel _container;
 
         /// <summary>
         /// default constructor
         /// </summary>
         public Workflow()
         {
-            _container = ServiceLocator<T>.Get();
-            _workflowEngine = _container.Resolve<Dispatcher<T>>();
-            _workflowBuilder = _container.Resolve<SequentialBuilder<T>>();
+            _workflowEngine = ServiceLocator<T>.Resolve<Dispatcher<T>>();
+            _workflowBuilder = ServiceLocator<T>.Resolve<SequentialBuilder<T>>();
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace Rainbow.ObjectFlow.Framework
                 if (IsSequentialBuilder(_workflowBuilder))
                 {
                     OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-                    _workflowBuilder = _container.Resolve<ParallelSplitBuilder<T>>();
+                    _workflowBuilder = ServiceLocator<T>.Resolve<ParallelSplitBuilder<T>>();
                     SetParallelOperationsFromList(array);
                 }
 
@@ -219,8 +217,8 @@ namespace Rainbow.ObjectFlow.Framework
             {
                  _workflowBuilder.TaskList.Tasks.Add(new OperationDuplex<T>(_workflowBuilder.ParallelOperations));
                  OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-
-                _workflowBuilder = _container.Resolve<SequentialBuilder<T>>();
+                 
+                 _workflowBuilder = ServiceLocator<T>.Resolve<SequentialBuilder<T>>();
                 SetCurrentTasksFromList(array);
             }
 
