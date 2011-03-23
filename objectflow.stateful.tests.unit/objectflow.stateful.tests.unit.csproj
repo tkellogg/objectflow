@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeclaredOperationsStillWork\WithOneDeclaredOperation.cs" />
+    <Compile Include="PossibleTransitions\FactoryWantsTransitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatefulWorkflows\WhenStartingFromScratch.cs" />
     <Compile Include="PossibleTransitions\GivenBranchesAndYields.cs" />

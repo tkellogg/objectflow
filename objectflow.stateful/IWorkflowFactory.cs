@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace Rainbow.ObjectFlow.Stateful
 {
     /// <summary>
@@ -18,6 +19,13 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="initializer">object to be processed</param>
         /// <returns></returns>
-        T Process(T initializer);
+        T Start(T initializer);
+
+        /// <summary>
+        /// Allows other applications to query the workflow for transitions that are allowed
+        /// and won't be denied. This makes it possible to consolidate all workflow logic
+        /// and keep UI separate. 
+        /// </summary>
+        IEnumerable<ITransition> GetPossibleTransitions(T @object);
     }
 }

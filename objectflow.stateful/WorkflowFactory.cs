@@ -41,13 +41,18 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="initializer"></param>
         /// <returns></returns>
-        public virtual T Process(T initializer)
+        public virtual T Start(T initializer)
         {
-            if (workflow == null)
-                workflow = Define();
+            InitializeWorkflowIfNecessary();
             if (Validate(initializer))
                 return workflow.Start(initializer);
             else return initializer;
+        }
+
+        private void InitializeWorkflowIfNecessary()
+        {
+            if (workflow == null)
+                workflow = Define();
         }
 
         /// <summary>
@@ -60,6 +65,26 @@ namespace Rainbow.ObjectFlow.Stateful
         public virtual bool CanDoTransition(object from, object to)
         {
             return true;
+        }
+
+        /// <summary>
+        /// Allows other applications to query the workflow for transitions that are allowed
+        /// and won't be denied. This makes it possible to consolidate all workflow logic
+        /// and keep UI separate. 
+        /// </summary>
+        /// <param name="object">The stateful object that wants to know what it can do.</param>
+        /// <returns></returns>
+        public virtual IEnumerable<ITransition> GetPossibleTransitions(T @object)
+        {
+            InitializeWorkflowIfNecessary();
+            var empty = new ITransition[0];
+            if (@object == null)
+                return empty;
+            var enumerable = workflow.PossibleTransitions;
+            if (enumerable == null)
+                return empty;
+            else return enumerable.Where(x => 
+                object.Equals(x.From, @object.GetStateId(workflow.WorkflowId)));
         }
     }
 }
