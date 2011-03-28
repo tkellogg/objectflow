@@ -27,5 +27,14 @@ namespace Rainbow.ObjectFlow.Stateful
         /// and keep UI separate. 
         /// </summary>
         IEnumerable<ITransition> GetPossibleTransitions(T @object);
+
+        /// <summary>
+        /// This method indicates that the user wants @object to transition into the state marked
+        /// by <code>toHint</code>. The implementation should take the necessary steps to direct
+        /// the object through the correct workflow steps. 
+        /// </summary>
+        /// <param name="object"></param>
+        /// <param name="toHint"></param>
+        void TransitionTo(T @object, object toHint);
     }
 }

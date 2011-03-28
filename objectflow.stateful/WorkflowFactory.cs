@@ -86,5 +86,95 @@ namespace Rainbow.ObjectFlow.Stateful
             else return enumerable.Where(x => 
                 object.Equals(x.From, @object.GetStateId(workflow.WorkflowId)));
         }
+
+        /// <summary>
+        /// This method indicates that the user wants @object to transition into the state marked
+        /// by <code>toHint</code>. The implementation should take the necessary steps to direct
+        /// the object through the correct workflow steps. 
+        /// </summary>
+        /// <param name="object"></param>
+        /// <param name="toHint"></param>
+        public void TransitionTo(T @object, object toHint)
+        {
+            InitializeWorkflowIfNecessary();
+            InitializeHintsIfNecessary();
+            var from = CoerceNull(@object.GetStateId(workflow.WorkflowId));
+            toHint = CoerceNull(toHint);
+            if (hints.ContainsKey(from) && hints[from].ContainsKey(toHint)
+                    && hints[from][toHint] != null)
+                hints[from][toHint](@object);
+            Start(@object);
+        }
+
+        private void InitializeHintsIfNecessary()
+        {
+            if (hints == null)
+            {
+                hints = new Dictionary<object, Dictionary<object, Action<T>>>();
+                DefineHints();
+            }
+        }
+
+        private const string NULL_VALUE_EXPR = "Rainbow.ObjectFlow.Stateful.NullValueExpression";
+        private object CoerceNull(object value)
+        {
+            return value == null ? NULL_VALUE_EXPR : value;
+        }
+
+        private Dictionary<object, Dictionary<object, Action<T>>> hints;
+
+        /// <summary>
+        /// Define all hints here using SetHint and SetHints 
+        /// </summary>
+        protected virtual void DefineHints() { }
+
+        /// <summary>
+        /// Setup a hint path so that when an object with state <c>from</c> requests to go into
+        /// state <c>to</c>, we can use the provided action (<c>fn</c>) to put the object into
+        /// a state consistent with the requested path.
+        /// </summary>
+        /// <param name="from">The starting point of the path</param>
+        /// <param name="to">The desired outcome</param>
+        /// <param name="fn">A block of code that sets the necessary properties to put the object
+        /// in a state where it will follow the requested path.</param>
+        protected void SetHint(object from, object to, Action<T> fn)
+        {
+            if (hints == null)
+                throw new InvalidOperationException("SetHint should not be called from within Define(), instead "
+                    + "override DefineHints() and setup your hints there");
+            if (!hints.ContainsKey(CoerceNull(from)))
+                hints[CoerceNull(from)] = new Dictionary<object, Action<T>>();
+            hints[CoerceNull(from)][CoerceNull(to)] = fn;
+        }
+
+        /// <summary>
+        /// Setup a hint path so that when an object with state <c>from</c> requests to go into
+        /// state <c>to</c>, we can use the provided action (<c>fn</c>) to put the object into
+        /// a state consistent with the requested path.
+        /// </summary>
+        /// <param name="from">The starting point of the path</param>
+        /// <param name="to">A list of the desired outcomes</param>
+        /// <param name="fn">A block of code that sets the necessary properties to put the object
+        /// in a state where it will follow the requested path.</param>
+        protected void SetHints(object from, IEnumerable<object> to, Action<T> fn)
+        {
+            foreach (var item in to)
+                SetHint(from, item, fn);
+        }
+
+        /// <summary>
+        /// Setup a hint path so that when an object with state <c>from</c> requests to go into
+        /// state <c>to</c>, we can use the provided action (<c>fn</c>) to put the object into
+        /// a state consistent with the requested path.
+        /// </summary>
+        /// <param name="from">A list of the starting points of the path</param>
+        /// <param name="to">The desired outcome</param>
+        /// <param name="fn">A block of code that sets the necessary properties to put the object
+        /// in a state where it will follow the requested path.</param>
+        protected void SetHints(IEnumerable<object> from, object to, Action<T> fn)
+        {
+            foreach (var item in from)
+                SetHint(item, to, fn);
+        }
     }
 }
