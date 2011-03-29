@@ -8,16 +8,20 @@ namespace objectflow.core.tests.integration
 {
     public class RainbowColours : AsAWorkflow<Colour> 
     {
+        public RainbowColours(IDefine<Colour> workflow) : base(workflow)
+        {
+        }
+
+        [Obsolete("Use Configure() to configure the method and pass the definer into the constructor")]
         public override void Configure(IDefine<Colour> workflow)
         {
-            // Define your workflow here
-            var concreteConfigurer = workflow;
+        }
 
-            concreteConfigurer
+        public override IWorkflow<Colour> Configure()
+        {
+            return Configurer
                 .Do<DuplicateName>()
                 .Do<DoubleSpace>();
-
-            Workflow = concreteConfigurer as IWorkflow<Colour>;
         }
     }
 }

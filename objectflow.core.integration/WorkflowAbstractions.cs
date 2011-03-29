@@ -8,8 +8,7 @@ namespace objectflow.core.tests.integration
         [Observation]
         public void WorkflowContainerClass()
         {
-            var rainbowWorkflow = new RainbowColours();
-            rainbowWorkflow.Configure(Workflow<Colour>.Definition());
+            var rainbowWorkflow = new RainbowColours(Workflow<Colour>.Definition());
             var result = rainbowWorkflow.Start(new Colour("Red"));
 
             result.Name.ShouldBe("R e d R e d");
