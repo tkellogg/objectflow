@@ -12,7 +12,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
         private Factory wf;
 
         #region Types used for testing
-        class Factory : WorkflowFactory<IStatefulObject> {
+        class Factory : WorkflowMediator<IStatefulObject> {
             public Mock<StatefulWorkflow<IStatefulObject>> mock;
             public List<ITransition> transisions;
 

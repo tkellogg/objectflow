@@ -53,14 +53,14 @@
     <Compile Include="IStatefulWorkflow.cs" />
     <Compile Include="ITransition.cs" />
     <Compile Include="ITransitionGateway.cs" />
-    <Compile Include="IWorkflowFactory.cs" />
+    <Compile Include="IWorkflowMediator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatefulErrorHandler.cs" />
     <Compile Include="StatefulWorkflow.cs" />
     <Compile Include="StatefulWorkflowExtensions.cs" />
     <Compile Include="Transition.cs" />
     <Compile Include="UnallowedTransitionException.cs" />
-    <Compile Include="WorkflowFactory.cs" />
+    <Compile Include="WorkflowMediator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\objectflow.core\objectflow.core.csproj">

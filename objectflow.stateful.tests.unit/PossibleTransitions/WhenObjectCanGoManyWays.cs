@@ -35,7 +35,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
             #endregion
         }
 
-        class Factory : WorkflowFactory<WObject>
+        class Factory : WorkflowMediator<WObject>
         {
             protected override IStatefulWorkflow<WObject> Define()
             {

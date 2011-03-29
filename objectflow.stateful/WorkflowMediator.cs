@@ -11,7 +11,7 @@ namespace Rainbow.ObjectFlow.Stateful
     /// Describes a workflow process or sub-process that an object can go through. Actual
     /// processes will descend from this class.
     /// </summary>
-    public abstract class WorkflowFactory<T> : Rainbow.ObjectFlow.Stateful.IWorkflowFactory<T>
+    public abstract class WorkflowMediator<T> : Rainbow.ObjectFlow.Stateful.IWorkflowMediator<T>
         where T : class, IStatefulObject
     {
         private IStatefulWorkflow<T> workflow;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Moq;
+using Rainbow.ObjectFlow.Helpers;
 
 namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 {
@@ -69,6 +70,23 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
+        }
+
+        [Observation]
+        public void StartsAndEndsWithDefines()
+        {
+            var start = Declare.Step();
+            var end = Declare.Step();
+            var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
+                .Define(start)
+                .Yield(1)
+                .Define(end)
+                ;
+
+            var transitions = wf.PossibleTransitions.ToList();
+            transitions.Count.ShouldBe(2);
+            transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
+            transitions.Where(x => (int?)x.From == 1 && x.To == null).Count().ShouldBe(1);
         }
     }
 }
