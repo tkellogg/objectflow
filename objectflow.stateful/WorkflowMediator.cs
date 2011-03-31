@@ -14,7 +14,10 @@ namespace Rainbow.ObjectFlow.Stateful
     public abstract class WorkflowMediator<T> : Rainbow.ObjectFlow.Stateful.IWorkflowMediator<T>
         where T : class, IStatefulObject
     {
-        private IStatefulWorkflow<T> workflow;
+        /// <summary>
+        /// A reference to the workflow. Call <see cref="InitializeWorkflowIfNecessary"/> if this is null
+        /// </summary>
+        protected IStatefulWorkflow<T> _workflow;
 
         /// <summary>
         /// This is where you define your workflow
@@ -45,14 +48,17 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             InitializeWorkflowIfNecessary();
             if (Validate(initializer))
-                return workflow.Start(initializer);
+                return _workflow.Start(initializer);
             else return initializer;
         }
 
-        private void InitializeWorkflowIfNecessary()
+        /// <summary>
+        /// Lazy initializes the workflow. Always call this before you need to reference <see cref="_workflow"/>
+        /// </summary>
+        protected virtual void InitializeWorkflowIfNecessary()
         {
-            if (workflow == null)
-                workflow = Define();
+            if (_workflow == null)
+                _workflow = Define();
         }
 
         /// <summary>
@@ -80,11 +86,11 @@ namespace Rainbow.ObjectFlow.Stateful
             var empty = new ITransition[0];
             if (@object == null)
                 return empty;
-            var enumerable = workflow.PossibleTransitions;
+            var enumerable = _workflow.PossibleTransitions;
             if (enumerable == null)
                 return empty;
             else return enumerable.Where(x => 
-                object.Equals(x.From, @object.GetStateId(workflow.WorkflowId)));
+                object.Equals(x.From, @object.GetStateId(_workflow.WorkflowId)));
         }
 
         /// <summary>
@@ -98,7 +104,7 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             InitializeWorkflowIfNecessary();
             InitializeHintsIfNecessary();
-            var from = CoerceNull(@object.GetStateId(workflow.WorkflowId));
+            var from = CoerceNull(@object.GetStateId(_workflow.WorkflowId));
             toHint = CoerceNull(toHint);
             if (hints.ContainsKey(from) && hints[from].ContainsKey(toHint)
                     && hints[from][toHint] != null)

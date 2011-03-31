@@ -10,7 +10,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
 {
     public class WhenTransitionIsBlocked : Specification
     {
-        Mock<ITransitionGateway> gateway;
+        Mock<Gateway> gateway;
         private Mock<StatefulObject> obj;
 
         #region Types for testing
@@ -33,12 +33,24 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
 
             public abstract StatefulObject Feedback(string msg);
         }
+
+        public abstract class Gateway : ITransitionGateway
+        {
+            public IEnumerable<ITransition> AllowTransitions(IList<ITransition> transitions)
+            {
+                foreach (var t in transitions)
+                    if (IsTransitionAllowed(t))
+                        yield return t;
+            }
+
+            public abstract bool IsTransitionAllowed(ITransition transition);
+        }
         #endregion
 
         [Scenario]
         public void Given()
         {
-            gateway = new Mock<ITransitionGateway>();
+            gateway = new Mock<Gateway>();
             gateway.SetReturnsDefault(true);
             obj = new Mock<StatefulObject>();
             obj.SetReturnsDefault(obj.Object);
@@ -52,6 +64,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
                 .Do(x => x.Feedback("middle"))
                 .Yield(2)
                 ;
+            gateway.SetReturnsDefault<bool>(true);
             gateway.Setup(x => x.IsTransitionAllowed(
                 It.Is<ITransition>(y => (int?)y.From == 1 && (int?)y.To == 2)))
                 .Returns(false);
@@ -72,6 +85,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
                 .When(x => false, otherwise: branch1)
                 ;
 
+            gateway.SetReturnsDefault<bool>(true);
             gateway.Setup(x => x.IsTransitionAllowed(
                 It.Is<ITransition>(y => object.Equals(y.From, 2) && object.Equals(y.To, 1))))
                 .Returns(false);

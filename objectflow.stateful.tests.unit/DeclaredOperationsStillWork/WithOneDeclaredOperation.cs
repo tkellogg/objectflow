@@ -8,7 +8,7 @@ using Rainbow.ObjectFlow.Helpers;
 using Moq;
 using Rainbow.ObjectFlow.Stateful;
 
-namespace Objectflow.Stateful.tests.unit.DeclaredOperationsStillWork
+namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
 {
     /// <summary>
     /// This test spec is very similar to a test spec in the core with some small modifications

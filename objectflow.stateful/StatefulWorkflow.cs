@@ -487,10 +487,8 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             if (_gateway != null)
             {
-                var list = PossibleTransitions.Where(x => _gateway.IsTransitionAllowed(x) && object.Equals(x.From, from)).ToList();
-                int count = PossibleTransitions.Where(x => _gateway.IsTransitionAllowed(x)
-                                && object.Equals(x.From, from)).Count();
-                if (count == 0)
+                var list = PossibleTransitions.Where(x => object.Equals(x.From, from)).ToList();
+                if (!_gateway.AllowTransitions(list).Any())
                     throw new UnallowedTransitionException("No transitions allowed from state: {0}", from);
             }
         }
@@ -500,9 +498,9 @@ namespace Rainbow.ObjectFlow.Stateful
             if (_gateway != null)
             {
                 object toState = allDefinedRefs[to];
-                var list = PossibleTransitions.Where(x => 
-                            _gateway.IsTransitionAllowed(new Transition(WorkflowId, from, toState))).ToList();
-                if (list.Count == 0)
+                var list = PossibleTransitions.Where(x => object.Equals(x.From, from)
+                    && object.Equals(x.To, toState)).ToList();
+                if (!_gateway.AllowTransitions(list).Any())
                     throw new UnallowedTransitionException("No transitions allowed from states: {0} to {1}", 
                         from, toState);
             }

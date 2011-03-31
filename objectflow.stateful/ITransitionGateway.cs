@@ -12,10 +12,13 @@ namespace Rainbow.ObjectFlow.Stateful
     public interface ITransitionGateway
     {
         /// <summary>
-        /// Indicates that a transition is allowed to occur
+        /// Takes a list of transitions (already limited to only transitions where To,
+        /// From, and WorkflowId are the same) and filters out transitions that aren't
+        /// allowed for the current user.
         /// </summary>
-        /// <param name="transition"></param>
-        /// <returns><c>true</c> if the transition is allowed</returns>
-        bool IsTransitionAllowed(ITransition transition);
+        /// <param name="transitions">A set of transitions that could happen</param>
+        /// <returns>A subset of <c>transitions</c> that is actually allowed. Remove
+        /// any transitions from this list that are not allowed.</returns>
+        IEnumerable<ITransition> AllowTransitions(IList<ITransition> transitions);
     }
 }
