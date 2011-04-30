@@ -16,7 +16,7 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
         {
             _engine = new Mock<Dispatcher<string>>();
             _taskList = new TaskList<string>();
-            _workflow = new Workflow<string>(_taskList);
+            _workflow = new Workflow<string>(_engine.Object, new SequentialBuilderActivator<string>(_taskList), new ParallelBuilderActivator<string>(_taskList));
         }
 
         [Observation]

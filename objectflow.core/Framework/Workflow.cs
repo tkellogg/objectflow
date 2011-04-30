@@ -17,8 +17,8 @@ namespace Rainbow.ObjectFlow.Framework
     {
         private WorkflowBuilder<T> _workflowBuilder;
         private readonly Dispatcher<T> _workflowEngine;
-		private ParallelSplitBuilder<T> _parallelBuilder;
-		private SequentialBuilder<T> _sequentialBuilder;
+		private ParallelBuilderActivator<T> _parallelBuilder;
+		private SequentialBuilderActivator<T> _sequentialBuilder;
 
         /// <summary>
         /// default constructor
@@ -29,14 +29,14 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
 		internal Workflow(TaskList<T> taskList)
-			:this(new Dispatcher<T>(), new SequentialBuilder<T>(taskList), new ParallelSplitBuilder<T>(taskList))
+			:this(new Dispatcher<T>(), new SequentialBuilderActivator<T>(taskList), new ParallelBuilderActivator<T>(taskList))
 		{
 
 		}
 
-		internal Workflow(Dispatcher<T> dispatcher, SequentialBuilder<T> sequentialBuilder, ParallelSplitBuilder<T> parallelBuilder)
+		internal Workflow(Dispatcher<T> dispatcher, SequentialBuilderActivator<T> sequentialBuilder, ParallelBuilderActivator<T> parallelBuilder)
 		{
-			_workflowBuilder = sequentialBuilder;
+			_workflowBuilder = sequentialBuilder.Activate();
 			_workflowEngine = dispatcher;
 			_sequentialBuilder = sequentialBuilder;
 			_parallelBuilder = parallelBuilder;
@@ -68,7 +68,7 @@ namespace Rainbow.ObjectFlow.Framework
                 if (IsSequentialBuilder(_workflowBuilder))
                 {
                     OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-					_workflowBuilder = _parallelBuilder;
+					_workflowBuilder = _parallelBuilder.Activate();
                     SetParallelOperationsFromList(array);
                 }
 
@@ -231,7 +231,7 @@ namespace Rainbow.ObjectFlow.Framework
                 _workflowBuilder.TaskList.Tasks.Add(new OperationDuplex<T>(_workflowBuilder.ParallelOperations));
                 OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
 
-				_workflowBuilder = _sequentialBuilder;
+				_workflowBuilder = _sequentialBuilder.Activate();
 				SetCurrentTasksFromList(array);
             }
 

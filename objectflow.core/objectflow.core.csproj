@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="Constraints\BranchCondition.cs" />
     <Compile Include="Engine\DeclaredOperation.cs" />
+    <Compile Include="Engine\BuilderActivators.cs" />
     <Compile Include="Framework\ErrorHandler.cs" />
     <Compile Include="Interfaces\IErrorHandler.cs" />
     <Compile Include="Framework\AsAWorkflow.cs" />

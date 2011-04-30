@@ -17,8 +17,8 @@ namespace Objectflow.core.tests.CompositeWorkflows
         public void Given()
         {
 			_taskList = new TaskList<string>();
-			_childWorkflow = new Workflow<string>(_taskList).Do((c) => "red") as Workflow<string>;
-			_parentWorkflow = new Workflow<string>(_taskList) as Workflow<string>;
+			_childWorkflow = new Workflow<string>().Do((c) => "red") as Workflow<string>;
+			_parentWorkflow = new Workflow<string>(_taskList);
         }
 
         [Observation]

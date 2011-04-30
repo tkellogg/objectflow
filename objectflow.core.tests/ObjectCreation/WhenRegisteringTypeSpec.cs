@@ -18,7 +18,8 @@ namespace Objectflow.core.tests.ObjectCreation
         public void Given()
         {
             _builder = new Mock<SequentialBuilder<Colour>>(new []{new TaskList<Colour>()});
-			_flow = new Workflow<Colour>(new Dispatcher<Colour>(), _builder.Object, new ParallelSplitBuilder<Colour>(new TaskList<Colour>()));
+			var activator = Mock.Of<SequentialBuilderActivator<Colour>>(x => x.Activate() == _builder.Object);
+			_flow = new Workflow<Colour>(new Dispatcher<Colour>(), activator, new ParallelBuilderActivator<Colour>(new TaskList<Colour>()));
         }
 
         [Observation]
