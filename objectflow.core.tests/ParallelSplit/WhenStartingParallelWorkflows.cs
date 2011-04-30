@@ -1,5 +1,4 @@
-﻿using Rainbow.ObjectFlow.Container;
-using Rainbow.ObjectFlow.Framework;
+﻿using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests.ParallelSplit
 {
@@ -10,7 +9,6 @@ namespace Objectflow.core.tests.ParallelSplit
         [Scenario]
         public void Given_a_workflow_with_unclosed_parallel_operations()
         {
-            ServiceLocator<string>.Reset();
             _workflow = new Workflow<string>();
             _workflow.Do((a) => "red").And.Do((b) => "orange");
         }

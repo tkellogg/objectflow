@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
@@ -17,11 +16,9 @@ namespace Objectflow.core.tests.CompositeWorkflows
         [Scenario]
         public void Given()
         {
-            ServiceLocator<string>.SetInstance(null);
-            _childWorkflow = Workflow<string>.Definition().Do((c) => "red") as Workflow<string>;
-            _parentWorkflow = Workflow<string>.Definition() as Workflow<string>;
-            _taskList = new TaskList<string>();
-
+			_taskList = new TaskList<string>();
+			_childWorkflow = new Workflow<string>(_taskList).Do((c) => "red") as Workflow<string>;
+			_parentWorkflow = new Workflow<string>(_taskList) as Workflow<string>;
         }
 
         [Observation]

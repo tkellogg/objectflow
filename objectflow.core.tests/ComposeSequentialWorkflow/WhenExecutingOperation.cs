@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Language;
 
@@ -15,7 +14,6 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
         [Scenario]
         public void Given()
         {
-            ServiceLocator<Colour>.Reset();
             _flow = new Workflow<Colour>();
         }
 

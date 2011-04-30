@@ -1,6 +1,4 @@
 ﻿using System;
-using Castle.MicroKernel;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Language;
@@ -19,15 +17,30 @@ namespace Rainbow.ObjectFlow.Framework
     {
         private WorkflowBuilder<T> _workflowBuilder;
         private readonly Dispatcher<T> _workflowEngine;
+		private ParallelSplitBuilder<T> _parallelBuilder;
+		private SequentialBuilder<T> _sequentialBuilder;
 
         /// <summary>
         /// default constructor
         /// </summary>
         public Workflow()
+			:this(new TaskList<T>())
         {
-            _workflowEngine = ServiceLocator<T>.Resolve<Dispatcher<T>>();
-            _workflowBuilder = ServiceLocator<T>.Resolve<SequentialBuilder<T>>();
         }
+
+		internal Workflow(TaskList<T> taskList)
+			:this(new Dispatcher<T>(), new SequentialBuilder<T>(taskList), new ParallelSplitBuilder<T>(taskList))
+		{
+
+		}
+
+		internal Workflow(Dispatcher<T> dispatcher, SequentialBuilder<T> sequentialBuilder, ParallelSplitBuilder<T> parallelBuilder)
+		{
+			_workflowBuilder = sequentialBuilder;
+			_workflowEngine = dispatcher;
+			_sequentialBuilder = sequentialBuilder;
+			_parallelBuilder = parallelBuilder;
+		}
 
         /// <summary>
         /// Create a workflow with a default error handler class.
@@ -55,7 +68,7 @@ namespace Rainbow.ObjectFlow.Framework
                 if (IsSequentialBuilder(_workflowBuilder))
                 {
                     OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-                    _workflowBuilder = ServiceLocator<T>.Resolve<ParallelSplitBuilder<T>>();
+					_workflowBuilder = _parallelBuilder;
                     SetParallelOperationsFromList(array);
                 }
 
@@ -215,11 +228,11 @@ namespace Rainbow.ObjectFlow.Framework
         {
             if (!IsSequentialBuilder(_workflowBuilder))
             {
-                 _workflowBuilder.TaskList.Tasks.Add(new OperationDuplex<T>(_workflowBuilder.ParallelOperations));
-                 OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-                 
-                 _workflowBuilder = ServiceLocator<T>.Resolve<SequentialBuilder<T>>();
-                SetCurrentTasksFromList(array);
+                _workflowBuilder.TaskList.Tasks.Add(new OperationDuplex<T>(_workflowBuilder.ParallelOperations));
+                OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
+
+				_workflowBuilder = _sequentialBuilder;
+				SetCurrentTasksFromList(array);
             }
 
             return this;

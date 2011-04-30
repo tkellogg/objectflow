@@ -14,6 +14,10 @@ namespace Rainbow.ObjectFlow.Framework
         /// 
         /// </summary>
         protected IWorkflow<T> Workflow;
+
+		/// <summary>
+		/// 
+		/// </summary>
         protected IDefine<T> Configurer;
 
         /// <summary>

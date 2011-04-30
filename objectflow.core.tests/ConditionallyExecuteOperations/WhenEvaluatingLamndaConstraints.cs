@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Interfaces;
@@ -20,7 +19,6 @@ namespace Objectflow.core.tests
         [Scenario]
         public void Given()
         {
-            ServiceLocator<Colour>.Reset();
             _duplicateNameTwo = new DuplicateName();
             _duplicateNameOne = new DuplicateName();
             _duplicateNameTwo = new DuplicateName();

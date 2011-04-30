@@ -1,11 +1,7 @@
-﻿using Castle.Core;
-using Castle.MicroKernel;
-using Castle.MicroKernel.Registration;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Moq;
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
@@ -15,7 +11,6 @@ namespace Objectflow.core.tests.ObjectCreation
 {
     public class WhenRegisteringTypeSpec:Specification
     {
-        private IKernel _container;
         private Mock<SequentialBuilder<Colour>> _builder;
         private IDefine<Colour> _flow;
 
@@ -23,13 +18,7 @@ namespace Objectflow.core.tests.ObjectCreation
         public void Given()
         {
             _builder = new Mock<SequentialBuilder<Colour>>(new []{new TaskList<Colour>()});
-            _container = new DefaultKernel();
-            _container.Register(Component.For<SequentialBuilder<Colour>>().Instance(_builder.Object));
-            _container.Register(Component.For<Dispatcher<Colour>>().Instance(new Dispatcher<Colour>()));
-
-            ServiceLocator<Colour>.SetInstance(null);
-            ServiceLocator<Colour>.SetInstance(_container);
-            _flow = Workflow<Colour>.Definition();
+			_flow = new Workflow<Colour>(new Dispatcher<Colour>(), _builder.Object, new ParallelSplitBuilder<Colour>(new TaskList<Colour>()));
         }
 
         [Observation]

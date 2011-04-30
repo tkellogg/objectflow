@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rhino.Mocks;
@@ -17,7 +16,6 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
         [Scenario]
         public void Given()
         {
-            ServiceLocator<Colour>.SetInstance(null);
             _mocker = new MockRepository();
             _workflow = Workflow<Colour>.Definition() as Workflow<Colour>;
         }

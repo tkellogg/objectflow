@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
 using Rhino.Mocks;
@@ -15,7 +14,6 @@ namespace Objectflow.core.tests.FunctionalWorkflows
         [Scenario]
         public void When()
         {
-            ServiceLocator<string>.Reset();
             _pipe = new Workflow<string>();
             _mock = new MockRepository();
         }

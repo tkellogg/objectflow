@@ -1,6 +1,4 @@
-﻿using Castle.MicroKernel;
-using NUnit.Framework;
-using Rainbow.ObjectFlow.Container;
+﻿using NUnit.Framework;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 
@@ -10,16 +8,11 @@ namespace Objectflow.core.tests.ParallelSplit
     public class WhenDefiningParallelWorkflows:Specification
     {
         private Workflow<string> _workflow;
-        private DefaultKernel _container;
 
         [Scenario]
         public void Given()
         {
-            _container = new DefaultKernel();
-            ServiceLocator<string>.SetInstance(null);
-
             _workflow = new Workflow<string>();
-
         }
 
         [Observation]

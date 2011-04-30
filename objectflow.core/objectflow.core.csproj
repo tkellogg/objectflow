@@ -151,7 +151,6 @@
     <Compile Include="Interfaces\IWorkFlow.cs" />
     <Compile Include="Interfaces\IOperation.cs" />
     <Compile Include="Framework\Workflow.cs" />
-    <Compile Include="Container\ServiceLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="debugKey.snk" />

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Language;
 using Rainbow.ObjectFlow.Policies;
@@ -14,7 +13,6 @@ namespace Objectflow.core.tests.Policy
         [Scenario]
         public void Given()
         {
-            ServiceLocator<string>.SetInstance(null);
             _workflow = Workflow<string>.Definition().Do((r) => "red") as Workflow<string>;
         }
 

@@ -1,11 +1,8 @@
 ﻿using System;
-using Castle.MicroKernel;
-using Castle.MicroKernel.Registration;
 using Moq;
 using NUnit.Framework;
 using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
@@ -17,19 +14,13 @@ namespace Objectflow.core.tests.ComposeSequentialWorkflow
     {
         private IOperation<Colour> _doubleSpace;
         private Workflow<Colour> _workflow;
-        private IKernel _container;
         private TaskList<Colour> _taskList;
 
         [Scenario]
         public void Given()
         {
             _taskList = new TaskList<Colour>();
-            _container = new DefaultKernel();
-            ServiceLocator<Colour>.SetInstance(_container);
-            _container.Register(Component.For<TaskList<Colour>>().Instance(_taskList));
-            _container.Register(Component.For<SequentialBuilder<Colour>>().Instance(new SequentialBuilder<Colour>(_taskList)));
-            _container.Register(Component.For<Dispatcher<Colour>>().Instance(new Dispatcher<Colour>()));
-            _workflow = new Workflow<Colour>();
+            _workflow = new Workflow<Colour>(_taskList);
             _doubleSpace = new DoubleSpace();
         }
 

@@ -1,6 +1,5 @@
 ﻿using Objectflow.core.tests.TestOperations;
 using Objectflow.tests.TestDomain;
-using Rainbow.ObjectFlow.Container;
 using Rainbow.ObjectFlow.Framework;
 
 namespace Objectflow.core.tests.Policy
@@ -12,7 +11,6 @@ namespace Objectflow.core.tests.Policy
         [Scenario]
         public void Given()
         {
-            ServiceLocator<Colour>.Reset();
             _flow = new Workflow<Colour>();
         }
 
