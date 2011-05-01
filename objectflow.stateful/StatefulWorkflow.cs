@@ -226,6 +226,33 @@ namespace Rainbow.ObjectFlow.Stateful
             }, constraint, defineAs);
         }
 
+
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <typeparam name="T2">Extra parameter used from start</typeparam>
+		/// <typeparam name="T3">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		public virtual IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body)
+		{
+			return null;
+		}
+
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <typeparam name="T2">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		public virtual IStatefulWorkflow<T> Do<T1, T2>(Action<T, T1, T2> body);
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		public virtual IStatefulWorkflow<T> Do<T1>(Action<T, T1> body);
+
         #region Convenience methods for the fluent interface
 
         /// <summary>

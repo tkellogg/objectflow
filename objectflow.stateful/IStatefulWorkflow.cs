@@ -113,6 +113,60 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="defineAs">Branch point to initialize</param>
         IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, IDeclaredOperation defineAs);
 
+		#region Overloads of `Do(Action<...>)` and `Start(T, ...)`
+
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <typeparam name="T2">Extra parameter used from start</typeparam>
+		/// <typeparam name="T3">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body);
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <typeparam name="T2">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		IStatefulWorkflow<T> Do<T1, T2>(Action<T, T1, T2> body);
+		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <typeparam name="T1">Extra parameter used from start</typeparam>
+		/// <param name="body">The function to add</param>
+		IStatefulWorkflow<T> Do<T1>(Action<T, T1> body);
+
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <typeparam name="T2"></typeparam>
+		/// <typeparam name="T3"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		/// <param name="arg3"></param>
+		T Start<T1, T2, T3>(T subject, T1 arg1, T2 arg2, T3 arg3);
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <typeparam name="T2"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		T Start<T1, T2>(T subject, T1 arg1, T2 arg2);
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		T Start<T1>(T subject, T1 arg1);
+
+		#endregion
+
         /// <summary>
         /// When function returns true, branch to the specified operation
         /// </summary>
@@ -136,22 +190,22 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         IStatefulWorkflow<T> Define(IDeclaredOperation defineAs);
 
-        /// <summary>
-        /// <para>
-        /// Get an enumeration of only possible transitions of this workflow. Usage
-        /// of this method before workflow definition is finished is meaningless, so
-        /// refrain from calling this until the workflow is entirely defined to a 
-        /// point that you could call <c>.Start()</c>
-        /// </para>
-        /// <para>
-        /// If an ITransitionGateway instance has not been supplied to this object 
-        /// (i.e. in the constructor), this property may return null or throw an 
-        /// exception. This enumeration is unordered, no code should rely on the 
-        /// ordering being the same between versions or even between calls.
-        /// </para>
-        /// </summary>
-        IEnumerable<ITransition> PossibleTransitions { get; }
+		#endregion
 
-        #endregion
+		/// <summary>
+		/// <para>
+		/// Get an enumeration of only possible transitions of this workflow. Usage
+		/// of this method before workflow definition is finished is meaningless, so
+		/// refrain from calling this until the workflow is entirely defined to a 
+		/// point that you could call <c>.Start()</c>
+		/// </para>
+		/// <para>
+		/// If an ITransitionGateway instance has not been supplied to this object 
+		/// (i.e. in the constructor), this property may return null or throw an 
+		/// exception. This enumeration is unordered, no code should rely on the 
+		/// ordering being the same between versions or even between calls.
+		/// </para>
+		/// </summary>
+		IEnumerable<ITransition> PossibleTransitions { get; }
     }
 }
