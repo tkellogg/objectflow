@@ -19,3 +19,4 @@ pause the current execution of the workflow so that it can be stored in a databa
 	workflow.Start(new SiteVisit());
 
 We also provide other facilities for interacting with workflows to provide persistance and security frameworks.
+See the [Quickstart guide](https://github.com/tkellogg/objectflow/wiki/Quickstart-Guide) for more information.
