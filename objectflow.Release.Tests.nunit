@@ -1,15 +1,13 @@
 ﻿<NUnitProject>
-  <startup>
-    <requiredRuntime version="4.0.30319"/>
-  </startup>
   <Settings activeconfig="Debug" />
   <Config name="Release" binpathtype="Auto">
     <assembly path="compile\objectflow.core.tests\bin\Release\objectflow.core.tests.dll" />
     <assembly path="compile\objectflow.core.integration\bin\Release\objectflow.core.tests.integration.dll" />
+    <assembly path="objectflow.stateful.tests.unit\bin\Release\objectflow.stateful.tests.unit.dll" />
   </Config>
-
   <Config name="Debug" binpathtype="Auto">
     <assembly path="compile\objectflow.core.tests\bin\Debug\objectflow.core.tests.dll" />
     <assembly path="compile\objectflow.core.integration\bin\Debug\objectflow.core.tests.integration.dll" />
+    <assembly path="objectflow.stateful.tests.unit\bin\Debug\objectflow.stateful.tests.unit.dll" />
   </Config>
 </NUnitProject>

@@ -29,9 +29,8 @@ namespace Rainbow.ObjectFlow.Framework
         }
 
 		internal Workflow(TaskList<T> taskList)
-			:this(new Dispatcher<T>(), new SequentialBuilderActivator<T>(taskList), new ParallelBuilderActivator<T>(taskList))
+			:this(new Dispatcher<T>(), new SequentialBuilderActivator<T>(taskList), new ParallelBuilderActivator<T>(new TaskList<T>()))
 		{
-
 		}
 
 		internal Workflow(Dispatcher<T> dispatcher, SequentialBuilderActivator<T> sequentialBuilder, ParallelBuilderActivator<T> parallelBuilder)
