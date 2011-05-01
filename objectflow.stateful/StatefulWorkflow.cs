@@ -158,7 +158,13 @@ namespace Rainbow.ObjectFlow.Stateful
 			return StartWithParams(data);
 		}
 
-		private T StartWithParams(T subject, params object[] parameters)
+		/// <summary>
+		/// Start the workflow with given parameters
+		/// </summary>
+		/// <param name="subject"></param>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
+		public T StartWithParams(T subject, params object[] parameters)
 		{
 			EndDefinitionPhase();
 			CheckThatTransitionIsAllowed(subject.GetStateId(this.WorkflowId));

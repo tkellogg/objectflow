@@ -165,6 +165,14 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="arg1"></param>
 		T Start<T1>(T subject, T1 arg1);
 
+		/// <summary>
+		/// Starts the workflow segment with the given parameters
+		/// </summary>
+		/// <param name="subject"></param>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
+		T StartWithParams(T subject, params object[] parameters);
+
 		#endregion
 
         /// <summary>

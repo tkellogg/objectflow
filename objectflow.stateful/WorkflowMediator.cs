@@ -37,19 +37,25 @@ namespace Rainbow.ObjectFlow.Stateful
             return true;
         }
 
-        /// <summary>
-        /// For resuming a workflow that has already begun or starting a workflow on a new
-        /// object.
-        /// </summary>
-        /// <param name="initializer"></param>
-        /// <returns></returns>
-        public virtual T Start(T initializer)
-        {
-            InitializeWorkflowIfNecessary();
-            if (Validate(initializer))
-                return _workflow.Start(initializer);
-            else return initializer;
-        }
+		/// <summary>
+		/// For resuming a workflow that has already begun or starting a workflow on a new
+		/// object.
+		/// </summary>
+		/// <param name="initializer"></param>
+		/// <param name="parameters">Optional parameters for this workflow segment</param>
+		/// <returns></returns>
+		public virtual T Start(T initializer, params object[] parameters)
+		{
+			InitializeWorkflowIfNecessary();
+			if (Validate(initializer))
+			{
+				if (parameters.Length == 0)
+					return _workflow.Start(initializer);
+				else
+					return _workflow.StartWithParams(initializer, parameters);
+			}
+			else return initializer;
+		}
 
         /// <summary>
         /// Lazy initializes the workflow. Always call this before you need to reference <see cref="_workflow"/>
