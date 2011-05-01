@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeclaredOperationsStillWork\WithOneDeclaredOperation.cs" />
+    <Compile Include="Parameters\WithParameters.cs" />
     <Compile Include="PossibleTransitions\FactoryWantsTransitions.cs" />
     <Compile Include="PossibleTransitions\WhenObjectCanGoManyWays.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

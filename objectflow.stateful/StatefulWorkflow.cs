@@ -5,6 +5,7 @@ using System.Text;
 using Rainbow.ObjectFlow.Interfaces;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
+using Rainbow.ObjectFlow.Engine;
 
 namespace Rainbow.ObjectFlow.Stateful
 {
@@ -154,10 +155,17 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public override T Start(T data)
         {
-            EndDefinitionPhase();
-            CheckThatTransitionIsAllowed(data.GetStateId(this.WorkflowId));
-            var ret = GetCurrentFlowForObject(data).Start(data);
-            return ret;
+			return StartWithParams(data);
+		}
+
+		private T StartWithParams(T subject, params object[] parameters)
+		{
+			EndDefinitionPhase();
+			CheckThatTransitionIsAllowed(subject.GetStateId(this.WorkflowId));
+			var workflow = GetCurrentFlowForObject(subject);
+			if (parameters.Length > 0)
+				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
+			return workflow.Start(subject);
 		}
 
 		/// <summary>
@@ -172,7 +180,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="arg3"></param>
 		public virtual T Start<T1, T2, T3>(T subject, T1 arg1, T2 arg2, T3 arg3)
 		{
-			throw new NotImplementedException();
+			return StartWithParams(subject, arg1, arg2, arg3);
 		}
 
 		/// <summary>
@@ -185,7 +193,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="arg2"></param>
 		public virtual T Start<T1, T2>(T subject, T1 arg1, T2 arg2)
 		{
-			throw new NotImplementedException();
+			return StartWithParams(subject, arg1, arg2);
 		}
 
 		/// <summary>
@@ -196,7 +204,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="arg1"></param>
 		public virtual T Start<T1>(T subject, T1 arg1)
 		{
-			throw new NotImplementedException();
+			return StartWithParams(subject, arg1);
 		}
 
 
@@ -276,8 +284,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body)
 		{
-			throw new NotImplementedException();
-
+			_current.WorkflowBuilder.AddOperation(body);
+			return this;
 		}
 
 		/// <summary>
@@ -288,7 +296,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1, T2>(Action<T, T1, T2> body)
 		{
-			throw new NotImplementedException();
+			_current.WorkflowBuilder.AddOperation(body);
+			return this;
 		}
 		/// <summary>
 		/// Adds a function into the execution path
@@ -297,7 +306,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1>(Action<T, T1> body)
 		{
-			throw new NotImplementedException();
+			_current.WorkflowBuilder.AddOperation(body);
+			return this;
 		}
 
         #region Convenience methods for the fluent interface

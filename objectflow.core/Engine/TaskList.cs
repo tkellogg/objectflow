@@ -4,10 +4,17 @@ using Rainbow.ObjectFlow.Constraints;
 
 namespace Rainbow.ObjectFlow.Engine
 {
-    internal class TaskList<T> 
+	/// <summary>
+	/// List of tasks accumulated to be executed in order
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+    public class TaskList<T> 
     {
-        internal IList<OperationDuplex<T>> Tasks;       
+        internal IList<OperationDuplex<T>> Tasks;
 
+		/// <summary>
+		/// 
+		/// </summary>
         public TaskList()
         {
             Tasks = new List<OperationDuplex<T>>();
@@ -40,5 +47,25 @@ namespace Rainbow.ObjectFlow.Engine
                 yield return task;
             }
         }
+
+		/// <summary>
+		/// Set parameters for the first parameterized operation
+		/// </summary>
+		/// <param name="parameters"></param>
+		public void SetParameters(object[] parameters)
+		{
+			if (parameters.Length > 0)
+			{
+				foreach (var task in Tasks)
+				{
+					if (task is ParameterizedOperationDuplex<T>)
+					{
+						var t = (ParameterizedOperationDuplex<T>)task;
+						((ParameterizedFunctionInvoker<T>)t.Command).SetParameters(parameters);
+						return;
+					}
+				}
+			}
+		}
     }
 }

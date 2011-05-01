@@ -10,11 +10,11 @@ namespace Rainbow.ObjectFlow.Engine
         {
             ParallelOperations = new ParallelInvoker<T>();
 
-            if (null != _taskList.Tasks && 0 != _taskList.Tasks.Count)
+            if (null != taskList.Tasks && 0 != taskList.Tasks.Count)
             {
                 OperationDuplex<T> leftOver =
-                    _taskList.Tasks[_taskList.Tasks.Count - 1];
-                _taskList.Tasks.RemoveAt(_taskList.Tasks.Count - 1);
+                    taskList.Tasks[taskList.Tasks.Count - 1];
+                taskList.Tasks.RemoveAt(taskList.Tasks.Count - 1);
                 ParallelOperations.Add(leftOver);
             }
 

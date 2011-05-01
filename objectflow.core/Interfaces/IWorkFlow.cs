@@ -1,4 +1,5 @@
 using Rainbow.ObjectFlow.Language;
+using Rainbow.ObjectFlow.Engine;
 
 namespace Rainbow.ObjectFlow.Interfaces
 {
@@ -33,5 +34,10 @@ namespace Rainbow.ObjectFlow.Interfaces
         /// Do the operation again
         /// </summary>
         IRepeat Repeat();
+
+		/// <summary>
+		/// The object responsible for constructing this workflow
+		/// </summary>
+		WorkflowBuilder<T> WorkflowBuilder { get; }
     }
 }

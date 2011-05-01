@@ -15,8 +15,11 @@ namespace Rainbow.ObjectFlow.Framework
     /// </summary>
     public class Workflow<T> : IWorkflow<T>, IDefine<T>, ICompose<T>, IMerge<T>, IExecuteWorkflow<T> where T : class
     {
-        private WorkflowBuilder<T> _workflowBuilder;
-        private readonly Dispatcher<T> _workflowEngine;
+		/// <summary>
+		/// Builder that this workflow is currently using
+		/// </summary>
+		public WorkflowBuilder<T> WorkflowBuilder { get; private set; }
+		internal readonly Dispatcher<T> _workflowEngine;
 		private ParallelBuilderActivator<T> _parallelBuilder;
 		private SequentialBuilderActivator<T> _sequentialBuilder;
 
@@ -35,7 +38,7 @@ namespace Rainbow.ObjectFlow.Framework
 
 		internal Workflow(Dispatcher<T> dispatcher, SequentialBuilderActivator<T> sequentialBuilder, ParallelBuilderActivator<T> parallelBuilder)
 		{
-			_workflowBuilder = sequentialBuilder.Activate();
+			WorkflowBuilder = sequentialBuilder.Activate();
 			_workflowEngine = dispatcher;
 			_sequentialBuilder = sequentialBuilder;
 			_parallelBuilder = parallelBuilder;
@@ -64,10 +67,10 @@ namespace Rainbow.ObjectFlow.Framework
         {
             get
             {
-                if (IsSequentialBuilder(_workflowBuilder))
+                if (IsSequentialBuilder(WorkflowBuilder))
                 {
                     OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
-					_workflowBuilder = _parallelBuilder.Activate();
+					WorkflowBuilder = _parallelBuilder.Activate();
                     SetParallelOperationsFromList(array);
                 }
 
@@ -79,14 +82,14 @@ namespace Rainbow.ObjectFlow.Framework
         {
             foreach (var duplex in array)
             {
-                _workflowBuilder.ParallelOperations.Add(duplex);
+                WorkflowBuilder.ParallelOperations.Add(duplex);
             }
         }
 
         private OperationDuplex<T>[] GetArrayFromCurrentTasks()
         {
-            var array = new OperationDuplex<T>[_workflowBuilder.TaskList.Tasks.Count];
-            _workflowBuilder.TaskList.Tasks.CopyTo(array, 0);
+            var array = new OperationDuplex<T>[WorkflowBuilder.Tasks.Tasks.Count];
+            WorkflowBuilder.Tasks.Tasks.CopyTo(array, 0);
             return array;
         }
 
@@ -102,7 +105,7 @@ namespace Rainbow.ObjectFlow.Framework
 
         internal TaskList<T> RegisteredOperations
         {
-            get { return _workflowBuilder.TaskList; }
+            get { return WorkflowBuilder.Tasks; }
         }
 
         /// <summary>
@@ -115,7 +118,7 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(operation, "operation");
             Check.IsInstanceOf<BasicOperation<T>>(operation, "operation");
 
-            _workflowBuilder.AddOperation(operation);
+            WorkflowBuilder.AddOperation(operation);
 
             return this;
         }
@@ -133,7 +136,7 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(constraint, "constraint");
             Check.IsInstanceOf<BasicOperation<T>>(operation, "operation");
 
-            _workflowBuilder.AddOperation(operation, constraint);
+            WorkflowBuilder.AddOperation(operation, constraint);
 
             return this;
         }
@@ -149,7 +152,7 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(function, "function");
             Check.IsNotNull(constraint, "constraint");
 
-            _workflowBuilder.AddOperation(function, constraint, branchPoint);
+            WorkflowBuilder.AddOperation(function, constraint, branchPoint);
             return this;
         }
 
@@ -161,7 +164,7 @@ namespace Rainbow.ObjectFlow.Framework
         {
             Check.IsNotNull(function, "function");
 
-            _workflowBuilder.AddOperation(function);
+            WorkflowBuilder.AddOperation(function);
             return this;
         }
 
@@ -175,7 +178,7 @@ namespace Rainbow.ObjectFlow.Framework
         {
             Check.IsNotNull(function, "function");
 
-            _workflowBuilder.AddOperation(function, branch);
+            WorkflowBuilder.AddOperation(function, branch);
             return this;
         }
 
@@ -189,7 +192,7 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(function, "function");
             Check.IsNotNull(constraint, "constraint");
 
-            _workflowBuilder.AddOperation(function, constraint);
+            WorkflowBuilder.AddOperation(function, constraint);
             return this;
         }
 
@@ -204,7 +207,7 @@ namespace Rainbow.ObjectFlow.Framework
         public virtual T Start()
         {
             Then();
-            _workflowEngine.Execute( _workflowBuilder.TaskList.Tasks);
+            _workflowEngine.Execute( WorkflowBuilder.Tasks.Tasks);
             return Context;
         }
 
@@ -216,7 +219,7 @@ namespace Rainbow.ObjectFlow.Framework
         public virtual T Start(T data)
         {
             Then();
-            _workflowEngine.Execute(_workflowBuilder.TaskList.GenerateTaskList(), data);
+            _workflowEngine.Execute(WorkflowBuilder.Tasks.GenerateTaskList(), data);
             return Context;
         }
 
@@ -225,12 +228,12 @@ namespace Rainbow.ObjectFlow.Framework
         /// </summary>
         public virtual IMerge<T> Then()
         {
-            if (!IsSequentialBuilder(_workflowBuilder))
+            if (!IsSequentialBuilder(WorkflowBuilder))
             {
-                _workflowBuilder.TaskList.Tasks.Add(new OperationDuplex<T>(_workflowBuilder.ParallelOperations));
+                WorkflowBuilder.Tasks.Tasks.Add(new OperationDuplex<T>(WorkflowBuilder.ParallelOperations));
                 OperationDuplex<T>[] array = GetArrayFromCurrentTasks();
 
-				_workflowBuilder = _sequentialBuilder.Activate();
+				WorkflowBuilder = _sequentialBuilder.Activate();
 				SetCurrentTasksFromList(array);
             }
 
@@ -241,7 +244,7 @@ namespace Rainbow.ObjectFlow.Framework
         {
             foreach (var duplex in array)
             {
-                _workflowBuilder.TaskList.Tasks.Add(duplex);
+                WorkflowBuilder.Tasks.Tasks.Add(duplex);
             }
         }
 
@@ -265,7 +268,7 @@ namespace Rainbow.ObjectFlow.Framework
         public IWorkflow<T> Do(IWorkflow<T> workflow)
         {
             Check.IsNotNull(workflow, "workflow");
-            _workflowBuilder.AddOperation(workflow);
+            WorkflowBuilder.AddOperation(workflow);
 
             return this;
         }
@@ -280,7 +283,7 @@ namespace Rainbow.ObjectFlow.Framework
             Check.IsNotNull(workflow, "workflow");
             Check.IsNotNull(constraint, "constraint");
 
-            _workflowBuilder.AddOperation(workflow, constraint);
+            WorkflowBuilder.AddOperation(workflow, constraint);
 
             return this;
         }
@@ -291,9 +294,9 @@ namespace Rainbow.ObjectFlow.Framework
         public IRetryPolicy Retry()
         {
             IRetryPolicy policy = new Retry(this);
-            if (_workflowBuilder.TaskList.Tasks.Count > 0)
+            if (WorkflowBuilder.Tasks.Tasks.Count > 0)
             {
-                _workflowBuilder.TaskList.Tasks[_workflowBuilder.TaskList.Tasks.Count - 1].Command.Policies.Add(policy);
+                WorkflowBuilder.Tasks.Tasks[WorkflowBuilder.Tasks.Tasks.Count - 1].Command.Policies.Add(policy);
             }
 
             return policy;
@@ -306,9 +309,9 @@ namespace Rainbow.ObjectFlow.Framework
         public IRepeat Repeat()
         {
             IRepeat policy= new Repeat(this);
-            if (_workflowBuilder.TaskList.Tasks.Count > 0)
+            if (WorkflowBuilder.Tasks.Tasks.Count > 0)
             {
-                _workflowBuilder.TaskList.Tasks[_workflowBuilder.TaskList.Tasks.Count - 1].Command.Policies.Add(policy);
+                WorkflowBuilder.Tasks.Tasks[WorkflowBuilder.Tasks.Tasks.Count - 1].Command.Policies.Add(policy);
             }
 
             return policy;
@@ -320,7 +323,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// <typeparam name="TOperation">Type that inherits from BasicOperation of T</typeparam>
         public IWorkflow<T> Do<TOperation>() where TOperation : BasicOperation<T>
         {
-            _workflowBuilder.AddOperation<TOperation>();
+            WorkflowBuilder.AddOperation<TOperation>();
 
             return this;
         }
@@ -332,7 +335,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// <param name="constraint">The constraint to evaluate</param>
         public IWorkflow<T> Do<TOperation>(ICheckConstraint constraint) where TOperation : BasicOperation<T>
         {
-            _workflowBuilder.AddOperation<TOperation>(constraint);
+            WorkflowBuilder.AddOperation<TOperation>(constraint);
 
             return this;
         }

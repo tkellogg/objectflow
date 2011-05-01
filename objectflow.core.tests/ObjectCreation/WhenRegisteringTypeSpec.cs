@@ -43,7 +43,7 @@ namespace Objectflow.core.tests.ObjectCreation
             var builder = new SequentialBuilder<Colour>(new TaskList<Colour>());
             builder.AddOperation<DuplicateName>();
             
-            Assert.That(builder.TaskList.Tasks.Count, Is.EqualTo(1));
+            Assert.That(builder.Tasks.Tasks.Count, Is.EqualTo(1));
         }
 
         [Observation]
@@ -52,7 +52,7 @@ namespace Objectflow.core.tests.ObjectCreation
             var builder = new SequentialBuilder<Colour>(new TaskList<Colour>());
             builder.AddOperation<DuplicateName>(If.IsTrue(true));
 
-            Assert.That(builder.TaskList.Tasks.Count, Is.EqualTo(1));
+            Assert.That(builder.Tasks.Tasks.Count, Is.EqualTo(1));
         }
     }   
 }
