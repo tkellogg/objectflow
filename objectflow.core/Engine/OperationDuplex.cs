@@ -4,8 +4,8 @@ namespace Rainbow.ObjectFlow.Engine
 {
     internal class OperationDuplex<T>
     {
-        private readonly ICheckConstraint _constraint;
-        private readonly MethodInvoker<T> _command;
+        protected readonly ICheckConstraint _constraint;
+        protected readonly MethodInvoker<T> _command;
 
         public OperationDuplex(MethodInvoker<T> command, ICheckConstraint constraint)
         {

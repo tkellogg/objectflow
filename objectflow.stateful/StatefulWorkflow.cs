@@ -158,7 +158,47 @@ namespace Rainbow.ObjectFlow.Stateful
             CheckThatTransitionIsAllowed(data.GetStateId(this.WorkflowId));
             var ret = GetCurrentFlowForObject(data).Start(data);
             return ret;
-        }
+		}
+
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <typeparam name="T2"></typeparam>
+		/// <typeparam name="T3"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		/// <param name="arg3"></param>
+		public virtual T Start<T1, T2, T3>(T subject, T1 arg1, T2 arg2, T3 arg3)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <typeparam name="T2"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		/// <param name="arg2"></param>
+		public virtual T Start<T1, T2>(T subject, T1 arg1, T2 arg2)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Start the workflow with extra arguments
+		/// </summary>
+		/// <typeparam name="T1"></typeparam>
+		/// <param name="subject">Object being operated on</param>
+		/// <param name="arg1"></param>
+		public virtual T Start<T1>(T subject, T1 arg1)
+		{
+			throw new NotImplementedException();
+		}
+
 
         /// <summary>
         /// Begins the execution of a workflow
@@ -237,6 +277,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		public virtual IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body)
 		{
 			throw new NotImplementedException();
+
 		}
 
 		/// <summary>

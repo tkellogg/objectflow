@@ -83,5 +83,23 @@ namespace Rainbow.ObjectFlow.Engine
             var operationPair = new OperationDuplex<T>(new OperationInvoker<T>(operation as BasicOperation<T>), constraint);
             _taskList.Tasks.Add(operationPair);
         }
-    }
+
+		public override void AddOperation<T1, T2, T3>(Action<T, T1, T2, T3> function)
+		{
+			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
+			_taskList.Tasks.Add(op);
+		}
+
+		public override void AddOperation<T1, T2>(Action<T, T1, T2> function)
+		{
+			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
+			_taskList.Tasks.Add(op);
+		}
+
+		public override void AddOperation<T1>(Action<T, T1> function)
+		{
+			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
+			_taskList.Tasks.Add(op);
+		}
+	}
 }

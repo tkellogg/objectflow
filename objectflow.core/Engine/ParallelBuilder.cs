@@ -79,5 +79,20 @@ namespace Rainbow.ObjectFlow.Engine
         {
             throw new NotImplementedException();
         }
-    }
+
+		public override void AddOperation<T1, T2, T3>(Action<T, T1, T2, T3> function)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void AddOperation<T1, T2>(Action<T, T1, T2> function)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void AddOperation<T1>(Action<T, T1> function)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
