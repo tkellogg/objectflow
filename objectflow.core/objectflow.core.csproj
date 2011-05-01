@@ -76,14 +76,6 @@
     <DocumentationFile>..\compile\objectflow.core\bin\Release\objectflow.core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.MicroKernel.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

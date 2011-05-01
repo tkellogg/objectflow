@@ -32,12 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel">
-      <HintPath>..\lib\Castle.MicroKernel.dll</HintPath>
-    </Reference>
     <Reference Include="Moq">
       <HintPath>..\lib\Moq.dll</HintPath>
     </Reference>

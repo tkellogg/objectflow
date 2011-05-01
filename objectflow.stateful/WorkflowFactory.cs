@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Castle.DynamicProxy;
 using Rainbow.ObjectFlow.Stateful;
 
 namespace Rainbow.ObjectFlow.Stateful

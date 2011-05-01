@@ -35,12 +35,6 @@
     <DocumentationFile>D:\code\MKO\Components\References\kpa.framework\References\objectflow\compile\objectflow.stateful\bin\Release\objectflow.stateful.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel">
-      <HintPath>..\lib\Castle.MicroKernel.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
