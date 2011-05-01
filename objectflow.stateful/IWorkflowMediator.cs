@@ -11,7 +11,7 @@ namespace Rainbow.ObjectFlow.Stateful
     /// Container.Resolve&lt;IWorkflow&lt;SiteVisit&gt;&gt;().Process(siteVisit);
     /// </example>
     /// <typeparam name="T"></typeparam>
-    public interface IWorkflowFactory<T>
+    public interface IWorkflowMediator<T>
     {
         /// <summary>
         /// Creates a workflow with the correct security &amp; error handling constraints and 

@@ -5,7 +5,7 @@ using System.Text;
 using Rainbow.ObjectFlow.Stateful;
 using Moq;
 
-namespace Objectflow.Stateful.tests.unit.StatefulWorkflows
+namespace Rainbow.ObjectFlow.Stateful.tests.StatefulWorkflows
 {
     public class WhenStartingFromScratch : Specification
     {
