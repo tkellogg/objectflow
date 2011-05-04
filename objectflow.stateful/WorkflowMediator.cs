@@ -47,14 +47,32 @@ namespace Rainbow.ObjectFlow.Stateful
 		public virtual T Start(T initializer, params object[] parameters)
 		{
 			InitializeWorkflowIfNecessary();
+			var beginning = initializer.GetStateId(_workflow.WorkflowId);
+
+			T ret = initializer;
 			if (Validate(initializer))
 			{
 				if (parameters.Length == 0)
-					return _workflow.Start(initializer);
+					ret = _workflow.Start(initializer);
 				else
-					return _workflow.StartWithParams(initializer, parameters);
+					ret = _workflow.StartWithParams(initializer, parameters);
 			}
-			else return initializer;
+
+			object ending = (ret != null)? ret.GetStateId(_workflow.WorkflowId) : null;
+			OnFinished(ret, beginning, ending);
+
+			return ret;
+		}
+
+		/// <summary>
+		/// Called when a segment finishes executing. This is where you should implement
+		/// persistence.
+		/// </summary>
+		/// <param name="subject">The object exiting the workflow segment</param>
+		/// <param name="from">beginning workflow state</param>
+		/// <param name="to">ending workflow state</param>
+		protected virtual void OnFinished(T subject, object from, object to)
+		{
 		}
 
         /// <summary>
@@ -89,14 +107,28 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             InitializeWorkflowIfNecessary();
             var empty = new ITransition[0];
-            if (@object == null)
-                return empty;
-            var enumerable = _workflow.PossibleTransitions;
-            if (enumerable == null)
-                return empty;
-            else return enumerable.Where(x => 
-                object.Equals(x.From, @object.GetStateId(_workflow.WorkflowId)));
+			if (@object == null)
+				return empty;
+			else
+				return GetPossibleTransitions(@object.GetStateId(_workflow.WorkflowId));
         }
+
+		/// <summary>
+		/// Allows other applications to query the workflow for transitions that are allowed
+		/// and won't be denied. This makes it possible to consolidate all workflow logic
+		/// and keep UI separate. 
+		/// </summary>
+		/// <param name="fromState">state that the object of interest is currently at</param>
+		public virtual IEnumerable<ITransition> GetPossibleTransitions(object fromState)
+		{
+			InitializeWorkflowIfNecessary();
+			var empty = new ITransition[0];
+			var enumerable = _workflow.PossibleTransitions;
+			if (enumerable == null)
+				return empty;
+			else return enumerable.Where(x =>
+				object.Equals(x.From, fromState));
+		}
 
         /// <summary>
         /// This method indicates that the user wants @object to transition into the state marked

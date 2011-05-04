@@ -20,14 +20,22 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="initializer">object to be processed</param>
 		/// <param name="parameters">additional parameters for the workflow segment</param>
         /// <returns></returns>
-        T Start(T initializer, params object[] parameters);
+		T Start(T initializer, params object[] parameters);
 
-        /// <summary>
-        /// Allows other applications to query the workflow for transitions that are allowed
-        /// and won't be denied. This makes it possible to consolidate all workflow logic
-        /// and keep UI separate. 
-        /// </summary>
-        IEnumerable<ITransition> GetPossibleTransitions(T @object);
+		/// <summary>
+		/// Allows other applications to query the workflow for transitions that are allowed
+		/// and won't be denied. This makes it possible to consolidate all workflow logic
+		/// and keep UI separate. 
+		/// </summary>
+		IEnumerable<ITransition> GetPossibleTransitions(T @object);
+
+		/// <summary>
+		/// Allows other applications to query the workflow for transitions that are allowed
+		/// and won't be denied. This makes it possible to consolidate all workflow logic
+		/// and keep UI separate. 
+		/// </summary>
+		/// <param name="fromState">state that the object of interest is currently at</param>
+		IEnumerable<ITransition> GetPossibleTransitions(object fromState);
 
         /// <summary>
         /// This method indicates that the user wants @object to transition into the state marked
@@ -36,6 +44,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         /// <param name="object"></param>
         /// <param name="toHint"></param>
+		[Obsolete("Using parametarized workflow actions is simpler to understand")]
         void TransitionTo(T @object, object toHint);
     }
 }
