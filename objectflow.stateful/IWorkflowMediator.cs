@@ -36,15 +36,5 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="fromState">state that the object of interest is currently at</param>
 		IEnumerable<ITransition> GetPossibleTransitions(object fromState);
-
-        /// <summary>
-        /// This method indicates that the user wants @object to transition into the state marked
-        /// by <code>toHint</code>. The implementation should take the necessary steps to direct
-        /// the object through the correct workflow steps. 
-        /// </summary>
-        /// <param name="object"></param>
-        /// <param name="toHint"></param>
-		[Obsolete("Using parametarized workflow actions is simpler to understand")]
-        void TransitionTo(T @object, object toHint);
     }
 }
