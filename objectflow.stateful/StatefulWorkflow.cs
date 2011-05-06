@@ -39,10 +39,11 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="workflowId">Persistable value that represents this workflow.
 		/// </param>
 		public StatefulWorkflow(object workflowId)
+			:this(workflowId, null)
 		{
-			WorkflowId = workflowId;
-			_faultHandler = new ErrorHandler<T>();
-			_current = new Workflow<T>(_faultHandler);
+			//WorkflowId = workflowId;
+			//_faultHandler = new ErrorHandler<T>();
+			//_current = new Workflow<T>(_faultHandler);
 		}
 
 		/// <summary>
@@ -169,7 +170,6 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Yield(object stateId)
         {
-			EndDefinitionPhase();
 			if (IsFirst)
 				_current.Do(x => { _transitionRule.Begin(x, stateId); return x; });
 			else
