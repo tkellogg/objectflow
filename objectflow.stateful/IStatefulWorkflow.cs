@@ -11,7 +11,7 @@ namespace Rainbow.ObjectFlow.Stateful
     /// A workflow that is able to pause at states and be resumed later.
     /// </summary>
     /// <typeparam name="T">The object that will be stepped through the workflow</typeparam>
-    public interface IStatefulWorkflow<T> : IWorkflow<T>
+    public interface IStatefulWorkflow<T> : IWorkflow<T>, IStateObserver<T>
         where T : class, IStatefulObject
     {
         /// <summary>

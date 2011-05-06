@@ -7,7 +7,7 @@ namespace Rainbow.ObjectFlow.Stateful
 	/// as providing indicators about state
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public interface ITransitionRule<T>
+	public interface ITransitionRule<T> : IStateObserver<T>
 	 where T : class, IStatefulObject
 	{
 		/// <summary>
@@ -29,20 +29,5 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="entity"></param>
 		/// <param name="endState">The state the entity is transitioning into</param>
 		void Transition(T entity, object endState);
-
-		/// <summary>
-		/// If <see cref="IsInWorkflow"/> is false, this indicates that the entity has been
-		/// in a workflow at least once. This returns null if this information can't be determined.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		bool? HasBeenInWorkflow(T entity);
-
-		/// <summary>
-		/// True if the entity is currently passing through the workflow
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		bool IsInWorkflow(T entity);
 	}
 }

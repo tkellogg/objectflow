@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="IStatefulObject.cs" />
     <Compile Include="IStatefulWorkflow.cs" />
+    <Compile Include="IStateObserver.cs" />
     <Compile Include="ITransition.cs" />
     <Compile Include="ITransitionGateway.cs" />
     <Compile Include="ITransitionRule.cs" />

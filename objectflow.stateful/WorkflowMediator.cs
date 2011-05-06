@@ -129,5 +129,30 @@ namespace Rainbow.ObjectFlow.Stateful
 			else return enumerable.Where(x =>
 				object.Equals(x.From, fromState));
 		}
-    }
+
+		#region IStateObserver<T> Members
+
+		/// <summary>
+		/// If <see cref="IsInWorkflow"/> is false, this indicates that the entity has been
+		/// in a workflow at least once. This returns null if this information can't be determined.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool? HasBeenInWorkflow(T entity)
+		{
+			return _workflow.HasBeenInWorkflow(entity);
+		}
+
+		/// <summary>
+		/// True if the entity is currently passing through the workflow
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool IsInWorkflow(T entity)
+		{
+			return _workflow.IsInWorkflow(entity);
+		}
+
+		#endregion
+	}
 }
