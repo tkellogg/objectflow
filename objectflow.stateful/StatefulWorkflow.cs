@@ -19,7 +19,8 @@ namespace Rainbow.ObjectFlow.Stateful
         private IErrorHandler<T> _faultHandler;
         private IWorkflow<T> _current;
         private ITransitionGateway _gateway;
-        private List<ITransition> _transitions;
+		private List<ITransition> _transitions;
+		private ITransitionRule<T> _transitionRule;
 
         /// <summary>Index for </summary>
         private Dictionary<object, int> subflow_idx
@@ -28,6 +29,61 @@ namespace Rainbow.ObjectFlow.Stateful
         private object nextKey;
         /// <summary>Used for transitions to know what key we're building from</summary>
         private object currentKey;
+
+		#region Constructors
+
+		/// <summary>
+		/// Creates a workflow that has persistable states identified by
+		/// <c>workflowId</c>.
+		/// </summary>
+		/// <param name="workflowId">Persistable value that represents this workflow.
+		/// </param>
+		public StatefulWorkflow(object workflowId)
+		{
+			WorkflowId = workflowId;
+			_faultHandler = new ErrorHandler<T>();
+			_current = new Workflow<T>(_faultHandler);
+		}
+
+		/// <summary>
+		/// Creates a workflow that has persistable states identified by
+		/// <c>workflowId</c> and provided by a transition security layer
+		/// </summary>
+		/// <param name="workflowId"></param>
+		/// <param name="gateway">The security gateway that has the ability to diallow
+		/// a transition from ever happening.</param>
+		public StatefulWorkflow(object workflowId, ITransitionGateway gateway)
+			:this(workflowId, gateway, new DefaultTransitionRule<T>(workflowId))
+		{}
+
+		/// <summary>
+		/// Creates a workflow that has persistable states identified by
+		/// <c>workflowId</c> and provided by a transition security layer
+		/// </summary>
+		/// <param name="workflowId"></param>
+		/// <param name="gateway">The security gateway that has the ability to diallow
+		/// a transition from ever happening.</param>
+		/// <param name="transitionRule">transition rule used to guide objects through the workflow</param>
+		public StatefulWorkflow(object workflowId, ITransitionGateway gateway, ITransitionRule<T> transitionRule)
+		{
+			WorkflowId = workflowId;
+			_faultHandler = new StatefulErrorHandler<T>();
+			_current = new Workflow<T>(_faultHandler);
+			this._gateway = gateway;
+			this._transitions = new List<ITransition>();
+			_transitionRule = transitionRule;
+		}
+
+		/// <summary>
+		/// Creates a new workflow that has persistable states. Usage of this 
+		/// constructure asserts that an object that might pass through this workflow
+		/// will pass through only this workflow and no other stateful workflow.
+		/// Because of this restriction, it is recommended that you use 
+		/// <c>StatefulWorkflow(object)</c> instead.
+		/// </summary>
+		public StatefulWorkflow() : this(null) { }
+
+		#endregion
         
         private void AddFlow(object key, IWorkflow<T> flow)
         {
@@ -48,7 +104,7 @@ namespace Rainbow.ObjectFlow.Stateful
             {
                 if (!subflow_idx.ContainsKey(nextKey))
                 {
-                    _current.Do(x => { x.SetStateId(WorkflowId, null); return x; });
+					_current.Do(x => { _transitionRule.End(x); return x; });
                     subflow_idx[nextKey] = subflows.Count;
                     subflows.Add(_current);
                     AddRemainingTransitions();
@@ -61,6 +117,14 @@ namespace Rainbow.ObjectFlow.Stateful
             undefinedForwardRefs = null;
             definedRefs = null;
         }
+
+		/// <summary>
+		/// indicates that this is the first workflow segment to be defined
+		/// </summary>
+		protected bool IsFirst
+		{
+			get { return subflows.Count == 0; }
+		}
 
         /// <summary>The first flow of the workflow</summary>
         protected IWorkflow<T> First
@@ -87,47 +151,10 @@ namespace Rainbow.ObjectFlow.Stateful
             }
         }
 
-        /// <summary>
-        /// Creates a workflow that has persistable states identified by
-        /// <c>workflowId</c>.
-        /// </summary>
-        /// <param name="workflowId">Persistable value that represents this workflow.
-        /// </param>
-        public StatefulWorkflow(object workflowId)
-        {
-            WorkflowId = workflowId;
-            _faultHandler = new ErrorHandler<T>();
-            _current = new Workflow<T>(_faultHandler);
-        }
+		
+		#region new IStatefulWorkflow<T> Members
 
-        /// <summary>
-        /// Creates a workflow that has persistable states identified by
-        /// <c>workflowId</c> and provided by a transition security layer
-        /// </summary>
-        /// <param name="workflowId"></param>
-        /// <param name="gateway">The security gateway that has the ability to diallow
-        /// a transition from ever happening.</param>
-        public StatefulWorkflow(object workflowId, ITransitionGateway gateway)
-        {
-            WorkflowId = workflowId;
-            _faultHandler = new StatefulErrorHandler<T>();
-            _current = new Workflow<T>(_faultHandler);
-            this._gateway = gateway;
-            this._transitions = new List<ITransition>();
-        }
-
-        /// <summary>
-        /// Creates a new workflow that has persistable states. Usage of this 
-        /// constructure asserts that an object that might pass through this workflow
-        /// will pass through only this workflow and no other stateful workflow.
-        /// Because of this restriction, it is recommended that you use 
-        /// <c>StatefulWorkflow(object)</c> instead.
-        /// </summary>
-        public StatefulWorkflow() :this(null) {}
-
-        #region new IStatefulWorkflow<T> Members
-
-        /// <summary>
+		/// <summary>
         /// Gets an identifier that describes the workflow. This can be a string,
         /// number, Guid, or any other object that provides a meaningful implementation
         /// of the <c>.Equals(object)</c> method.
@@ -142,7 +169,12 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Yield(object stateId)
         {
-            _current.Do(x => { x.SetStateId(WorkflowId, stateId); return x; });
+			EndDefinitionPhase();
+			if (IsFirst)
+				_current.Do(x => { _transitionRule.Begin(x, stateId); return x; });
+			else
+				_current.Do(x => { _transitionRule.Transition(x, stateId); return x; });
+
             AddFlow(stateId, _current);
             _current = new Workflow<T>(_faultHandler);
             return this;
