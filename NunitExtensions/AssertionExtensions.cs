@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
+using System.Collections.Generic;
 public static class AssertionExtensions
 {
     public static void ShouldBeNull(this object obj)
@@ -41,4 +44,14 @@ public static class AssertionExtensions
     {
         Assert.Throws(typeof(T), method.Invoke);
     }
+
+	public static void Should(this object obj, IResolveConstraint constraint)
+	{
+		Assert.That(obj, constraint);
+	}
+
+	public static bool None<T>(this IEnumerable<T> self, Func<T, bool> predicate)
+	{
+		return !self.Any(predicate);
+	}
 }

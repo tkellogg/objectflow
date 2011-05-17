@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Moq;
 using Rainbow.ObjectFlow.Helpers;
+using NUnit.Framework;
 
 namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 {
@@ -44,12 +45,14 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .When(x => true, otherwise: branch1);
 
             var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
-            transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
-            transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
-            transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
+			transitions.Should(Have.Count.EqualTo(4));
+			
+			transitions.Should(Have.Some.Matches<ITransition>(x => x.From == null && (int?)x.To == 1));
+            transitions.Should(Have.Some.Matches<ITransition>(x => (int?)x.From == 1 && (int?)x.To == 2));
+            transitions.Should(Have.Some.Matches<ITransition>(x => (int?)x.From == 2 && x.To == null));
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Should(Have.Some.Matches<ITransition>(x => (int?)x.From == 2 && (int?)x.To == 2));
+			transitions.Should(Have.None.Matches<ITransition>(x => (int?)x.From == 2 && (int?)x.To == 1));
         }
 
         [Observation]
@@ -63,13 +66,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Yield(2)
                 ;
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 1).Count().ShouldBe(1);
         }
 
         [Observation]
@@ -83,13 +88,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .When(x => true, otherwise: branch1)
                 .When(x => true, otherwise: branch1);
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 2).Count().ShouldBe(1);
         }
 
         [Observation]
@@ -105,13 +112,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .When(x => true, otherwise: branch1)
                 .When(x => true, otherwise: branch2);
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 2).Count().ShouldBe(1);
         }
         #endregion
 
@@ -127,13 +136,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Yield(2)
                 .Define(defineAs: branch1);
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
         }
 
         [Observation]
@@ -148,13 +159,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Define(defineAs: branch1)
                 ;
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
         }
 
         [Observation]
@@ -171,13 +184,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Define(defineAs: branch2)
                 ;
 
-            var transitions = wf.PossibleTransitions.ToList();
-            transitions.Count.ShouldBe(4);
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Should(Have.Count.EqualTo(4));
+
             transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
             transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
             // as well as
-            transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
         }
         #endregion
     }

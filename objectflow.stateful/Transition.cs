@@ -20,18 +20,35 @@ namespace Rainbow.ObjectFlow.Stateful
 
         public override bool Equals(object obj)
         {
-            if (obj is ITransition)
-            {
-                var o = (ITransition)obj;
-                return From == o.From && To == o.To;
-            }
-            else return base.Equals(obj);
+			if (obj is ITransition && obj != null)
+			{
+				var o = (ITransition)obj;
+				return object.Equals(From, o.From) && object.Equals(To, o.To)
+					&& object.Equals(WorkflowId, o.WorkflowId);
+			}
+			else return false;
         }
 
         public override int GetHashCode()
         {
-            string code = string.Format("Rainbow.ObjectFlow.Stateful.Transition<<{0}|{1}>>", From, To);
-            return code.GetHashCode();
+			unchecked
+			{
+				int multiplier = 31;
+				int ret = 0;
+				if (WorkflowId != null)
+					ret = (ret + WorkflowId.GetHashCode()) * multiplier;
+				if (From != null)
+					ret = (ret + From.GetHashCode()) * multiplier;
+				if (To != null)
+					ret = (ret + To.GetHashCode()) * multiplier;
+				return ret;
+			}
         }
+
+		public override string ToString()
+		{
+			return string.Format("Transition<From: {0}, To: {1}, Workflow: {2}>", From,
+				To, WorkflowId);
+		}
     }
 }

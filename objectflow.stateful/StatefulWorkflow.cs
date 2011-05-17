@@ -41,9 +41,6 @@ namespace Rainbow.ObjectFlow.Stateful
 		public StatefulWorkflow(object workflowId)
 			:this(workflowId, null)
 		{
-			//WorkflowId = workflowId;
-			//_faultHandler = new ErrorHandler<T>();
-			//_current = new Workflow<T>(_faultHandler);
 		}
 
 		/// <summary>
@@ -533,7 +530,7 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             if (definedRefs.ContainsKey(branchPoint))
             {
-                AddTransition(nextKey, definedRefs[branchPoint], branchPoint);
+                AddTransition(currentKey, definedRefs[branchPoint], branchPoint);
             }
             else
             {

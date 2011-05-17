@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="AssertionExtensionsWithMessage.cs" />
+    <Compile Include="Be.cs" />
+    <Compile Include="Have.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Specification.cs" />
     <Compile Include="ObservationAttribute.cs" />
