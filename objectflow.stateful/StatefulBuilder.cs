@@ -42,6 +42,8 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		private List<IDeclaredOperation> currentFlowDefs = new List<IDeclaredOperation>();
 
+		private List<Action<object>> _deferredStates = new List<Action<object>>();
+
 		private object _workflowId;
 
 		public StatefulBuilder(object workflowId, ITransitionRule<T> transitionRule, IErrorHandler<T> faultHandler)
@@ -57,6 +59,7 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		public void AddYield(object identifier)
 		{
+			ProcessDeferredStates(identifier);
 			if (IsFirst)
 				Current.Do(x => { _transitionRule.Begin(x, identifier); return x; });
 			else
@@ -98,6 +101,7 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		public void EndDefinitionPhase()
 		{
+			ProcessDeferredStates(null);
 			if (_nextKey != null)
 			{
 				if (!_subflow_idx.ContainsKey(_nextKey))
@@ -172,7 +176,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		{
 			if (_definedRefs.ContainsKey(branchPoint))
 			{
-				AddTransition(_currentKey, _definedRefs[branchPoint], branchPoint);
+				AddTransition(_nextKey, _definedRefs[branchPoint], branchPoint);
 			}
 			else
 			{
@@ -191,15 +195,38 @@ namespace Rainbow.ObjectFlow.Stateful
 			if (_definedRefs.ContainsKey(branchPoint))
 				throw new InvalidOperationException("branch point is already defined. "
 						+ "Cannot multiply define branch points");
-			_definedRefs[branchPoint] = _nextKey;
+
+			_definedRefs[branchPoint] = null;	// placeholder
+			_deferredStates.Add(x => _definedRefs[branchPoint] = x);  // The real deal
+
 			if (_undefinedForwardRefs.ContainsKey(branchPoint))
 			{
 				foreach (var key in _undefinedForwardRefs[branchPoint])
 				{
-					AddTransition(_nextKey, key, branchPoint);
+					_deferredStates.Add(x => AddTransition(_currentKey, x, branchPoint));
 				}
 				_undefinedForwardRefs.Remove(branchPoint);
 			}
+		}
+
+		/// <summary>
+		/// <para>
+		/// This whole concept of deferring actions is just because we need to log the ENDING
+		/// state ID as the destination of a transition. We usually don't know the ending 
+		/// value when we're in the middle of processing, but we generally know what needs
+		/// to happen (just waiting on the state ID). So we just defer...
+		/// </para>
+		/// <para>
+		/// This whole class is complicated and this concept doesn't help
+		/// </para>
+		/// </summary>
+		/// <param name="stateId"></param>
+		private void ProcessDeferredStates(object stateId)
+		{
+			foreach (var action in _deferredStates)
+				action(stateId);
+
+			_deferredStates.Clear();
 		}
 
 		public object GetDestinationState(IDeclaredOperation to)

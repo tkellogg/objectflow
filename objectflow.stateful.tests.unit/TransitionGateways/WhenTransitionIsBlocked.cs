@@ -87,7 +87,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
 
             gateway.SetReturnsDefault<bool>(true);
             gateway.Setup(x => x.IsTransitionAllowed(
-                It.Is<ITransition>(y => object.Equals(y.From, 2) && object.Equals(y.To, 1))))
+                It.Is<ITransition>(y => object.Equals(y.From, 2) && object.Equals(y.To, 2))))
                 .Returns(false);
             wf.Start(obj.Object);
             wf.Start(obj.Object);
