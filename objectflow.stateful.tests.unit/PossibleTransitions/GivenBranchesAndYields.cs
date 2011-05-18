@@ -170,30 +170,48 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
         }
 
-        [Observation]
-        public void DoubleDefineDoesNotAddDuplicate_ForwardReference()
-        {
-            var branch1 = Declare.Step();
-            var branch2 = Declare.Step();
-            var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
-                .Yield(1)
-                .When(x => true, otherwise: branch1)
-                .When(x => true, otherwise: branch2)
-                .Yield(2)
-                .Define(defineAs: branch1)
-                .Define(defineAs: branch2)
-                ;
+		[Observation]
+		public void DoubleDefineDoesNotAddDuplicate_ForwardReference()
+		{
+			var branch1 = Declare.Step();
+			var branch2 = Declare.Step();
+			var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
+				.Yield(1)
+				.When(x => true, otherwise: branch1)
+				.When(x => true, otherwise: branch2)
+				.Yield(2)
+				.Define(defineAs: branch1)
+				.Define(defineAs: branch2)
+				;
 
 			var transitions = wf.PossibleTransitions.ToList();
 			transitions.Should(Have.Count.EqualTo(4));
 
-            transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
-            transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
-            transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
-            // as well as
+			transitions.Where(x => x.From == null && (int?)x.To == 1).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 2).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && x.To == null).Count().ShouldBe(1);
+			// as well as
 			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 1).Count().ShouldBe(0);
 			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == null).Count().ShouldBe(1);
-        }
+		}
+
+		[Observation]
+		public void I_can_have_2_branches_to_the_same_yield()
+		{
+			var branch1 = Declare.Step();
+			var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object);
+			wf.Yield(1);
+			wf.When(x => true, otherwise: branch1);
+			wf.Yield(2);
+			wf.When(x => true, otherwise: branch1);
+			wf.Yield(3);
+			wf.Define(branch1);
+			wf.Yield(4);
+
+			var transitions = wf.PossibleTransitions.ToList();
+			transitions.Where(x => (int?)x.From == 1 && (int?)x.To == 4).Count().ShouldBe(1);
+			transitions.Where(x => (int?)x.From == 2 && (int?)x.To == 4).Count().ShouldBe(1);
+		}
         #endregion
     }
 }

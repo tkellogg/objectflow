@@ -203,7 +203,8 @@ namespace Rainbow.ObjectFlow.Stateful
 			{
 				foreach (var key in _undefinedForwardRefs[branchPoint])
 				{
-					_deferredStates.Add(x => AddTransition(_currentKey, x, branchPoint));
+					var placeholder = key;
+					_deferredStates.Add(x => AddTransition(placeholder, x, branchPoint));
 				}
 				_undefinedForwardRefs.Remove(branchPoint);
 			}
