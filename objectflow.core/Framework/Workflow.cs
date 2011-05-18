@@ -6,6 +6,7 @@ using Rainbow.ObjectFlow.Policies;
 using System.Collections.Generic;
 using Rainbow.ObjectFlow.Constraints;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -63,6 +64,7 @@ namespace Rainbow.ObjectFlow.Framework
         /// pass state in the future.
         /// </remarks>
         /// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ICompose<T> And
         {
             get
