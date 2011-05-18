@@ -1,5 +1,6 @@
 using Rainbow.ObjectFlow.Language;
 using Rainbow.ObjectFlow.Engine;
+using System.Diagnostics;
 
 namespace Rainbow.ObjectFlow.Interfaces
 {
@@ -10,7 +11,8 @@ namespace Rainbow.ObjectFlow.Interfaces
     {
         ///<summary>
         /// Chained operations will be executed concurrently
-        ///</summary>
+		///</summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ICompose<T> And { get; }
 
         /// <summary>
