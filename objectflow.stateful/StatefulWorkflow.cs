@@ -16,19 +16,11 @@ namespace Rainbow.ObjectFlow.Stateful
     public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
         where T : class, IStatefulObject
     {
-        private IErrorHandler<T> _faultHandler;
-        private IWorkflow<T> _current;
         private ITransitionGateway _gateway;
-		private List<ITransition> _transitions;
-		private ITransitionRule<T> _transitionRule;
 
-        /// <summary>Index for </summary>
-        private Dictionary<object, int> subflow_idx
-                            = new Dictionary<object, int>();
-        private List<IWorkflow<T>> subflows = new List<IWorkflow<T>>();
-        private object nextKey;
-        /// <summary>Used for transitions to know what key we're building from</summary>
-        private object currentKey;
+		private StatefulBuilder<T> _builder;
+		private IErrorHandler<T> _faultHandler;
+		private ITransitionRule<T> _transitionRule;
 
 		#region Constructors
 
@@ -66,9 +58,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		{
 			WorkflowId = workflowId;
 			_faultHandler = new StatefulErrorHandler<T>();
-			_current = new Workflow<T>(_faultHandler);
 			this._gateway = gateway;
-			this._transitions = new List<ITransition>();
+			_builder = new StatefulBuilder<T>(workflowId, transitionRule, _faultHandler);
 			_transitionRule = transitionRule;
 		}
 
@@ -82,72 +73,6 @@ namespace Rainbow.ObjectFlow.Stateful
 		public StatefulWorkflow() : this(null) { }
 
 		#endregion
-        
-        private void AddFlow(object key, IWorkflow<T> flow)
-        {
-            if (!subflow_idx.ContainsKey(key))
-            {
-                if (nextKey != null)
-                    subflow_idx[nextKey] = subflows.Count;
-                subflows.Add(flow);
-                AddTransition(nextKey, key);
-                currentKey = nextKey;
-                nextKey = key;
-            }
-        }
-
-        private void EndDefinitionPhase()
-        {
-            if (nextKey != null)
-            {
-                if (!subflow_idx.ContainsKey(nextKey))
-                {
-					_current.Do(x => { _transitionRule.End(x); return x; });
-                    subflow_idx[nextKey] = subflows.Count;
-                    subflows.Add(_current);
-                    AddRemainingTransitions();
-                }
-            }
-            else
-                AddTransition(null, null);
-            
-            // free up some memory that won't be required anymore
-            undefinedForwardRefs = null;
-            definedRefs = null;
-        }
-
-		/// <summary>
-		/// indicates that this is the first workflow segment to be defined
-		/// </summary>
-		protected bool IsFirst
-		{
-			get { return subflows.Count == 0; }
-		}
-
-        /// <summary>The first flow of the workflow</summary>
-        protected IWorkflow<T> First
-        {
-            get
-            {
-                if (subflows.Count == 0)
-                    throw new InvalidOperationException("No workflow steps have been defined");
-                return subflows[0];
-            }
-        }
-
-        private IWorkflow<T> GetCurrentFlowForObject(T data)
-        {
-            if (!data.IsAliveInWorkflow(this))
-                return First;
-            else
-            {
-                var state = data.GetStateId(this.WorkflowId);
-                if (subflow_idx.ContainsKey(state))
-                    return subflows[subflow_idx[state]];
-                else
-                    throw new InvalidOperationException("Object is not passing through workflow " + this.WorkflowId);
-            }
-        }
 
 		
 		#region new IStatefulWorkflow<T> Members
@@ -167,13 +92,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Yield(object stateId)
         {
-			if (IsFirst)
-				_current.Do(x => { _transitionRule.Begin(x, stateId); return x; });
-			else
-				_current.Do(x => { _transitionRule.Transition(x, stateId); return x; });
-
-            AddFlow(stateId, _current);
-            _current = new Workflow<T>(_faultHandler);
+			_builder.AddYield(stateId);
             return this;
         }
 
@@ -195,9 +114,9 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <returns></returns>
 		public T StartWithParams(T subject, params object[] parameters)
 		{
-			EndDefinitionPhase();
+			_builder.EndDefinitionPhase();
 			CheckThatTransitionIsAllowed(subject.GetStateId(this.WorkflowId));
-			var workflow = GetCurrentFlowForObject(subject);
+			var workflow = _builder.GetCurrentFlowForObject(subject);
 			if (parameters.Length > 0)
 				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
 			return workflow.Start(subject);
@@ -249,7 +168,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns>The data after being transformed by the Operation objects</returns>
         public override T Start()
         {
-            var ret = First.Start();
+			var ret = _builder.First.Start();
             return ret;
         }
 
@@ -319,7 +238,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body)
 		{
-			_current.WorkflowBuilder.AddOperation(body);
+			_builder.Current.WorkflowBuilder.AddOperation(body);
 			return this;
 		}
 
@@ -331,7 +250,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1, T2>(Action<T, T1, T2> body)
 		{
-			_current.WorkflowBuilder.AddOperation(body);
+			_builder.Current.WorkflowBuilder.AddOperation(body);
 			return this;
 		}
 		/// <summary>
@@ -341,7 +260,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="body">The function to add</param>
 		public virtual IStatefulWorkflow<T> Do<T1>(Action<T, T1> body)
 		{
-			_current.WorkflowBuilder.AddOperation(body);
+			_builder.Current.WorkflowBuilder.AddOperation(body);
 			return this;
 		}
 
@@ -355,16 +274,16 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise)
         {
-            AnalyzeTransitionPaths(otherwise);
+            _builder.AnalyzeTransitionPaths(otherwise);
             bool failedCheck = false;
-            _current.Do(x =>
+            _builder.Current.Do(x =>
             {
                 CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
                 if (!function(x))
                     failedCheck = true;
                 return x;
             });
-            _current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
+            _builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
             return this;
         }
 
@@ -386,8 +305,8 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public virtual IStatefulWorkflow<T> Define(IDeclaredOperation defineAs)
         {
-            _current.Do(x => x, defineAs);
-            CreateDecisionPath(defineAs);
+            _builder.Current.Do(x => x, defineAs);
+            _builder.CreateDecisionPath(defineAs);
             return this;
         }
 
@@ -402,7 +321,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         public new IStatefulWorkflow<T> Do<TOperation>() where TOperation : BasicOperation<T>
         {
-            _current.Do<TOperation>();
+            _builder.Current.Do<TOperation>();
             return this;
         }
 
@@ -412,7 +331,7 @@ namespace Rainbow.ObjectFlow.Stateful
         public new IStatefulWorkflow<T> Do<TOperation>(ICheckConstraint constraint)
             where TOperation : BasicOperation<T>
         {
-            _current.Do<TOperation>(constraint);
+            _builder.Current.Do<TOperation>(constraint);
             return this;
         }
 
@@ -422,7 +341,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="operation">The operation to add</param>
         public new IStatefulWorkflow<T> Do(IOperation<T> operation)
         {
-            _current.Do(operation);
+            _builder.Current.Do(operation);
             return this;
         }
 
@@ -432,7 +351,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="function">The function to add</param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function)
         {
-            _current.Do(function);
+            _builder.Current.Do(function);
             return this;
         }
 
@@ -443,7 +362,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="branch"></param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, IDeclaredOperation branch)
         {
-            _current.Do(function, branch);
+            _builder.Current.Do(function, branch);
             return this;
         }
 
@@ -455,7 +374,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="branch"></param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation branch)
         {
-            _current.Do(function, constraint, branch);
+            _builder.Current.Do(function, constraint, branch);
             return this;
         }
 
@@ -466,7 +385,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the operation is executed</param>
         public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
         {
-            _current.Do(function, constraint);
+            _builder.Current.Do(function, constraint);
             return this;
         }
 
@@ -477,7 +396,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the operation is executed</param>
         public new IStatefulWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
         {
-            _current.Do(operation, constraint);
+            _builder.Current.Do(operation, constraint);
             return this;
         }
 
@@ -487,7 +406,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="workflow">The function to add</param>
         public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow)
         {
-            _current.Do(workflow);
+            _builder.Current.Do(workflow);
             return this;
         }
         
@@ -498,89 +417,13 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="constraint">constraint that determines if the workflow is executed</param>
         public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
         {
-            _current.Do(workflow, constraint);
+            _builder.Current.Do(workflow, constraint);
             return this;
         }
 
         #endregion
 
         #region Transitions
-
-        /// <summary>Accumulates all refs that refer to this, and stores workflows where
-        /// they might go.</summary>
-        private Dictionary<IDeclaredOperation, List<object>> undefinedForwardRefs
-            = new Dictionary<IDeclaredOperation, List<object>>();
-
-        /// <summary>a single ref maps to the first yield. Although, if there
-        /// are branches before that first Yield, this will map to multiple paths</summary>
-        private Dictionary<IDeclaredOperation, object> definedRefs
-            = new Dictionary<IDeclaredOperation, object>();
-
-        /// <summary>Need to hold onto these for all eternity</summary>
-        private Dictionary<IDeclaredOperation, object> allDefinedRefs
-            = new Dictionary<IDeclaredOperation, object>();
-
-        private List<IDeclaredOperation> currentFlowDefs = new List<IDeclaredOperation>();
-
-        /// <summary>
-        /// Called when making decisions
-        /// </summary>
-        /// <param name="branchPoint"></param>
-        private void AnalyzeTransitionPaths(IDeclaredOperation branchPoint)
-        {
-            if (definedRefs.ContainsKey(branchPoint))
-            {
-                AddTransition(currentKey, definedRefs[branchPoint], branchPoint);
-            }
-            else
-            {
-                if (!undefinedForwardRefs.ContainsKey(branchPoint))
-                    undefinedForwardRefs[branchPoint] = new List<object>();
-                undefinedForwardRefs[branchPoint].Add(nextKey);
-            }
-        }
-
-        /// <summary>
-        /// Called when .Define()'ing points
-        /// </summary>
-        /// <param name="branchPoint"></param>
-        private void CreateDecisionPath(IDeclaredOperation branchPoint)
-        {
-            if (definedRefs.ContainsKey(branchPoint))
-                throw new InvalidOperationException("branch point is already defined. "
-                        + "Cannot multiply define branch points");
-            definedRefs[branchPoint] = nextKey;
-            if (undefinedForwardRefs.ContainsKey(branchPoint))
-            {
-                foreach (var key in undefinedForwardRefs[branchPoint])
-                {
-                    AddTransition(nextKey, key, branchPoint);
-                }
-                undefinedForwardRefs.Remove(branchPoint);
-            }
-        }
-
-        private void AddTransition(object from, object to)
-        {
-            if (_transitions != null)
-            {
-                var t = new Transition(WorkflowId, from, to);
-                if (!_transitions.Contains(t))
-                    _transitions.Add(t);
-            }
-        }
-
-        private void AddTransition(object from, object to, IDeclaredOperation op)
-        {
-            AddTransition(from, to);
-            if (_transitions != null)
-                allDefinedRefs[op] = to;
-        }
-
-        private void AddRemainingTransitions()
-        {
-            AddTransition(nextKey, null);
-        }
 
         /// <summary>
         /// <para>
@@ -596,10 +439,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// </summary>
         public virtual IEnumerable<ITransition> PossibleTransitions
         {
-            get {
-                EndDefinitionPhase();
-                return _transitions; 
-            }
+			get { return _builder.Transitions; }
         }
 
         private void CheckThatTransitionIsAllowed(object from)
@@ -616,7 +456,7 @@ namespace Rainbow.ObjectFlow.Stateful
         {
             if (_gateway != null)
             {
-                object toState = allDefinedRefs[to];
+                object toState = _builder.GetDestinationState(to);
                 var list = PossibleTransitions.Where(x => object.Equals(x.From, from)
                     && object.Equals(x.To, toState)).ToList();
                 if (!_gateway.AllowTransitions(list).Any())

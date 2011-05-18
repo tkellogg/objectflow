@@ -16,24 +16,24 @@ namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
     /// </summary>
     public class WithOneDeclaredOperation : Specification
     {
-        private IStatefulWorkflow<IObject> w;
+        private IStatefulWorkflow<TestObject> sut;
         private int tracker;
-        private Mock<IObject> mock;
+        private Mock<TestObject> mock;
         
         #region Types for mocking
-        public abstract class IObject : IStatefulObject { 
-            public abstract IObject Feedback(string point);
+        public abstract class TestObject : IStatefulObject { 
+            public abstract TestObject Feedback(string point);
 
             #region IStatefulObject Members
 
             private object state;
 
-            public object GetStateId(object workflowId)
+            public virtual object GetStateId(object workflowId)
             {
                 return state;
             }
 
-            public void SetStateId(object workflowId, object stateId)
+			public virtual void SetStateId(object workflowId, object stateId)
             {
                 state = stateId;
             }
@@ -46,14 +46,15 @@ namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
         public void Given()
         {
             var branchPoint = Declare.Step();
-            w = new StatefulWorkflow<IObject>("test")
+            sut = new StatefulWorkflow<TestObject>("test")
                 .Do(x => x.Feedback("branch point"), branchPoint)
                 .Do(x => x.Feedback("first point"), If.IsTrue(() => tracker < 2, branchPoint))
                 .Yield(1)
                 .Do(x => x.Feedback("second point"), If.IsTrue(() => tracker < 1, branchPoint))
                 ;
             
-            mock = new Mock<IObject>();
+            mock = new Mock<TestObject>();
+			mock.CallBase = true;
             mock.Setup(x => x.Feedback(It.IsAny<string>())).Returns(mock.Object);
             // This setup is to avoid infinite loops in the test data
             int timer = 0;
@@ -68,8 +69,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
         public void ShouldHitEveryStateWhenNoConstraintsFail()
         {
             tracker = 0;
-            w.Start(mock.Object);
-            w.Start(mock.Object);
+            sut.Start(mock.Object);
+            sut.Start(mock.Object);
             mock.Verify(x => x.Feedback("branch point"), Times.Once());
             mock.Verify(x => x.Feedback("first point"), Times.Once());
             mock.Verify(x => x.Feedback("second point"), Times.Once());
@@ -79,8 +80,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
         public void ShouldHitFirstStateTwiceWhenFirstConstraintFails()
         {
             tracker = 2;
-            w.Start(mock.Object);
-            w.Start(mock.Object);
+            sut.Start(mock.Object);
+            sut.Start(mock.Object);
             mock.Verify(x => x.Feedback("branch point"), Times.Exactly(2));
             mock.Verify(x => x.Feedback("first point"), Times.Once());
             mock.Verify(x => x.Feedback("second point"), Times.Once());
@@ -98,9 +99,9 @@ namespace Rainbow.ObjectFlow.Stateful.tests.DeclaredOperationsStillWork
              * easy and should greatly simplify the code we have in StatefulWorkflow
              */
             tracker = 1;
-            w.Start(mock.Object);
-            w.Start(mock.Object);
-            w.Start(mock.Object);
+            sut.Start(mock.Object);
+            sut.Start(mock.Object);
+            sut.Start(mock.Object);
             mock.Verify(x => x.Feedback("branch point"), Times.Exactly(2));
             mock.Verify(x => x.Feedback("first point"), Times.Exactly(2));
             mock.Verify(x => x.Feedback("second point"), Times.Once());

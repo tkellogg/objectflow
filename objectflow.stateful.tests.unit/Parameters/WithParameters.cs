@@ -22,9 +22,9 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 			wf.Yield(13);
 			wf.Do((ITest x, int i) => { x.Ping(i); });
 
-			var mock = new Mock<ITest>();
-			mock.Setup(x => x.GetStateId("wf")).Returns(13);
-			wf.Start(mock.Object, 42);
+			var test = Mock.Of<ITest>(x => (int)x.GetStateId("wf") == 13);
+			var mock = Mock.Get(test);
+			wf.Start(test, 42);
 			mock.Verify(x => x.SetStateId("wf", null));
 			mock.Verify(x => x.Ping((int)42));
 		}

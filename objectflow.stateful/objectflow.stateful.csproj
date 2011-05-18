@@ -51,6 +51,7 @@
     <Compile Include="ITransitionRule.cs" />
     <Compile Include="IWorkflowMediator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatefulBuilder.cs" />
     <Compile Include="StatefulErrorHandler.cs" />
     <Compile Include="StatefulWorkflow.cs" />
     <Compile Include="StatefulWorkflowExtensions.cs" />
