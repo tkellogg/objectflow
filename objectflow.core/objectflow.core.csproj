@@ -98,7 +98,7 @@
     <Compile Include="Engine\BuilderActivators.cs" />
     <Compile Include="Engine\ParameterizedFunctionInvoker.cs" />
     <Compile Include="Engine\ParameterizedOperationDuplex.cs" />
-    <Compile Include="Framework\ErrorHandler.cs" />
+    <Compile Include="Framework\DefaultErrorHandler.cs" />
     <Compile Include="Interfaces\IErrorHandler.cs" />
     <Compile Include="Framework\AsAWorkflow.cs" />
     <Compile Include="Helpers\Declare.cs" />

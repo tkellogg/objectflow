@@ -26,6 +26,11 @@ namespace Rainbow.ObjectFlow.Interfaces
     /// <typeparam name="T"></typeparam>
     public interface IErrorHandler<T>
     {
+		/// <summary>
+		/// Indicates that exceptions will never be caught. Default is false
+		/// </summary>
+		bool Strict { get; set; }
+
         /// <summary>
         /// Called when an exception occurs in a workflow step. Different return values 
         /// determine what should happen in the control flow

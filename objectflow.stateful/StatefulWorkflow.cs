@@ -19,8 +19,14 @@ namespace Rainbow.ObjectFlow.Stateful
         private ITransitionGateway _gateway;
 
 		private StatefulBuilder<T> _builder;
-		private IErrorHandler<T> _faultHandler;
 		private ITransitionRule<T> _transitionRule;
+
+		/// <summary>
+		/// Handles errors during workflow execution. You can set
+		/// <code>ErrorHandler.Strict = true</code> or extend it for more specific
+		/// functionality.
+		/// </summary>
+		public IErrorHandler<T> ErrorHandler { get; private set; }
 
 		#region Constructors
 
@@ -57,9 +63,9 @@ namespace Rainbow.ObjectFlow.Stateful
 		public StatefulWorkflow(object workflowId, ITransitionGateway gateway, ITransitionRule<T> transitionRule)
 		{
 			WorkflowId = workflowId;
-			_faultHandler = new StatefulErrorHandler<T>();
+			ErrorHandler = new StatefulErrorHandler<T>();
 			this._gateway = gateway;
-			_builder = new StatefulBuilder<T>(workflowId, transitionRule, _faultHandler);
+			_builder = new StatefulBuilder<T>(workflowId, transitionRule, ErrorHandler);
 			_transitionRule = transitionRule;
 		}
 

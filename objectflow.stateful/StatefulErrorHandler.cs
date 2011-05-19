@@ -10,7 +10,7 @@ namespace Rainbow.ObjectFlow.Stateful
     /// Fault handler with modifications for stateful workflows. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class StatefulErrorHandler<T> : ErrorHandler<T>
+    public class StatefulErrorHandler<T> : DefaultErrorHandler<T>
     {
         /// <summary>
         /// Handles UnallowedTransitionException fatally, making it possible to 
@@ -21,9 +21,12 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public override Interfaces.ErrorLevel Handle(Exception ex, T data)
         {
-            if (ex is UnallowedTransitionException)
-                return Interfaces.ErrorLevel.Fatal;
-            return base.Handle(ex, data);
+			if (ex is UnallowedTransitionException)
+				return Interfaces.ErrorLevel.Fatal;
+			else if (Strict)
+				return Interfaces.ErrorLevel.Fatal;
+			else 
+				return base.Handle(ex, data);
         }
     }
 }

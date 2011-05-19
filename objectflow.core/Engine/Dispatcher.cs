@@ -24,7 +24,7 @@ namespace Rainbow.ObjectFlow.Engine
 
         public Dispatcher()
         {
-            ErrorHandler = new ErrorHandler<T>();
+            ErrorHandler = new DefaultErrorHandler<T>();
             WfExecutionPlan.CallStack = new List<bool>();
         }
 
