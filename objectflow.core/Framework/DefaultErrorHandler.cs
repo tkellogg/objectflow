@@ -32,6 +32,9 @@ namespace Rainbow.ObjectFlow.Framework
         /// <returns>The ErrorLevel indicating how workflow execution should continue</returns>
         public virtual Interfaces.ErrorLevel Handle(Exception ex, T data)
         {
+			if(ex is EarlyExitException)
+				return Interfaces.ErrorLevel.Handled;
+
 			if (Strict)
 				return Interfaces.ErrorLevel.Fatal;
 			else 
