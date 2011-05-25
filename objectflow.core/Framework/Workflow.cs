@@ -208,8 +208,11 @@ namespace Rainbow.ObjectFlow.Framework
         /// </remarks>
         public virtual T Start()
         {
-            Then();
-            _workflowEngine.Execute( WorkflowBuilder.Tasks.Tasks);
+			try {
+				Then();
+				_workflowEngine.Execute(WorkflowBuilder.Tasks.Tasks);
+			}
+			catch (EarlyExitException) { }
             return Context;
         }
 
@@ -220,8 +223,11 @@ namespace Rainbow.ObjectFlow.Framework
         /// <returns>Result of the workflow</returns>
         public virtual T Start(T data)
         {
-            Then();
-            _workflowEngine.Execute(WorkflowBuilder.Tasks.GenerateTaskList(), data);
+			try {
+				Then();
+				_workflowEngine.Execute(WorkflowBuilder.Tasks.GenerateTaskList(), data);
+			}
+			catch (EarlyExitException) { }
             return Context;
         }
 
