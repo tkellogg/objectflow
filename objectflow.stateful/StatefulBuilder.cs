@@ -49,9 +49,9 @@ namespace Rainbow.ObjectFlow.Stateful
 		public StatefulBuilder(object workflowId, ITransitionRule<T> transitionRule, IErrorHandler<T> faultHandler)
 		{
 			_workflowId = workflowId;
+			_faultHandler = faultHandler;
 			Current = new Workflow<T>(_faultHandler);
 			_transitionRule = transitionRule;
-			_faultHandler = faultHandler;
 			_transitions = new List<ITransition>();
 		}
 
@@ -235,5 +235,19 @@ namespace Rainbow.ObjectFlow.Stateful
 			return _allDefinedRefs[to];
 		}
 
+		private IErrorHandler<T> _errorHandler;
+		public IErrorHandler<T> ErrorHandler 
+		{
+			get { return _errorHandler; }
+			set 
+			{
+				_errorHandler = value;
+				foreach (var wf in this._subflows)
+				{
+					if (wf is Workflow<T>)
+						((Workflow<T>)wf).ErrorHandler = value;
+				}
+			}
+		}
 	}
 }

@@ -26,7 +26,17 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <code>ErrorHandler.Strict = true</code> or extend it for more specific
 		/// functionality.
 		/// </summary>
-		public IErrorHandler<T> ErrorHandler { get; private set; }
+		public override IErrorHandler<T> ErrorHandler {
+			get { return _errorHandler; }
+			set 
+			{ 
+				_errorHandler = value;
+				if (_builder != null)
+					_builder.ErrorHandler = value;
+			} 
+		}
+
+		private IErrorHandler<T> _errorHandler;
 
 		#region Constructors
 
@@ -278,7 +288,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <param name="function"></param>
         /// <param name="otherwise"></param>
         /// <returns></returns>
-        public virtual IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise)
+		public virtual IStatefulWorkflow<T> When(Predicate<T> function, IDeclaredOperation otherwise)
         {
             _builder.AnalyzeTransitionPaths(otherwise);
             bool failedCheck = false;
@@ -293,16 +303,39 @@ namespace Rainbow.ObjectFlow.Stateful
             return this;
         }
 
-        /// <summary>
-        /// When function returns false, branch to the specified operation
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="otherwise"></param>
-        /// <returns></returns>
-        public virtual IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation otherwise)
-        {
-            return When(x => !function(x), otherwise);
-        }
+		/// <summary>
+		/// Continue execution if the predicate is true, otherwise exit immediately
+		/// </summary>
+		public virtual IStatefulWorkflow<T> When(Predicate<T> shouldContinueIf)
+		{
+			Do(x => {
+				if (!shouldContinueIf(x))
+					throw new EarlyExitException();
+			});
+
+			return this;
+		}
+
+		/// <summary>
+		/// When function returns false, branch to the specified operation
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> Unless(Predicate<T> function, IDeclaredOperation otherwise)
+		{
+			return When(x => !function(x), otherwise);
+		}
+
+		/// <summary>
+		/// When function returns false, branch to the specified operation
+		/// </summary>
+		/// <param name="function"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> Unless(Predicate<T> function)
+		{
+			return When(x => !function(x));
+		}
 
         /// <summary>
         /// Declare a point that you may wish to branch to later

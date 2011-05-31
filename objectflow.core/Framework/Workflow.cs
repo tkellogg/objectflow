@@ -52,8 +52,17 @@ namespace Rainbow.ObjectFlow.Framework
         public Workflow(IErrorHandler<T> errorHandler)
             :this()
         {
-            _workflowEngine.ErrorHandler = errorHandler;
+            ErrorHandler = errorHandler;
         }
+
+		/// <summary>
+		/// Error handler
+		/// </summary>
+		public virtual IErrorHandler<T> ErrorHandler
+		{
+			get { return _workflowEngine.ErrorHandler; }
+			set { _workflowEngine.ErrorHandler = value; }
+		}
 
         /// <summary>
         /// Joins one operation onto another to run in parallel

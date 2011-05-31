@@ -33,7 +33,7 @@ namespace Rainbow.ObjectFlow.Framework
         public virtual Interfaces.ErrorLevel Handle(Exception ex, T data)
         {
 			if(ex is EarlyExitException)
-				return Interfaces.ErrorLevel.Handled;
+				return Interfaces.ErrorLevel.Fatal;
 
 			if (Strict)
 				return Interfaces.ErrorLevel.Fatal;

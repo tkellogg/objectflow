@@ -175,21 +175,35 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		#endregion
 
-        /// <summary>
-        /// When function returns true, branch to the specified operation
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="otherwise"></param>
-        /// <returns></returns>
-        IStatefulWorkflow<T> When(Func<T, bool> function, IDeclaredOperation otherwise);
-        
-        /// <summary>
-        /// When function returns false, branch to the specified operation
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="otherwise"></param>
-        /// <returns></returns>
-        IStatefulWorkflow<T> Unless(Func<T, bool> function, IDeclaredOperation otherwise);
+		/// <summary>
+		/// Continue execution if the predicate is true, otherwise go to the specified branch
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		IStatefulWorkflow<T> When(Predicate<T> predicate, IDeclaredOperation otherwise);
+
+		/// <summary>
+		/// Continue execution if the predicate is true, otherwise exit immediately
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		IStatefulWorkflow<T> When(Predicate<T> predicate);
+
+		/// <summary>
+		/// Continue execution if the predicate is false, otherwise go to the specified branch
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		IStatefulWorkflow<T> Unless(Predicate<T> predicate, IDeclaredOperation otherwise);
+
+		/// <summary>
+		/// Continue execution if the predicate is true, otherwise exit immediately
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		IStatefulWorkflow<T> Unless(Predicate<T> predicate);
 
         /// <summary>
         /// Declare a point that you may wish to branch to later
