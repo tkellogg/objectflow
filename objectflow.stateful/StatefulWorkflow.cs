@@ -183,6 +183,17 @@ namespace Rainbow.ObjectFlow.Stateful
 			return this;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="function"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> Do(Func<T, IDictionary<string, object>, T> function)
+		{
+			_builder.Current.WorkflowBuilder.AddOperation((x, opts) => function(x, opts));
+			return this;
+		}
+
         /// <summary>
         /// Adds a function into the execution path
         /// </summary>

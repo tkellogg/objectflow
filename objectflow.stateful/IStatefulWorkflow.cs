@@ -122,6 +122,12 @@ namespace Rainbow.ObjectFlow.Stateful
 		IStatefulWorkflow<T> Do(Action<T, IDictionary<string, object>> body);
 
 		/// <summary>
+		/// Adds a function into the execution path
+		/// </summary>
+		/// <param name="body">The function to add</param>
+		IStatefulWorkflow<T> Do(Func<T, IDictionary<string, object>, T> body);
+
+		/// <summary>
 		/// Starts the workflow segment with the given parameters
 		/// </summary>
 		/// <param name="subject"></param>
