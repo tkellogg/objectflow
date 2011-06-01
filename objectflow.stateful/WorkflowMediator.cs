@@ -76,6 +76,18 @@ namespace Rainbow.ObjectFlow.Stateful
 		}
 
 		/// <summary>
+		/// For resuming a workflow that has already begun or starting a workflow on a new
+		/// object.
+		/// </summary>
+		/// <param name="initializer"></param>
+		/// <param name="parameters">Optional parameters for this workflow segment</param>
+		/// <returns></returns>
+		public T Start(T initializer, object parameters)
+		{
+			return Start(initializer, parameters.ToDictionary());
+		}
+
+		/// <summary>
 		/// Called when a segment finishes executing. This is where you should implement
 		/// persistence.
 		/// </summary>

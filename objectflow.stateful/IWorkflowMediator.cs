@@ -28,6 +28,15 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// processes the object through the correct portion and returns the result.
 		/// </summary>
 		/// <param name="initializer">object to be processed</param>
+		/// <param name="parameters">additional parameters for the workflow segment</param>
+		/// <returns></returns>
+		T Start(T initializer, object parameters);
+
+		/// <summary>
+		/// Creates a workflow with the correct security &amp; error handling constraints and 
+		/// processes the object through the correct portion and returns the result.
+		/// </summary>
+		/// <param name="initializer">object to be processed</param>
 		/// <returns></returns>
 		T Start(T initializer);
 

@@ -129,6 +129,14 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <returns></returns>
 		T StartWithParams(T subject, IDictionary<string, object> parameters);
 
+		/// <summary>
+		/// Starts the workflow segment with the given parameters
+		/// </summary>
+		/// <param name="subject"></param>
+		/// <param name="asParameters"></param>
+		/// <returns></returns>
+		T StartWithParams(T subject, object asParameters);
+
 		#endregion
 
 		/// <summary>

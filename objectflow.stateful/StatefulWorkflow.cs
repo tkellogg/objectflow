@@ -138,6 +138,16 @@ namespace Rainbow.ObjectFlow.Stateful
 			return workflow.Start(subject);
 		}
 
+		/// <summary>
+		/// Start the workflow with the given anonymous object as parameters
+		/// </summary>
+		/// <param name="subject"></param>
+		/// <param name="asParameters"></param>
+		/// <returns></returns>
+		public T StartWithParams(T subject, object asParameters)
+		{
+			return StartWithParams(subject, asParameters.ToDictionary());
+		}
 
         /// <summary>
         /// Begins the execution of a workflow
