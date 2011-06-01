@@ -239,26 +239,47 @@ namespace Rainbow.ObjectFlow.Stateful
 
         #region Convenience methods for the fluent interface
 
-        /// <summary>
-        /// When function returns true, branch to the specified operation
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="otherwise"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// When function returns true, branch to the specified operation
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
 		public virtual IStatefulWorkflow<T> When(Predicate<T> function, IDeclaredOperation otherwise)
-        {
-            _builder.AnalyzeTransitionPaths(otherwise);
-            bool failedCheck = false;
-            _builder.Current.Do(x =>
-            {
-                CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
-                if (!function(x))
-                    failedCheck = true;
-                return x;
-            });
-            _builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
-            return this;
-        }
+		{
+			_builder.AnalyzeTransitionPaths(otherwise);
+			bool failedCheck = false;
+			_builder.Current.Do(x =>
+			{
+				CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
+				if (!function(x))
+					failedCheck = true;
+				return x;
+			});
+			_builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
+			return this;
+		}
+
+		/// <summary>
+		/// When function returns true, branch to the specified operation
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> When(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise)
+		{
+			_builder.AnalyzeTransitionPaths(otherwise);
+			bool failedCheck = false;
+			Do((x, opts) =>
+			{
+				CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
+				if (!function(x, opts))
+					failedCheck = true;
+				return x;
+			});
+			_builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
+			return this;
+		}
 
 		/// <summary>
 		/// Continue execution if the predicate is true, otherwise exit immediately
@@ -282,6 +303,17 @@ namespace Rainbow.ObjectFlow.Stateful
 		public virtual IStatefulWorkflow<T> Unless(Predicate<T> function, IDeclaredOperation otherwise)
 		{
 			return When(x => !function(x), otherwise);
+		}
+
+		/// <summary>
+		/// When function returns true, branch to the specified operation
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> Unless(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise)
+		{
+			return When((x, opts) => !function(x, opts), otherwise);
 		}
 
 		/// <summary>

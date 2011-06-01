@@ -161,12 +161,26 @@ namespace Rainbow.ObjectFlow.Stateful
 		IStatefulWorkflow<T> When(Predicate<T> predicate);
 
 		/// <summary>
+		/// Continue execution if the predicate is true, otherwise exit immediately
+		/// </summary>
+		IStatefulWorkflow<T> When(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise);
+
+
+		/// <summary>
 		/// Continue execution if the predicate is false, otherwise go to the specified branch
 		/// </summary>
 		/// <param name="predicate"></param>
 		/// <param name="otherwise"></param>
 		/// <returns></returns>
 		IStatefulWorkflow<T> Unless(Predicate<T> predicate, IDeclaredOperation otherwise);
+
+		/// <summary>
+		/// Continue execution if the predicate is false, otherwise go to the specified branch
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="otherwise"></param>
+		/// <returns></returns>
+		IStatefulWorkflow<T> Unless(Func<T, IDictionary<string, object>, bool> predicate, IDeclaredOperation otherwise);
 
 		/// <summary>
 		/// Continue execution if the predicate is true, otherwise exit immediately
