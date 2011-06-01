@@ -45,6 +45,23 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 		}
 
 		[Observation]
+		public void it_can_use_params_at_any_step()
+		{
+			string secondStep = null;
+			var wf = new StatefulWorkflow<ITest>("wf");
+			wf.Yield(13);
+			wf.Do((x, i) => { x.Ping((int)i["i"]); });
+			wf.Do((x, opts) => secondStep = (string)opts["o"]);
+
+			var test = Mock.Of<ITest>(x => (int)x.GetStateId("wf") == 13);
+			var mock = Mock.Get(test);
+			wf.StartWithParams(test, new { i = 42, o = "hello" });
+			mock.Verify(x => x.SetStateId("wf", null));
+			mock.Verify(x => x.Ping((int)42));
+			secondStep.ShouldBe("hello");
+		}
+
+		[Observation]
 		public void branches_work_with_parameters()
 		{
 			var jump = Declare.Step();
