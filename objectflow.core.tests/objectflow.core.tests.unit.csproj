@@ -86,7 +86,6 @@
     <Compile Include="ParallelSplit\WhenParallisingOperations.cs" />
     <Compile Include="ObjectCreation\WhenRegisteringTypeSpec.cs" />
     <Compile Include="Parameters\WhenExecuting.cs" />
-    <Compile Include="Parameters\WhenSettingParameters.cs" />
     <Compile Include="Policy\FailOnceOperation.cs" />
     <Compile Include="Policy\WhenRetryingFunctions.cs" />
     <Compile Include="Policy\WhenBuildingRetry.cs" />

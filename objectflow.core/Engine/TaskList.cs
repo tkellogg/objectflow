@@ -52,18 +52,15 @@ namespace Rainbow.ObjectFlow.Engine
 		/// Set parameters for the first parameterized operation
 		/// </summary>
 		/// <param name="parameters"></param>
-		public void SetParameters(object[] parameters)
+		public void SetParameters(IDictionary<string, object> parameters)
 		{
-			if (parameters.Length > 0)
+			foreach (var task in Tasks)
 			{
-				foreach (var task in Tasks)
+				if (task is ParameterizedOperationDuplex<T>)
 				{
-					if (task is ParameterizedOperationDuplex<T>)
-					{
-						var t = (ParameterizedOperationDuplex<T>)task;
-						((ParameterizedFunctionInvoker<T>)t.Command).SetParameters(parameters);
-						return;
-					}
+					var t = (ParameterizedOperationDuplex<T>)task;
+					((ParameterizedFunctionInvoker<T>)t.Command).SetParameters(parameters);
+					return;
 				}
 			}
 		}

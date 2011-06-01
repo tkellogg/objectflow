@@ -12,7 +12,7 @@ namespace Rainbow.ObjectFlow.Engine
 		{
 		}
 
-		public void SetParameters(object[] parameters)
+		public void SetParameters(IDictionary<string, object> parameters)
 		{
 			((ParameterizedFunctionInvoker<T>)_command).SetParameters(parameters);
 		}

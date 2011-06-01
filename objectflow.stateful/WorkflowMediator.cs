@@ -42,9 +42,20 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// object.
 		/// </summary>
 		/// <param name="initializer"></param>
+		/// <returns></returns>
+		public virtual T Start(T initializer)
+		{
+			return Start(initializer, null);
+		}
+
+		/// <summary>
+		/// For resuming a workflow that has already begun or starting a workflow on a new
+		/// object.
+		/// </summary>
+		/// <param name="initializer"></param>
 		/// <param name="parameters">Optional parameters for this workflow segment</param>
 		/// <returns></returns>
-		public virtual T Start(T initializer, params object[] parameters)
+		public virtual T Start(T initializer, IDictionary<string, object> parameters)
 		{
 			InitializeWorkflowIfNecessary();
 			var beginning = initializer.GetStateId(_workflow.WorkflowId);
@@ -52,7 +63,7 @@ namespace Rainbow.ObjectFlow.Stateful
 			T ret = initializer;
 			if (Validate(initializer))
 			{
-				if (parameters.Length == 0)
+				if (parameters != null && parameters.Count == 0)
 					ret = _workflow.Start(initializer);
 				else
 					ret = _workflow.StartWithParams(initializer, parameters);

@@ -20,11 +20,11 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 		{
 			var wf = new StatefulWorkflow<ITest>("wf");
 			wf.Yield(13);
-			wf.Do((ITest x, int i) => { x.Ping(i); });
+			wf.Do((x, i) => { x.Ping((int)i["i"]); });
 
 			var test = Mock.Of<ITest>(x => (int)x.GetStateId("wf") == 13);
 			var mock = Mock.Get(test);
-			wf.Start(test, 42);
+			wf.StartWithParams(test, new { i = 42 }.ToDictionary());
 			mock.Verify(x => x.SetStateId("wf", null));
 			mock.Verify(x => x.Ping((int)42));
 		}

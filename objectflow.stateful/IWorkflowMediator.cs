@@ -13,15 +13,23 @@ namespace Rainbow.ObjectFlow.Stateful
     /// <typeparam name="T"></typeparam>
 	public interface IWorkflowMediator<T> : IStateObserver<T>
 		where T : class, IStatefulObject
-    {
-        /// <summary>
-        /// Creates a workflow with the correct security &amp; error handling constraints and 
-        /// processes the object through the correct portion and returns the result.
-        /// </summary>
-        /// <param name="initializer">object to be processed</param>
+	{
+		/// <summary>
+		/// Creates a workflow with the correct security &amp; error handling constraints and 
+		/// processes the object through the correct portion and returns the result.
+		/// </summary>
+		/// <param name="initializer">object to be processed</param>
 		/// <param name="parameters">additional parameters for the workflow segment</param>
-        /// <returns></returns>
-		T Start(T initializer, params object[] parameters);
+		/// <returns></returns>
+		T Start(T initializer, IDictionary<string, object> parameters);
+
+		/// <summary>
+		/// Creates a workflow with the correct security &amp; error handling constraints and 
+		/// processes the object through the correct portion and returns the result.
+		/// </summary>
+		/// <param name="initializer">object to be processed</param>
+		/// <returns></returns>
+		T Start(T initializer);
 
 		/// <summary>
 		/// Allows other applications to query the workflow for transitions that are allowed

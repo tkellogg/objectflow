@@ -138,40 +138,12 @@ namespace Rainbow.ObjectFlow.Stateful
 		IStatefulWorkflow<T> Do<T1>(Action<T, T1> body);
 
 		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <typeparam name="T3"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		/// <param name="arg2"></param>
-		/// <param name="arg3"></param>
-		T Start<T1, T2, T3>(T subject, T1 arg1, T2 arg2, T3 arg3);
-		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		/// <param name="arg2"></param>
-		T Start<T1, T2>(T subject, T1 arg1, T2 arg2);
-		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		T Start<T1>(T subject, T1 arg1);
-
-		/// <summary>
 		/// Starts the workflow segment with the given parameters
 		/// </summary>
 		/// <param name="subject"></param>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-		T StartWithParams(T subject, params object[] parameters);
+		T StartWithParams(T subject, IDictionary<string, object> parameters);
 
 		#endregion
 

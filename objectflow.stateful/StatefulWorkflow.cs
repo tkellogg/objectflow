@@ -119,7 +119,7 @@ namespace Rainbow.ObjectFlow.Stateful
         /// <returns></returns>
         public override T Start(T data)
         {
-			return StartWithParams(data);
+			return StartWithParams(data, null);
 		}
 
 		/// <summary>
@@ -128,53 +128,14 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="subject"></param>
 		/// <param name="parameters"></param>
 		/// <returns></returns>
-		public T StartWithParams(T subject, params object[] parameters)
+		public T StartWithParams(T subject, IDictionary<string, object> parameters)
 		{
 			_builder.EndDefinitionPhase();
 			CheckThatTransitionIsAllowed(subject.GetStateId(this.WorkflowId));
 			var workflow = _builder.GetCurrentFlowForObject(subject);
-			if (parameters.Length > 0)
+			if (parameters != null && parameters.Count > 0)
 				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
 			return workflow.Start(subject);
-		}
-
-		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <typeparam name="T3"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		/// <param name="arg2"></param>
-		/// <param name="arg3"></param>
-		public virtual T Start<T1, T2, T3>(T subject, T1 arg1, T2 arg2, T3 arg3)
-		{
-			return StartWithParams(subject, arg1, arg2, arg3);
-		}
-
-		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		/// <param name="arg2"></param>
-		public virtual T Start<T1, T2>(T subject, T1 arg1, T2 arg2)
-		{
-			return StartWithParams(subject, arg1, arg2);
-		}
-
-		/// <summary>
-		/// Start the workflow with extra arguments
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <param name="subject">Object being operated on</param>
-		/// <param name="arg1"></param>
-		public virtual T Start<T1>(T subject, T1 arg1)
-		{
-			return StartWithParams(subject, arg1);
 		}
 
 
@@ -200,6 +161,17 @@ namespace Rainbow.ObjectFlow.Stateful
                 return x;
             });
         }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="function"></param>
+		/// <returns></returns>
+		public virtual IStatefulWorkflow<T> Do(Action<T, IDictionary<string, object>> function)
+		{
+			_builder.Current.WorkflowBuilder.AddOperation(function);
+			return this;
+		}
 
         /// <summary>
         /// Adds a function into the execution path
