@@ -118,24 +118,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <summary>
 		/// Adds a function into the execution path
 		/// </summary>
-		/// <typeparam name="T1">Extra parameter used from start</typeparam>
-		/// <typeparam name="T2">Extra parameter used from start</typeparam>
-		/// <typeparam name="T3">Extra parameter used from start</typeparam>
 		/// <param name="body">The function to add</param>
-		IStatefulWorkflow<T> Do<T1, T2, T3>(Action<T, T1, T2, T3> body);
-		/// <summary>
-		/// Adds a function into the execution path
-		/// </summary>
-		/// <typeparam name="T1">Extra parameter used from start</typeparam>
-		/// <typeparam name="T2">Extra parameter used from start</typeparam>
-		/// <param name="body">The function to add</param>
-		IStatefulWorkflow<T> Do<T1, T2>(Action<T, T1, T2> body);
-		/// <summary>
-		/// Adds a function into the execution path
-		/// </summary>
-		/// <typeparam name="T1">Extra parameter used from start</typeparam>
-		/// <param name="body">The function to add</param>
-		IStatefulWorkflow<T> Do<T1>(Action<T, T1> body);
+		IStatefulWorkflow<T> Do(Action<T, IDictionary<string, object>> body);
 
 		/// <summary>
 		/// Starts the workflow segment with the given parameters

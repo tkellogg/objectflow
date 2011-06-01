@@ -1,6 +1,7 @@
 ﻿using System;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
+using System.Collections.Generic;
 
 namespace Rainbow.ObjectFlow.Engine
 {
@@ -84,19 +85,7 @@ namespace Rainbow.ObjectFlow.Engine
             taskList.Tasks.Add(operationPair);
         }
 
-		public override void AddOperation<T1, T2, T3>(Action<T, T1, T2, T3> function)
-		{
-			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
-			taskList.Tasks.Add(op);
-		}
-
-		public override void AddOperation<T1, T2>(Action<T, T1, T2> function)
-		{
-			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
-			taskList.Tasks.Add(op);
-		}
-
-		public override void AddOperation<T1>(Action<T, T1> function)
+		public override void AddOperation(Action<T, IDictionary<string, object>> function)
 		{
 			var op = new ParameterizedOperationDuplex<T>(new ParameterizedFunctionInvoker<T>(function));
 			taskList.Tasks.Add(op);

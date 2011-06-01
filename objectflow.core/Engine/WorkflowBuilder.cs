@@ -1,5 +1,6 @@
 ﻿using System;
 using Rainbow.ObjectFlow.Interfaces;
+using System.Collections.Generic;
 
 namespace Rainbow.ObjectFlow.Engine
 {
@@ -42,26 +43,8 @@ namespace Rainbow.ObjectFlow.Engine
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <typeparam name="T3"></typeparam>
 		/// <param name="function"></param>
-		public abstract void AddOperation<T1, T2, T3>(Action<T, T1, T2, T3> function);
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <typeparam name="T2"></typeparam>
-		/// <param name="function"></param>
-		public abstract void AddOperation<T1, T2>(Action<T, T1, T2> function);
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <typeparam name="T1"></typeparam>
-		/// <param name="function"></param>
-		public abstract void AddOperation<T1>(Action<T, T1> function);
+		public abstract void AddOperation(Action<T, IDictionary<string, object>> function);
 
 		/// <summary>
 		/// 

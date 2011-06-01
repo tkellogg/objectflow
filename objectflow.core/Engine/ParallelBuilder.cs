@@ -1,6 +1,7 @@
 ﻿using System;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
+using System.Collections.Generic;
 
 namespace Rainbow.ObjectFlow.Engine
 {
@@ -80,17 +81,7 @@ namespace Rainbow.ObjectFlow.Engine
             throw new NotImplementedException();
         }
 
-		public override void AddOperation<T1, T2, T3>(Action<T, T1, T2, T3> function)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void AddOperation<T1, T2>(Action<T, T1, T2> function)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void AddOperation<T1>(Action<T, T1> function)
+		public override void AddOperation(Action<T, IDictionary<string, object>> function)
 		{
 			throw new NotImplementedException();
 		}

@@ -10,7 +10,12 @@ namespace Rainbow.ObjectFlow.Engine
 		private readonly Delegate _body;
 		internal IDictionary<string, object> Parameters { get; private set; }
 
-		public ParameterizedFunctionInvoker(Delegate body)
+		public ParameterizedFunctionInvoker(Action<T, IDictionary<string, object>> body)
+		{
+			_body = body;
+		}
+
+		public ParameterizedFunctionInvoker(Func<T, IDictionary<string, object>, T> body)
 		{
 			_body = body;
 		}
