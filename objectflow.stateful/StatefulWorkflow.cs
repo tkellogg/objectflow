@@ -251,9 +251,11 @@ namespace Rainbow.ObjectFlow.Stateful
 			bool failedCheck = false;
 			_builder.Current.Do(x =>
 			{
-				CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
 				if (!function(x))
+				{
+					CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
 					failedCheck = true;
+				}
 				return x;
 			});
 			_builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));
@@ -272,9 +274,11 @@ namespace Rainbow.ObjectFlow.Stateful
 			bool failedCheck = false;
 			Do((x, opts) =>
 			{
-				CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
 				if (!function(x, opts))
+				{
+					CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
 					failedCheck = true;
+				}
 				return x;
 			});
 			_builder.Current.Do(x => x, If.IsTrue(() => !failedCheck, otherwise));

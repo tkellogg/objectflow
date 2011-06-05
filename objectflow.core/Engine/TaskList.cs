@@ -60,7 +60,6 @@ namespace Rainbow.ObjectFlow.Engine
 				{
 					var t = (ParameterizedOperationDuplex<T>)task;
 					((ParameterizedFunctionInvoker<T>)t.Command).SetParameters(parameters);
-					//return;
 				}
 			}
 		}
