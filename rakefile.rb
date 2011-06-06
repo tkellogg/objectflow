@@ -58,8 +58,21 @@ namespace :package do
   
 end
 
+desc "print out the current assembly version"
+task :version do
+  puts "Version is: #{get_version}"
+end
+
 # look at AssemblyInfo.cs and extract version
 def get_version
-  '0.5.0.0'
+  version = '0.5.0.0'
+  File.open 'objectflow.stateful/Properties/AssemblyInfo.cs' do |f|
+    txt = f.read
+    if /\[assembly: AssemblyVersion\("([^"]+)"\)\]\s*/ =~ txt
+      version = $~[1]
+      puts "Version is #{version}"
+    end
+  end
+  version
 end
 
