@@ -56,6 +56,7 @@
     <Compile Include="PossibleTransitions\GivenBranchesAndYields.cs" />
     <Compile Include="PossibleTransitions\GivenOnlyBranches.cs" />
     <Compile Include="PossibleTransitions\GivenOnlyYields.cs" />
+    <Compile Include="TransitionGateways\WhenChangingStateMidTransition.cs" />
     <Compile Include="TransitionGateways\WhenReceivingTransitionsToEvaluate.cs" />
     <Compile Include="TransitionGateways\WhenTransitionIsBlocked.cs" />
     <Compile Include="TransitionRulesWithWorkflow\TestFixtures.cs" />

@@ -135,6 +135,7 @@ namespace Rainbow.ObjectFlow.Stateful
 			var workflow = _builder.GetCurrentFlowForObject(subject);
 			if (parameters != null && parameters.Count > 0)
 				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
+			SaveStartState(subject);
 			return workflow.Start(subject);
 		}
 
@@ -253,7 +254,7 @@ namespace Rainbow.ObjectFlow.Stateful
 			{
 				if (!function(x))
 				{
-					CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
+					CheckThatTransitionIsAllowed(x, otherwise);
 					failedCheck = true;
 				}
 				return x;
@@ -276,7 +277,7 @@ namespace Rainbow.ObjectFlow.Stateful
 			{
 				if (!function(x, opts))
 				{
-					CheckThatTransitionIsAllowed(x.GetStateId(this.WorkflowId), otherwise);
+					CheckThatTransitionIsAllowed(x, otherwise);
 					failedCheck = true;
 				}
 				return x;
@@ -484,10 +485,11 @@ namespace Rainbow.ObjectFlow.Stateful
             }
         }
 
-        private void CheckThatTransitionIsAllowed(object from, IDeclaredOperation to)
+        private void CheckThatTransitionIsAllowed(T entity, IDeclaredOperation to)
         {
             if (_gateway != null)
             {
+				object from = GetOriginalState(entity);
                 object toState = _builder.GetDestinationState(to);
                 var list = PossibleTransitions.Where(x => object.Equals(x.From, from)
                     && object.Equals(x.To, toState)).ToList();
@@ -497,7 +499,24 @@ namespace Rainbow.ObjectFlow.Stateful
             }
         }
 
-        #endregion
+
+		#region Retain starting state
+
+		private Dictionary<T, object> _startStates = new Dictionary<T, object>();
+		
+		private object GetOriginalState(T entity)
+		{
+			return _startStates[entity];
+		}
+
+		private void SaveStartState(T entity)
+		{
+			_startStates[entity] = entity.GetStateId(WorkflowId);
+		}
+
+		#endregion
+
+		#endregion
 
 
 		#region IStateObserver<T> Members
