@@ -136,7 +136,14 @@ namespace Rainbow.ObjectFlow.Stateful
 			if (parameters != null && parameters.Count > 0)
 				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
 			SaveStartState(subject);
-			return workflow.Start(subject);
+			try
+			{
+				return workflow.Start(subject);
+			}
+			finally
+			{
+				ReleaseSavedState(subject);
+			}
 		}
 
 		/// <summary>
@@ -512,6 +519,14 @@ namespace Rainbow.ObjectFlow.Stateful
 		private void SaveStartState(T entity)
 		{
 			_startStates[entity] = entity.GetStateId(WorkflowId);
+		}
+
+		/// <summary>
+		/// Release our reference to subject to prevent memory leaks
+		/// </summary>
+		private void ReleaseSavedState(T subject)
+		{
+			_startStates.Remove(subject);
 		}
 
 		#endregion
