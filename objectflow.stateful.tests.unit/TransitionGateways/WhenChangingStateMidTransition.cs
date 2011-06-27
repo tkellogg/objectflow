@@ -8,27 +8,49 @@ using Rainbow.ObjectFlow.Helpers;
 
 namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
 {
-	[TestFixture]
-	class WhenChangingStateMidTransition
+	#region Types used for testing
+	public class TBasic : IStatefulObject
 	{
-
-		#region Types used for testing
-		class T : IStatefulObject
+		private object state = "start";
+		public object GetStateId(object workflowId)
 		{
-			private object state = "start";
-			public object GetStateId(object workflowId)
+			return state;
+		}
+		public void SetStateId(object workflowId, object stateId)
+		{
+			state = stateId;
+		}
+	}
+
+	public class TIdentifiable : TBasic
+	{
+		public override bool Equals(object obj)
+		{
+			var t = (TBasic)obj;
+			return GetStateId(null) == t.GetStateId(null);
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
 			{
-				return state;
-			}
-			public void SetStateId(object workflowId, object stateId)
-			{
-				state = stateId;
+				if (GetStateId(null) != null)
+					return GetStateId(null).GetHashCode() * 31;
+				else return 0;
 			}
 		}
-		#endregion
+	}
+	#endregion
+
+	[TestFixture(TypeArgs = new[]{typeof(TBasic)})]
+	[TestFixture(typeof(TIdentifiable))]
+	class WhenChangingStateMidTransition<T>
+		where T : class, IStatefulObject, new()
+	{
+
 
 		[Observation]
-		public void ItUsesTheOriginalStateWhenCheckingSecurity() 
+		public void ItUsesTheOriginalStateWhenCheckingSecurity()
 		{
 			var transitions = new[] { new Transition(null, "start", "end") };
 			var security = new DefaultTransitionGateway(transitions);

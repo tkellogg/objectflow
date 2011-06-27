@@ -130,12 +130,12 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <returns></returns>
 		public T StartWithParams(T subject, IDictionary<string, object> parameters)
 		{
+			SaveStartState(subject);
 			_builder.EndDefinitionPhase();
 			CheckThatTransitionIsAllowed(subject.GetStateId(this.WorkflowId));
 			var workflow = _builder.GetCurrentFlowForObject(subject);
 			if (parameters != null && parameters.Count > 0)
 				workflow.WorkflowBuilder.Tasks.SetParameters(parameters);
-			SaveStartState(subject);
 			try
 			{
 				return workflow.Start(subject);
@@ -509,24 +509,40 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		#region Retain starting state
 
-		private Dictionary<T, object> _startStates = new Dictionary<T, object>();
+		private List<KeyValuePair<T, object>> _startStates = new List<KeyValuePair<T, object>>();
 		
 		private object GetOriginalState(T entity)
 		{
-			return _startStates[entity];
+			var i = GetIndexOfStoredEntity(entity);
+			if (i.HasValue)
+				return _startStates[i.Value].Value;
+			else return null;
 		}
 
 		private void SaveStartState(T entity)
 		{
-			_startStates[entity] = entity.GetStateId(WorkflowId);
+			ReleaseSavedState(entity);
+			_startStates.Add(new KeyValuePair<T, object>(entity, entity.GetStateId(WorkflowId)));
+		}
+
+		private int? GetIndexOfStoredEntity(T entity) 
+		{
+			for (int i = 0; i < _startStates.Count; i++)
+			{
+				if (object.ReferenceEquals(_startStates[i].Key, entity))
+					return i;
+			}
+			return null;
 		}
 
 		/// <summary>
 		/// Release our reference to subject to prevent memory leaks
 		/// </summary>
-		private void ReleaseSavedState(T subject)
+		private void ReleaseSavedState(T entity)
 		{
-			_startStates.Remove(subject);
+			var i = GetIndexOfStoredEntity(entity);
+			if (i.HasValue)
+				_startStates.RemoveAt(i.Value);
 		}
 
 		#endregion
