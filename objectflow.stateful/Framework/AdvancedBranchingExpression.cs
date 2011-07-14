@@ -7,13 +7,16 @@ using Rainbow.ObjectFlow.Interfaces;
 
 namespace Rainbow.ObjectFlow.Stateful.Framework
 {
-	internal class BranchingExpression<T> : AbstractBranchingCondition<T>
+	/// <summary>
+	/// Branching expression that uses parameters
+	/// </summary>
+	class AdvancedBranchingExpression<T> : AbstractBranchingCondition<T>
 		where T : class, IStatefulObject
 	{
-		private Predicate<T> _condition;
+		private Func<T, IDictionary<string, object>, bool> _condition;
 
-		public BranchingExpression(StatefulWorkflow<T> workflow, Predicate<T> condition, 
-					IWorkflow<T> current, StatefulBuilder<T> builder)
+		public AdvancedBranchingExpression(StatefulWorkflow<T> workflow, 
+			Func<T, IDictionary<string, object>, bool> condition, IWorkflow<T> current, StatefulBuilder<T> builder)
 			:base(workflow, current, builder)
 		{
 			_condition = condition;
@@ -21,12 +24,11 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 
 		protected override void DoWhenConditionIsTrue(Action<T> callback)
 		{
-			_workflow.Do(x =>
+			_workflow.Do((x, opts) =>
 			{
-				if (_condition(x))
+				if (_condition(x, opts))
 					callback(x);
 			});
 		}
-
 	}
 }

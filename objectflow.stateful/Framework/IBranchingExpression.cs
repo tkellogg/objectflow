@@ -21,5 +21,15 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		/// Go to the specified branch location if the condition is true. Otherwise keep executing
 		/// </summary>
 		IStatefulWorkflow<T> BranchTo(IDeclaredOperation location);
+
+		/// <summary>
+		/// Specify a set of workflow steps that happen conditionally. 
+		/// </summary>
+		/// <remarks>
+		///	lets us get back to more of a block structure. Also a much simpler way of doing 
+		///	branching without actually thinking in terms of labels/gotos
+		/// </remarks>
+		/// <param name="workflowSteps"></param>
+		IStatefulWorkflow<T> Do(Action<IStatefulWorkflow<T>> workflowSteps);
 	}
 }

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\AbstractBranchingCondition.cs" />
+    <Compile Include="Framework\AdvancedBranchingExpression.cs" />
     <Compile Include="Framework\BranchingExpression.cs" />
     <Compile Include="DefaultTransitionGateway.cs" />
     <Compile Include="HelperExtensions.cs" />

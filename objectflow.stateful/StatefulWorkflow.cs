@@ -357,7 +357,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> If(Predicate<T> condition)
 		{
-			return new BranchingExpression<T>(this, condition);
+			return new BranchingExpression<T>(this, condition, _builder.Current, _builder);
 		}
 
 		/// <summary>
@@ -366,7 +366,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> If(Func<T, IDictionary<string, object>, bool> condition)
 		{
-			return new BranchingExpression<T>(this, condition);
+			return new AdvancedBranchingExpression<T>(this, condition, _builder.Current, _builder);
 		}
 
 		#endregion
@@ -511,7 +511,11 @@ namespace Rainbow.ObjectFlow.Stateful
 			}
 		}
 
-		private void CheckThatTransitionIsAllowed(T entity, IDeclaredOperation to)
+		/// <summary>
+		/// Check the security gateway to ensure that any potential transitions through the branch point
+		/// are allowed
+		/// </summary>
+		internal virtual void CheckThatTransitionIsAllowed(T entity, IDeclaredOperation to)
 		{
 			if (_gateway != null)
 			{
