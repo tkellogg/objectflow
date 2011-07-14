@@ -352,10 +352,19 @@ namespace Rainbow.ObjectFlow.Stateful
 		}
 
 		/// <summary>
-		/// 
+		/// If the condition is true
 		/// </summary>
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> If(Predicate<T> condition)
+		{
+			return new BranchingExpression<T>(this, condition);
+		}
+
+		/// <summary>
+		/// If the condition is true
+		/// </summary>
+		/// <param name="condition">if true, execute the specified action</param>
+		public virtual IBranchingExpression<T> If(Func<T, IDictionary<string, object>, bool> condition)
 		{
 			return new BranchingExpression<T>(this, condition);
 		}
