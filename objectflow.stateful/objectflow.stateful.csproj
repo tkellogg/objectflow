@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\BranchingExpression.cs" />
     <Compile Include="DefaultTransitionGateway.cs" />
     <Compile Include="HelperExtensions.cs" />
+    <Compile Include="Framework\IBranchingExpression.cs" />
     <Compile Include="IStatefulObject.cs" />
     <Compile Include="IStatefulWorkflow.cs" />
     <Compile Include="IStateObserver.cs" />
@@ -68,6 +70,7 @@
       <Name>objectflow.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
