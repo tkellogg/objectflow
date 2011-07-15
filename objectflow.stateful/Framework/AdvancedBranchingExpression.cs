@@ -16,8 +16,9 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		private Func<T, IDictionary<string, object>, bool> _condition;
 
 		public AdvancedBranchingExpression(StatefulWorkflow<T> workflow, 
-			Func<T, IDictionary<string, object>, bool> condition, IWorkflow<T> current, StatefulBuilder<T> builder)
-			:base(workflow, current, builder)
+			Func<T, IDictionary<string, object>, bool> condition, IWorkflow<T> current, StatefulBuilder<T> builder,
+			ITransitionRule<T> transitionRule)
+			:base(workflow, current, builder, transitionRule)
 		{
 			_condition = condition;
 		}

@@ -13,13 +13,15 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		protected StatefulWorkflow<T> _workflow;
 		private IWorkflow<T> _current;
 		private StatefulBuilder<T> _builder;
+		private ITransitionRule<T> _transitionRule;
 
 		public AbstractBranchingCondition(StatefulWorkflow<T> workflow, IWorkflow<T> current, 
-			StatefulBuilder<T> builder)
+			StatefulBuilder<T> builder, ITransitionRule<T> transitionRule)
 		{
 			this._workflow = workflow;
 			this._current = current;
 			this._builder = builder;
+			this._transitionRule = transitionRule;
 		}
 
 		protected abstract void DoWhenConditionIsTrue(Action<T> callback);
@@ -33,7 +35,13 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 
 		public IStatefulWorkflow<T> BreakWithStatus(object status)
 		{
-			throw new NotImplementedException();
+			DoWhenConditionIsTrue(x =>
+			{
+				_workflow.CheckThatTransitionIsAllowed(x.GetStateId(_workflow.WorkflowId), status);
+				_transitionRule.Transition(x, status);
+				throw new EarlyExitException();
+			});
+			return _workflow;
 		}
 
 		public IStatefulWorkflow<T> BranchTo(Interfaces.IDeclaredOperation location)

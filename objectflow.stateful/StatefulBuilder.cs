@@ -18,8 +18,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		private List<IWorkflow<T>> _subflows = new List<IWorkflow<T>>();
 		private ITransitionRule<T> _transitionRule;
 		private IErrorHandler<T> _faultHandler;
-        private object _nextKey;
-        /// <summary>Used for transitions to know what key we're building from</summary>
+		private object _nextKey;
+		/// <summary>Used for transitions to know what key we're building from</summary>
 		private object _currentKey;
 		/// <summary>Index for </summary>
 		private Dictionary<object, int> _subflow_idx

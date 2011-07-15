@@ -12,9 +12,9 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 	{
 		private Predicate<T> _condition;
 
-		public BranchingExpression(StatefulWorkflow<T> workflow, Predicate<T> condition, 
-					IWorkflow<T> current, StatefulBuilder<T> builder)
-			:base(workflow, current, builder)
+		public BranchingExpression(StatefulWorkflow<T> workflow, Predicate<T> condition,
+					IWorkflow<T> current, StatefulBuilder<T> builder, ITransitionRule<T> transitionRule)
+			:base(workflow, current, builder, transitionRule)
 		{
 			_condition = condition;
 		}

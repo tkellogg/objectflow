@@ -266,7 +266,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> When(Predicate<T> condition)
 		{
-			return new BranchingExpression<T>(this, condition, _builder.Current, _builder);
+			return new BranchingExpression<T>(this, condition, _builder.Current, _builder, _transitionRule);
 		}
 
 		/// <summary>
@@ -275,7 +275,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> When(Func<T, IDictionary<string, object>, bool> condition)
 		{
-			return new AdvancedBranchingExpression<T>(this, condition, _builder.Current, _builder);
+			return new AdvancedBranchingExpression<T>(this, condition, _builder.Current, _builder, _transitionRule);
 		}
 
 		/// <summary>
@@ -284,7 +284,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> Unless(Predicate<T> condition)
 		{
-			return new BranchingExpression<T>(this, x => !condition(x), _builder.Current, _builder);
+			return new BranchingExpression<T>(this, x => !condition(x), _builder.Current, _builder, _transitionRule);
 		}
 
 		/// <summary>
@@ -293,7 +293,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="condition">if true, execute the specified action</param>
 		public virtual IBranchingExpression<T> Unless(Func<T, IDictionary<string, object>, bool> condition)
 		{
-			return new AdvancedBranchingExpression<T>(this, (x, opts) => !condition(x, opts), _builder.Current, _builder);
+			return new AdvancedBranchingExpression<T>(this, (x, opts) => !condition(x, opts), _builder.Current, _builder, _transitionRule);
 		}
 
 		#endregion
@@ -448,10 +448,18 @@ namespace Rainbow.ObjectFlow.Stateful
 			{
 				object from = GetOriginalState(entity);
 				object toState = _builder.GetDestinationState(to);
+				CheckThatTransitionIsAllowed(from, toState);
+			}
+		}
+
+		internal void CheckThatTransitionIsAllowed(object from, object toState)
+		{
+			if (_gateway != null)
+			{
 				var list = PossibleTransitions.Where(x => object.Equals(x.From, from)
-					&& object.Equals(x.To, toState)).ToList();
+								&& object.Equals(x.To, toState)).ToList();
 				if (!_gateway.AllowTransitions(list).Any())
-					throw new UnallowedTransitionException("No transitions allowed from states: {0} to {1}", 
+					throw new UnallowedTransitionException("No transitions allowed from states: {0} to {1}",
 						from, toState);
 			}
 		}
