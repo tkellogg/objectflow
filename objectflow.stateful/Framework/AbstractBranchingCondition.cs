@@ -31,6 +31,11 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 			return _workflow;
 		}
 
+		public IStatefulWorkflow<T> BreakWithStatus(object status)
+		{
+			throw new NotImplementedException();
+		}
+
 		public IStatefulWorkflow<T> BranchTo(Interfaces.IDeclaredOperation location)
 		{
 			_builder.AnalyzeTransitionPaths(location);

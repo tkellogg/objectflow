@@ -18,6 +18,12 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		IStatefulWorkflow<T> Break();
 
 		/// <summary>
+		/// Break out of the workflow execution immediately, setting the given state
+		/// </summary>
+		/// <param name="status">The state to give the object as it's exiting</param>
+		IStatefulWorkflow<T> BreakWithStatus(object status);
+
+		/// <summary>
 		/// Go to the specified branch location if the condition is true. Otherwise keep executing
 		/// </summary>
 		IStatefulWorkflow<T> BranchTo(IDeclaredOperation location);
@@ -31,5 +37,6 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		/// </remarks>
 		/// <param name="workflowSteps"></param>
 		IStatefulWorkflow<T> Do(Action<IStatefulWorkflow<T>> workflowSteps);
+
 	}
 }
