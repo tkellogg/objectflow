@@ -45,7 +45,7 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 				_workflow.CheckThatTransitionIsAllowed(x, location);
 				branchConditionPassed = true;
 			});
-			_builder.Current.Do(x => x, Helpers.If.IsTrue(() => branchConditionPassed, location));
+			_builder.Current.Do(x => x, Helpers.If.IsTrue(() => !branchConditionPassed, location));
 			return _workflow;
 		}
 
