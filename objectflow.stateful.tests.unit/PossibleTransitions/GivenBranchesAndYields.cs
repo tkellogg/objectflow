@@ -42,7 +42,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Yield(1)
                 .Define(defineAs: branch1)
                 .Yield(2)
-                .When(x => true, otherwise: branch1);
+				.When(x => true).BranchTo(branch1);
 
             var transitions = wf.PossibleTransitions.ToList();
 			transitions.Should(Have.Count.EqualTo(4));
@@ -62,7 +62,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
             var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
                 .Define(defineAs: branch1)
                 .Yield(1)
-                .When(x => true, otherwise: branch1)
+				.When(x => true).BranchTo(branch1)
                 .Yield(2)
                 ;
 
@@ -85,8 +85,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Yield(1)
                 .Define(defineAs: branch1)
                 .Yield(2)
-                .When(x => true, otherwise: branch1)
-                .When(x => true, otherwise: branch1);
+				.When(x => true).BranchTo(branch1)
+				.When(x => true).BranchTo(branch1);
 
 			var transitions = wf.PossibleTransitions.ToList();
 			transitions.Should(Have.Count.EqualTo(4));
@@ -109,8 +109,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
                 .Define(defineAs: branch1)
                 .Define(defineAs: branch2)
                 .Yield(2)
-                .When(x => true, otherwise: branch1)
-                .When(x => true, otherwise: branch2);
+				.When(x => true).BranchTo(branch1)
+				.When(x => true).BranchTo(branch2);
 
 			var transitions = wf.PossibleTransitions.ToList();
 			transitions.Should(Have.Count.EqualTo(4));
@@ -132,7 +132,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
             var branch1 = Declare.Step();
             var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
                 .Yield(1)
-                .When(x => true, otherwise: branch1)
+				.When(x => true).BranchTo(branch1)
                 .Yield(2)
                 .Define(defineAs: branch1);
 
@@ -153,8 +153,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
             var branch1 = Declare.Step();
             var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
                 .Yield(1)
-                .When(x => true, otherwise: branch1)
-                .When(x => true, otherwise: branch1)
+				.When(x => true).BranchTo(branch1)
+				.When(x => true).BranchTo(branch1)
                 .Yield(2)
                 .Define(defineAs: branch1)
                 ;
@@ -177,8 +177,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 			var branch2 = Declare.Step();
 			var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object)
 				.Yield(1)
-				.When(x => true, otherwise: branch1)
-				.When(x => true, otherwise: branch2)
+				.When(x => true).BranchTo(branch1)
+				.When(x => true).BranchTo(branch2)
 				.Yield(2)
 				.Define(defineAs: branch1)
 				.Define(defineAs: branch2)
@@ -201,9 +201,9 @@ namespace Rainbow.ObjectFlow.Stateful.tests.PossibleTransitions
 			var branch1 = Declare.Step();
 			var wf = new StatefulWorkflow<StatefulObject>(2, gateway.Object);
 			wf.Yield(1);
-			wf.When(x => true, otherwise: branch1);
+			wf.When(x => true).BranchTo(branch1);
 			wf.Yield(2);
-			wf.When(x => true, otherwise: branch1);
+			wf.When(x => true).BranchTo(branch1);
 			wf.Yield(3);
 			wf.Define(branch1);
 			wf.Yield(4);

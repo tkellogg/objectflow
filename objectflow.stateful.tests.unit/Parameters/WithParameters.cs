@@ -67,7 +67,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 			var jump = Declare.Step();
 
 			var wf = new StatefulWorkflow<ITest>("wf")
-				.When((x, opts) => (bool)opts["flag"], jump)
+				.When((x, opts) => (bool)opts["flag"]).BranchTo(jump)
 				.Yield("it didn't jump")
 				.Define(jump)
 				.Yield("it jumped");
@@ -84,7 +84,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 			var jump = Declare.Step();
 
 			var wf = new StatefulWorkflow<ITest>("wf")
-				.When((x, opts) => (bool)opts["flag"], jump)
+				.When((x, opts) => (bool)opts["flag"]).BranchTo(jump)
 				.Yield("it didn't jump")
 				.Define(jump)
 				.Yield("it jumped");
@@ -101,7 +101,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 			var jump = Declare.Step();
 
 			var wf = new StatefulWorkflow<ITest>("wf")
-				.Unless((x, opts) => (bool)opts["flag"], jump)
+				.Unless((x, opts) => (bool)opts["flag"]).BranchTo(jump)
 				.Yield("it didn't jump")
 				.Define(jump)
 				.Yield("it jumped");
@@ -118,7 +118,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.Parameters
 			var jump = Declare.Step();
 
 			var wf = new StatefulWorkflow<ITest>("wf")
-				.Unless((x, opts) => (bool)opts["flag"], jump)
+				.Unless((x, opts) => (bool)opts["flag"]).BranchTo(jump)
 				.Yield("it didn't jump")
 				.Define(jump)
 				.Yield("it jumped");

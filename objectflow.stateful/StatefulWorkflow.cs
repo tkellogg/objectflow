@@ -249,97 +249,6 @@ namespace Rainbow.ObjectFlow.Stateful
 		#region Convenience methods for the fluent interface
 
 		/// <summary>
-		/// When function returns true, branch to the specified operation
-		/// </summary>
-		/// <param name="function"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		public virtual IStatefulWorkflow<T> When(Predicate<T> function, IDeclaredOperation otherwise)
-		{
-			_builder.AnalyzeTransitionPaths(otherwise);
-			bool failedCheck = false;
-			_builder.Current.Do(x =>
-			{
-				if (!function(x))
-				{
-					CheckThatTransitionIsAllowed(x, otherwise);
-					failedCheck = true;
-				}
-				return x;
-			});
-			_builder.Current.Do(x => x, Helpers.If.IsTrue(() => !failedCheck, otherwise));
-			return this;
-		}
-
-		/// <summary>
-		/// When function returns true, branch to the specified operation
-		/// </summary>
-		/// <param name="function"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		public virtual IStatefulWorkflow<T> When(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise)
-		{
-			_builder.AnalyzeTransitionPaths(otherwise);
-			bool failedCheck = false;
-			Do((x, opts) =>
-			{
-				if (!function(x, opts))
-				{
-					CheckThatTransitionIsAllowed(x, otherwise);
-					failedCheck = true;
-				}
-				return x;
-			});
-			_builder.Current.Do(x => x, Helpers.If.IsTrue(() => !failedCheck, otherwise));
-			return this;
-		}
-
-		/// <summary>
-		/// Continue execution if the predicate is true, otherwise exit immediately
-		/// </summary>
-		public virtual IStatefulWorkflow<T> When(Predicate<T> shouldContinueIf)
-		{
-			Do(x => {
-				if (!shouldContinueIf(x))
-					throw new EarlyExitException();
-			});
-
-			return this;
-		}
-
-		/// <summary>
-		/// When function returns false, branch to the specified operation
-		/// </summary>
-		/// <param name="function"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		public virtual IStatefulWorkflow<T> Unless(Predicate<T> function, IDeclaredOperation otherwise)
-		{
-			return When(x => !function(x), otherwise);
-		}
-
-		/// <summary>
-		/// When function returns true, branch to the specified operation
-		/// </summary>
-		/// <param name="function"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		public virtual IStatefulWorkflow<T> Unless(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise)
-		{
-			return When((x, opts) => !function(x, opts), otherwise);
-		}
-
-		/// <summary>
-		/// When function returns false, branch to the specified operation
-		/// </summary>
-		/// <param name="function"></param>
-		/// <returns></returns>
-		public virtual IStatefulWorkflow<T> Unless(Predicate<T> function)
-		{
-			return When(x => !function(x));
-		}
-
-		/// <summary>
 		/// Declare a point that you may wish to branch to later
 		/// </summary>
 		/// <param name="defineAs"></param>
@@ -355,7 +264,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// If the condition is true
 		/// </summary>
 		/// <param name="condition">if true, execute the specified action</param>
-		public virtual IBranchingExpression<T> If(Predicate<T> condition)
+		public virtual IBranchingExpression<T> When(Predicate<T> condition)
 		{
 			return new BranchingExpression<T>(this, condition, _builder.Current, _builder);
 		}
@@ -364,9 +273,27 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// If the condition is true
 		/// </summary>
 		/// <param name="condition">if true, execute the specified action</param>
-		public virtual IBranchingExpression<T> If(Func<T, IDictionary<string, object>, bool> condition)
+		public virtual IBranchingExpression<T> When(Func<T, IDictionary<string, object>, bool> condition)
 		{
 			return new AdvancedBranchingExpression<T>(this, condition, _builder.Current, _builder);
+		}
+
+		/// <summary>
+		/// If the condition is false
+		/// </summary>
+		/// <param name="condition">if true, execute the specified action</param>
+		public virtual IBranchingExpression<T> Unless(Predicate<T> condition)
+		{
+			return new BranchingExpression<T>(this, x => !condition(x), _builder.Current, _builder);
+		}
+
+		/// <summary>
+		/// If the condition is false
+		/// </summary>
+		/// <param name="condition">if true, execute the specified action</param>
+		public virtual IBranchingExpression<T> Unless(Func<T, IDictionary<string, object>, bool> condition)
+		{
+			return new AdvancedBranchingExpression<T>(this, (x, opts) => !condition(x, opts), _builder.Current, _builder);
 		}
 
 		#endregion

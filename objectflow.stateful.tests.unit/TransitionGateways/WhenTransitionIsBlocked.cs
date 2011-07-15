@@ -82,7 +82,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
                 .Define(branch1)
                 .Do(x => x.Feedback("middle"))
                 .Yield(2)
-                .When(x => false, otherwise: branch1)
+                .When(x => true).BranchTo(branch1)
                 ;
 
             gateway.SetReturnsDefault<bool>(true);

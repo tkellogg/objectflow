@@ -146,50 +146,6 @@ namespace Rainbow.ObjectFlow.Stateful
 		#endregion
 
 		/// <summary>
-		/// Continue execution if the predicate is true, otherwise go to the specified branch
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		IStatefulWorkflow<T> When(Predicate<T> predicate, IDeclaredOperation otherwise);
-
-		/// <summary>
-		/// Continue execution if the predicate is true, otherwise exit immediately
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		IStatefulWorkflow<T> When(Predicate<T> predicate);
-
-		/// <summary>
-		/// Continue execution if the predicate is true, otherwise exit immediately
-		/// </summary>
-		IStatefulWorkflow<T> When(Func<T, IDictionary<string, object>, bool> function, IDeclaredOperation otherwise);
-
-
-		/// <summary>
-		/// Continue execution if the predicate is false, otherwise go to the specified branch
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		IStatefulWorkflow<T> Unless(Predicate<T> predicate, IDeclaredOperation otherwise);
-
-		/// <summary>
-		/// Continue execution if the predicate is false, otherwise go to the specified branch
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <param name="otherwise"></param>
-		/// <returns></returns>
-		IStatefulWorkflow<T> Unless(Func<T, IDictionary<string, object>, bool> predicate, IDeclaredOperation otherwise);
-
-		/// <summary>
-		/// Continue execution if the predicate is true, otherwise exit immediately
-		/// </summary>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		IStatefulWorkflow<T> Unless(Predicate<T> predicate);
-
-		/// <summary>
 		/// Declare a point that you may wish to branch to later
 		/// </summary>
 		/// <param name="defineAs"></param>
@@ -200,13 +156,25 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// If the condition is true
 		/// </summary>
 		/// <param name="condition">if true, execute the specified action</param>
-		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> If(Predicate<T> condition);
+		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> When(Predicate<T> condition);
 
 		/// <summary>
 		/// If the condition is true
 		/// </summary>
 		/// <param name="condition">if true, execute the specified action</param>
-		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> If(Func<T, IDictionary<string, object>, bool> condition);
+		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> When(Func<T, IDictionary<string, object>, bool> condition);
+
+		/// <summary>
+		/// If the condition is true
+		/// </summary>
+		/// <param name="condition">if true, execute the specified action</param>
+		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> Unless(Predicate<T> condition);
+
+		/// <summary>
+		/// If the condition is true
+		/// </summary>
+		/// <param name="condition">if true, execute the specified action</param>
+		Rainbow.ObjectFlow.Stateful.Framework.IBranchingExpression<T> Unless(Func<T, IDictionary<string, object>, bool> condition);
 
 		#endregion
 

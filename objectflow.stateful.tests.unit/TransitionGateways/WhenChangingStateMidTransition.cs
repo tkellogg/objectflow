@@ -61,7 +61,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.TransitionGateways
 				.Yield("end")
 				.Yield("start")
 				.Do(x => x.SetStateId(null, "end"))
-				.When(x => false, otherwise: end);
+				.When(x => false).BranchTo(end);
 
 			var t = new T();
 			wf.Start(t);

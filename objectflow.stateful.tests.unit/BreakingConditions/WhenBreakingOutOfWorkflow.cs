@@ -37,7 +37,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			var t = new TestObject();
 
 			new StatefulWorkflow<TestObject>()
-				.When(x => false)
+				.When(x => true).Break()
 				.Yield("didn't stop")
 				.Start(t);
 
@@ -50,7 +50,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			var t = new TestObject();
 
 			new StatefulWorkflow<TestObject>()
-				.When(x => true)
+				.When(x => false).Break()
 				.Yield("didn't stop")
 				.Start(t);
 
@@ -63,7 +63,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			var t = new TestObject();
 
 			new StatefulWorkflow<TestObject>()
-				.Unless(x => true)
+				.Unless(x => false).Break()
 				.Yield("didn't stop")
 				.Start(t);
 
@@ -76,7 +76,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			var t = new TestObject();
 
 			new StatefulWorkflow<TestObject>()
-				.Unless(x => false)
+				.Unless(x => true).Break()
 				.Yield("didn't stop")
 				.Start(t);
 
