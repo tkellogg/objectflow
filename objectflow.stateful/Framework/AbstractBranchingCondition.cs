@@ -35,6 +35,7 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 
 		public IStatefulWorkflow<T> BreakWithStatus(object status)
 		{
+			_builder.AddBreakWithStatus(status);
 			DoWhenConditionIsTrue(x =>
 			{
 				_workflow.CheckThatTransitionIsAllowed(x.GetStateId(_workflow.WorkflowId), status);

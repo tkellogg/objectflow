@@ -69,6 +69,16 @@ namespace Rainbow.ObjectFlow.Stateful
 			Current = new Workflow<T>(_faultHandler);
 		}
 
+		/// <remarks>
+		/// This is a much simpler circumstance than `Yield` because you cannot start from
+		/// one of these positions.
+		/// </remarks>
+		public void AddBreakWithStatus(object identifier)
+		{
+			ProcessDeferredStates(identifier);
+			AddTransition(_nextKey, identifier);
+		}
+
 		private void AddFlow(object key, IWorkflow<T> flow)
 		{
 			if (!_subflow_idx.ContainsKey(key))
