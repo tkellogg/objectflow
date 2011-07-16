@@ -72,7 +72,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			}
 			catch (UserDefinedException e)
 			{
-				Assert.ReferenceEquals(ex, e);
+				Assert.That(e, Is.SameAs(ex));
 			}
 		}
 	}

@@ -12,6 +12,13 @@ namespace Rainbow.ObjectFlow.Framework
     /// <typeparam name="T"></typeparam>
     public class DefaultErrorHandler<T> : Rainbow.ObjectFlow.Interfaces.IErrorHandler<T>
     {
+		/// <summary>
+		/// Sets default values
+		/// </summary>
+		public DefaultErrorHandler()
+		{
+			Strict = true;
+		}
 
         #region IErrorHandler<T> Members
 
@@ -20,7 +27,6 @@ namespace Rainbow.ObjectFlow.Framework
 		/// <code>ErrorHandler.Strict = true</code> or extend it for more specific
 		/// functionality.
 		/// </summary>
-		[DefaultValue(false)]
 		public virtual bool Strict { get; set; }
 
         /// <summary>
