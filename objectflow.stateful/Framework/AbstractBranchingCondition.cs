@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
+using Rainbow.ObjectFlow.Helpers;
 
 namespace Rainbow.ObjectFlow.Stateful.Framework
 {
@@ -47,6 +48,11 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 
 		public IStatefulWorkflow<T> BranchTo(Interfaces.IDeclaredOperation location)
 		{
+			return BranchTo(location, true);
+		}
+
+		private IStatefulWorkflow<T> BranchTo(Interfaces.IDeclaredOperation location, bool whenTrue)
+		{
 			_builder.AnalyzeTransitionPaths(location);
 			bool branchConditionPassed = false;
 			DoWhenConditionIsTrue(x => 
@@ -54,13 +60,22 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 				_workflow.CheckThatTransitionIsAllowed(x, location);
 				branchConditionPassed = true;
 			});
-			_builder.Current.Do(x => x, Helpers.If.IsTrue(() => !branchConditionPassed, location));
+
+			if (whenTrue)
+				_builder.Current.Do(x => x, Helpers.If.IsTrue(() => !branchConditionPassed, location));
+			else
+				_builder.Current.Do(x => x, Helpers.If.IsTrue(() => branchConditionPassed, location));
+			
 			return _workflow;
 		}
 
 		public IStatefulWorkflow<T> Do(Action<IStatefulWorkflow<T>> workflowSteps)
 		{
-			throw new NotImplementedException();
+			var branchPoint = Declare.Step();
+			BranchTo(branchPoint, false);
+			workflowSteps(_workflow);
+			_workflow.Define(branchPoint);
+			return _workflow;
 		}
 	}
 }
