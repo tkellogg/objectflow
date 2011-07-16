@@ -69,13 +69,20 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 			return _workflow;
 		}
 
-		public IStatefulWorkflow<T> Do(Action<IStatefulWorkflow<T>> workflowSteps)
+		/**
+		 * TODO: Consider adding checks for branch points and yields inside these inner
+		 * code blocks to make sure not anything can branch inside. Probably the condition
+		 * has to be true for anything branching inside
+		 */
+
+		public IStatefulWorkflow<T> Do(Action<IStatefulWorkflow<T>> innerCodeBlock)
 		{
 			var branchPoint = Declare.Step();
 			BranchTo(branchPoint, false);
-			workflowSteps(_workflow);
+			innerCodeBlock(_workflow);
 			_workflow.Define(branchPoint);
 			return _workflow;
 		}
+
 	}
 }
