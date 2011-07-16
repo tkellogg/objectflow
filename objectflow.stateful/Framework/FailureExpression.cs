@@ -40,14 +40,6 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 			});
 		}
 
-		public void With<TException>(TException exception) where TException : Exception
-		{
-			_condition.Do(wf =>
-			{
-				wf.Do(x => { throw exception; });
-			});
-		}
-
 		public void With<TException>(Func<T, TException> builder) where TException : Exception
 		{
 			_condition.Do(wf =>

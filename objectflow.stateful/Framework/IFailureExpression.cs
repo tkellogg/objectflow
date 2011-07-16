@@ -29,12 +29,6 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		/// <summary>
 		/// Fails with a custom exception
 		/// </summary>
-		void With<TException>(TException exception)
-			where TException : Exception;
-
-		/// <summary>
-		/// Fails with a custom exception
-		/// </summary>
 		void With<TException>(Func<T, TException> builder)
 			where TException : Exception;
 

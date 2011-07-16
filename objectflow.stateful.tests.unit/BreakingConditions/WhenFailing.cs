@@ -62,7 +62,7 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 		{
 			var ex = new UserDefinedException();
 			var wf = new StatefulWorkflow<Entity>()
-				.When(x => true).Fail(x => x.With(ex))
+				.When(x => true).Fail(f => f.With(x => ex))
 				.Yield("end");
 
 			try
@@ -74,6 +74,48 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 			{
 				Assert.That(e, Is.SameAs(ex));
 			}
+		}
+
+		[Observation]
+		public void it_can_access_info_from_lambda()
+		{
+			bool lambdaCalled = false;
+			var wf = new StatefulWorkflow<Entity>()
+				.Yield("start")
+				.When(x => true).Fail(f => f.With(o =>
+				{
+					lambdaCalled = true;
+					Assert.That(o, Is.Not.Null);
+					Assert.That(o.GetStateId(null), Is.EqualTo("start"));
+					return "failed successfully";
+				}))
+				.Yield("end");
+
+			Assert.Throws<WorkflowActionFailedException>(() => wf.Start(new Entity() { state = "start" }));
+			Assert.That(lambdaCalled, "lambda builder function should be called");
+		}
+
+		[Observation]
+		public void it_can_access_data_from_lambda()
+		{
+			bool lambdaCalled = false;
+			var wf = new StatefulWorkflow<Entity>()
+				.Yield("start")
+				.When(x => true).Fail(f => f.With((o, opts) =>
+				{
+					lambdaCalled = true;
+					Assert.That(opts, Is.Not.Null);
+					Assert.That(opts["option"], Is.EqualTo("this"));
+					return "failed successfully";
+				}))
+				.Yield("end");
+
+			try {
+				wf.StartWithParams(new Entity() { state = "start" }, new { option = "this" });
+			} catch (System.Reflection.TargetInvocationException e) {
+				Assert.That(e.InnerException, Is.InstanceOf<WorkflowActionFailedException>());
+			}
+			Assert.That(lambdaCalled, "lambda builder function should be called");
 		}
 	}
 }
