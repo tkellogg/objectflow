@@ -84,5 +84,22 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 			return _workflow;
 		}
 
+
+		public IStatefulWorkflow<T> Fail()
+		{
+			DoWhenConditionIsTrue(x => 
+			{ 
+				throw new WorkflowActionFailedException("Workflow assertion has failed"); 
+			});
+			return _workflow;
+		}
+
+		public IStatefulWorkflow<T> Fail(Action<IFailureExpression<T>> failure)
+		{
+			var f = new FailureExpression<T>(this);
+			failure(f);
+			return _workflow;
+		}
+
 	}
 }

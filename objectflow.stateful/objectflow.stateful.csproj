@@ -47,6 +47,8 @@
     <Compile Include="Framework\AdvancedBranchingExpression.cs" />
     <Compile Include="Framework\BranchingExpression.cs" />
     <Compile Include="DefaultTransitionGateway.cs" />
+    <Compile Include="Framework\FailureExpression.cs" />
+    <Compile Include="Framework\IFailureExpression.cs" />
     <Compile Include="HelperExtensions.cs" />
     <Compile Include="Framework\IBranchingExpression.cs" />
     <Compile Include="IStatefulObject.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Transition.cs" />
     <Compile Include="DefaultTransitionRule.cs" />
     <Compile Include="UnallowedTransitionException.cs" />
+    <Compile Include="WorkflowActionFailedException.cs" />
     <Compile Include="WorkflowMediator.cs" />
   </ItemGroup>
   <ItemGroup>

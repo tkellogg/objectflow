@@ -24,6 +24,18 @@ namespace Rainbow.ObjectFlow.Stateful.Framework
 		IStatefulWorkflow<T> BreakWithStatus(object status);
 
 		/// <summary>
+		/// Throw a <see cref="WorkflowActionFailedException"/> which causes execution
+		/// of the workflow to halt immediately
+		/// </summary>
+		IStatefulWorkflow<T> Fail();
+
+		/// <summary>
+		/// Throw a <see cref="WorkflowActionFailedException"/> with the given message
+		/// which causes execution of the workflow to halt immediately
+		/// </summary>
+		IStatefulWorkflow<T> Fail(Action<IFailureExpression<T>> failure);
+
+		/// <summary>
 		/// Go to the specified branch location if the condition is true. Otherwise keep executing
 		/// </summary>
 		IStatefulWorkflow<T> BranchTo(IDeclaredOperation location);

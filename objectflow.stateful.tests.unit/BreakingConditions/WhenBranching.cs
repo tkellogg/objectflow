@@ -7,23 +7,26 @@ using NUnit.Framework;
 
 namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 {
+
+	#region Types used for testing
+	class Entity : IStatefulObject
+	{
+		public object state;
+		public object GetStateId(object workflowId)
+		{
+			return state;
+		}
+
+		public void SetStateId(object workflowId, object stateId)
+		{
+			state = stateId;
+		}
+	}
+	#endregion
+
+
 	class WhenBranching : Specification
 	{
-		#region Types used for testing
-		class Entity : IStatefulObject
-		{
-			public object state;
-			public object GetStateId(object workflowId)
-			{
-				return state;
-			}
-
-			public void SetStateId(object workflowId, object stateId)
-			{
-				state = stateId;
-			}
-		}
-		#endregion
 
 		#region branches using simple conditions
 		[Observation]

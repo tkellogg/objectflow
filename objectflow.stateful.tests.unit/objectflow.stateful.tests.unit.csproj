@@ -50,6 +50,7 @@
     <Compile Include="BreakingConditions\WhenBranching.cs" />
     <Compile Include="BreakingConditions\WhenBreakingOutOfWorkflow.cs" />
     <Compile Include="BreakingConditions\WhenBreakingWithStatus.cs" />
+    <Compile Include="BreakingConditions\WhenFailing.cs" />
     <Compile Include="DeclaredOperationsStillWork\WithOneDeclaredOperation.cs" />
     <Compile Include="InnerCodeBlocks\WhenUsingSimpleBlocks.cs" />
     <Compile Include="Parameters\WithParameters.cs" />
