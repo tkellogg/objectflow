@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Interfaces;
+using System.ComponentModel;
 
 namespace Rainbow.ObjectFlow.Stateful
 {
@@ -41,6 +42,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <summary>
 		/// Registers an instance of the specified type in the workflow
 		/// </summary>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		new IStatefulWorkflow<T> Do<TOperation>(ICheckConstraint constraint) where TOperation : BasicOperation<T>;
 
 		/// <summary>
@@ -60,6 +63,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="function">The funciton to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint);
 
 		/// <summary>
@@ -67,6 +72,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="operation">operatio to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		new IStatefulWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint);
 
 		/// <summary>
@@ -80,6 +87,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="workflow">The funciton to add</param>
 		/// <param name="constraint">constraint that determines if the workflow is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint);
 		#endregion
 
@@ -103,6 +112,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="function">The function to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint);
 
 		/// <summary>
@@ -111,6 +122,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="function">The function to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
 		/// <param name="defineAs">Branch point to initialize</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, IDeclaredOperation defineAs);
 
 		#region Overloads of `Do(Action<...>)` and `Start(T, ...)`
@@ -193,5 +206,6 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </para>
 		/// </summary>
 		IEnumerable<ITransition> PossibleTransitions { get; }
+
 	}
 }

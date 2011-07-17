@@ -7,6 +7,7 @@ using Rainbow.ObjectFlow.Framework;
 using Rainbow.ObjectFlow.Helpers;
 using Rainbow.ObjectFlow.Engine;
 using Rainbow.ObjectFlow.Stateful.Framework;
+using System.ComponentModel;
 
 namespace Rainbow.ObjectFlow.Stateful
 {
@@ -222,6 +223,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="function">The function to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public virtual IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint)
 		{
 			return Do(x =>
@@ -237,6 +240,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="function">The function to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
 		/// <param name="defineAs">Branch point to initialize</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public virtual IStatefulWorkflow<T> Do(Action<T> function, ICheckConstraint constraint, IDeclaredOperation defineAs)
 		{
 			return Do(x =>
@@ -314,6 +319,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <summary>
 		/// Registers an instance of the specified type in the workflow
 		/// </summary>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public new IStatefulWorkflow<T> Do<TOperation>(ICheckConstraint constraint)
 			where TOperation : BasicOperation<T>
 		{
@@ -358,6 +365,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <param name="function">The function to add</param>
 		/// <param name="constraint"></param>
 		/// <param name="branch"></param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint, IDeclaredOperation branch)
 		{
 			_builder.Current.Do(function, constraint, branch);
@@ -369,6 +378,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="function">The funciton to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public new IStatefulWorkflow<T> Do(Func<T, T> function, ICheckConstraint constraint)
 		{
 			_builder.Current.Do(function, constraint);
@@ -380,6 +391,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="operation">operatio to add</param>
 		/// <param name="constraint">constraint that determines if the operation is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public new IStatefulWorkflow<T> Do(IOperation<T> operation, ICheckConstraint constraint)
 		{
 			_builder.Current.Do(operation, constraint);
@@ -401,6 +414,8 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// </summary>
 		/// <param name="workflow">The funciton to add</param>
 		/// <param name="constraint">constraint that determines if the workflow is executed</param>
+		[Obsolete("Constraints are not necessary. Use .When(...).Do(x => {}) instead")]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public new IStatefulWorkflow<T> Do(IWorkflow<T> workflow, ICheckConstraint constraint)
 		{
 			_builder.Current.Do(workflow, constraint);
