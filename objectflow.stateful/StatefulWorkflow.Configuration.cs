@@ -37,7 +37,7 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		#region ISecurityConfigurationExpresion
 
-		IConfigurationExpression<T> ISecurityConfigurationExpresion<T>.UsingService(ITransitionGateway gateway)
+		IConfigurationExpression<T> ISecurityConfigurationExpresion<T>.UsingCustomService(ITransitionGateway gateway)
 		{
 			_gateway = gateway;
 			return this;
@@ -63,21 +63,28 @@ namespace Rainbow.ObjectFlow.Stateful
 
 		IConfigurationExpression<T> ISecurityConfigurationExpresion<T>.UsingMethod(Func<IEnumerable<ITransition>> transitionList)
 		{
+			GetAbstractGateway().TransitionList = transitionList;
+			return this;
+		}
+
+		private AbstractTransitionGateway GetAbstractGateway()
+		{
 			if (_gateway == null)
 				_gateway = new RelaxedTransitionGateway(WorkflowId);
 
-			if (_gateway is RelaxedTransitionGateway)
-				((RelaxedTransitionGateway)_gateway).TransitionList = transitionList;
-			else if (_gateway is StrictTransitionGateway)
-				((StrictTransitionGateway)_gateway).TransitionList = transitionList;
+			if (_gateway is AbstractTransitionGateway)
+				return (AbstractTransitionGateway)_gateway;
 			else
 				throw new InvalidOperationException(string.Format("Expected Transition gateway to be either {0} or {1} but was {2}",
 					typeof(RelaxedTransitionGateway), typeof(StrictTransitionGateway), _gateway.GetType()));
+		}
 
+		IConfigurationExpression<T> ISecurityConfigurationExpresion<T>.UsingListProvider(ITransitionListProvider listProvider)
+		{
+			GetAbstractGateway().TransitionListProvider = listProvider;
 			return this;
 		}
 
 		#endregion
-
 	}
 }

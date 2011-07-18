@@ -53,6 +53,7 @@
     <Compile Include="Framework\FailureExpression.cs" />
     <Compile Include="Framework\IFailureExpression.cs" />
     <Compile Include="Framework\ISecurityConfigurationExpresion.cs" />
+    <Compile Include="Framework\ITransitionListProvider.cs" />
     <Compile Include="HelperExtensions.cs" />
     <Compile Include="Framework\IBranchingExpression.cs" />
     <Compile Include="Framework\IConfigurationExpression.cs" />

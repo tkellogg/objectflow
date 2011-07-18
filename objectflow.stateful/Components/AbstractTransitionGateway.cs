@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Rainbow.ObjectFlow.Stateful.Framework;
 
 namespace Rainbow.ObjectFlow.Stateful.Components
 {
@@ -23,12 +24,19 @@ namespace Rainbow.ObjectFlow.Stateful.Components
 		{
 			_workflowId = workflowId;
 		}
-		
 
 		/// <summary>
 		/// The delegate that, when executed, produces a list of unallowed transitions
 		/// </summary>
 		public virtual Func<IEnumerable<ITransition>> TransitionList { get; set; }
+
+		/// <summary>
+		/// Sets the TransitionListProvider that will be used to generate the list of transitions
+		/// </summary>
+		public virtual ITransitionListProvider TransitionListProvider
+		{
+			set { TransitionList = value.GetList; }
+		}
 
 		/// <summary></summary>
 		protected IEnumerable<ITransition> TransitionsInCommonWithList(IList<ITransition> transitions)
