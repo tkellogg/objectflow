@@ -43,14 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\RelaxedTransitionGateway.cs" />
+    <Compile Include="Components\StrictTransitionGateway.cs" />
     <Compile Include="Framework\AbstractBranchingCondition.cs" />
     <Compile Include="Framework\AdvancedBranchingExpression.cs" />
     <Compile Include="Framework\BranchingExpression.cs" />
     <Compile Include="DefaultTransitionGateway.cs" />
     <Compile Include="Framework\FailureExpression.cs" />
     <Compile Include="Framework\IFailureExpression.cs" />
+    <Compile Include="Framework\ISecurityConfigurationExpresion.cs" />
     <Compile Include="HelperExtensions.cs" />
     <Compile Include="Framework\IBranchingExpression.cs" />
+    <Compile Include="Framework\IConfigurationExpression.cs" />
     <Compile Include="IStatefulObject.cs" />
     <Compile Include="IStatefulWorkflow.cs" />
     <Compile Include="IStateObserver.cs" />
@@ -61,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatefulBuilder.cs" />
     <Compile Include="StatefulErrorHandler.cs" />
+    <Compile Include="StatefulWorkflow.Configuration.cs" />
     <Compile Include="StatefulWorkflow.cs" />
     <Compile Include="StatefulWorkflowExtensions.cs" />
     <Compile Include="Transition.cs" />

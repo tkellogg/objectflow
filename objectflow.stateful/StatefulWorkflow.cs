@@ -15,7 +15,7 @@ namespace Rainbow.ObjectFlow.Stateful
 	/// 
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
+	public partial class StatefulWorkflow<T> : Workflow<T>, IStatefulWorkflow<T>
 		where T : class, IStatefulObject
 	{
 		private ITransitionGateway _gateway;
@@ -39,6 +39,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		}
 
 		private IErrorHandler<T> _errorHandler;
+
 
 		#region Constructors
 

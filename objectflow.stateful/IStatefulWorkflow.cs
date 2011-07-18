@@ -32,6 +32,11 @@ namespace Rainbow.ObjectFlow.Stateful
 		/// <returns></returns>
 		IStatefulWorkflow<T> Yield(object breakPointId);
 
+		/// <summary>
+		/// Configure this workflow using fluent syntax
+		/// </summary>
+		IStatefulWorkflow<T> Configure(Action<Rainbow.ObjectFlow.Stateful.Framework.IConfigurationExpression<T>> config);
+
 		#region overriden from base class, but returning IStatefulWorkflow
 
 		/// <summary>
