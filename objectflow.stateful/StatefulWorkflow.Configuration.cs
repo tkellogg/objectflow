@@ -47,7 +47,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		{
 			get 
 			{
-				_gateway = new StrictTransitionGateway();
+				_gateway = new StrictTransitionGateway(WorkflowId);
 				return this;
 			}
 		}
@@ -56,7 +56,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		{
 			get
 			{
-				_gateway = new RelaxedTransitionGateway();
+				_gateway = new RelaxedTransitionGateway(WorkflowId);
 				return this;
 			}
 		}
@@ -64,12 +64,12 @@ namespace Rainbow.ObjectFlow.Stateful
 		IConfigurationExpression<T> ISecurityConfigurationExpresion<T>.UsingMethod(Func<IEnumerable<ITransition>> transitionList)
 		{
 			if (_gateway == null)
-				_gateway = new RelaxedTransitionGateway();
+				_gateway = new RelaxedTransitionGateway(WorkflowId);
 
 			if (_gateway is RelaxedTransitionGateway)
-				((RelaxedTransitionGateway)_gateway).BlackList = transitionList;
+				((RelaxedTransitionGateway)_gateway).TransitionList = transitionList;
 			else if (_gateway is StrictTransitionGateway)
-				((StrictTransitionGateway)_gateway).WhiteList = transitionList;
+				((StrictTransitionGateway)_gateway).TransitionList = transitionList;
 			else
 				throw new InvalidOperationException(string.Format("Expected Transition gateway to be either {0} or {1} but was {2}",
 					typeof(RelaxedTransitionGateway), typeof(StrictTransitionGateway), _gateway.GetType()));

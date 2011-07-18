@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AbstractTransitionGateway.cs" />
     <Compile Include="Components\RelaxedTransitionGateway.cs" />
     <Compile Include="Components\StrictTransitionGateway.cs" />
     <Compile Include="Framework\AbstractBranchingCondition.cs" />

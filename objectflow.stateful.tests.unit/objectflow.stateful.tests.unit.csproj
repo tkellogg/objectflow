@@ -51,6 +51,8 @@
     <Compile Include="BreakingConditions\WhenBreakingOutOfWorkflow.cs" />
     <Compile Include="BreakingConditions\WhenBreakingWithStatus.cs" />
     <Compile Include="BreakingConditions\WhenFailing.cs" />
+    <Compile Include="Components\SecurityGateways\WhenUsingRelaxedSecurity.cs" />
+    <Compile Include="Components\SecurityGateways\WhenUsingStrictSecurity.cs" />
     <Compile Include="DeclaredOperationsStillWork\WithOneDeclaredOperation.cs" />
     <Compile Include="InnerCodeBlocks\WhenUsingSimpleBlocks.cs" />
     <Compile Include="Parameters\WithParameters.cs" />

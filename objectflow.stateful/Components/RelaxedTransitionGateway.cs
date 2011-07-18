@@ -9,19 +9,24 @@ namespace Rainbow.ObjectFlow.Stateful.Components
 	/// transition gateway that operates on a blacklist basis. It blocks everything that
 	/// it wasn't explicitly disallowed.
 	/// </summary>
-	public class RelaxedTransitionGateway : ITransitionGateway
+	public class RelaxedTransitionGateway : AbstractTransitionGateway, ITransitionGateway
 	{
+
+		/// <summary>
+		/// Creates a new strict gateway using the given workflow ID
+		/// </summary>
+		public RelaxedTransitionGateway(object workflowId)
+			:base(workflowId)
+		{
+		}
+
 		/// <summary>
 		/// allows only what is found in the return value of WhiteList
 		/// </summary>
 		public IEnumerable<ITransition> AllowTransitions(IList<ITransition> transitions)
 		{
-			throw new NotImplementedException();
+			return transitions.Except(base.TransitionsInCommonWithList(transitions))
+				.Where(x => object.Equals(x.WorkflowId, _workflowId));
 		}
-
-		/// <summary>
-		/// The delegate that, when executed, produces a list of unallowed transitions
-		/// </summary>
-		public virtual Func<IEnumerable<ITransition>> BlackList { get; set; }
 	}
 }

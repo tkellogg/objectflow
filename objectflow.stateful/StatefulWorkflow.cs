@@ -31,7 +31,7 @@ namespace Rainbow.ObjectFlow.Stateful
 		public override IErrorHandler<T> ErrorHandler {
 			get { return _errorHandler; }
 			set 
-			{ 
+			{
 				_errorHandler = value;
 				if (_builder != null)
 					_builder.ErrorHandler = value;
