@@ -20,7 +20,7 @@ Objectflow is a framework for declaratively creating workflows in C# with a flue
 Objectflow provides several services that can optionally be plugged in; including security, persistence, error handling, and UI integration. Each workflow is built inside plain C# classes, making them completely compatible with dependency injection frameworks (unlike Workflow Foundation).
 
 We also provide other facilities for interacting with workflows to provide persistance and security frameworks.
-See the [Quickstart guide](https://github.com/tkellogg/objectflow/wiki/Quickstart-Guide) for more information.
+See the [Quickstart guide](https://github.com/tkellogg/objectflow/wiki/Home) for more information.
 
 Installation
 --------------------------
