@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Rainbow.ObjectFlow.Framework
 {
@@ -38,6 +39,9 @@ namespace Rainbow.ObjectFlow.Framework
 		/// <returns>The ErrorLevel indicating how workflow execution should continue</returns>
 		public virtual Interfaces.ErrorLevel Handle(Exception ex, T data)
 		{
+			while (ex is TargetInvocationException)
+				ex = ex.InnerException;
+
 			if(ex is EarlyExitException)
 				return Interfaces.ErrorLevel.Fatal;
 
