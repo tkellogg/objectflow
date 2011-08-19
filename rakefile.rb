@@ -6,8 +6,7 @@ task :build => 'build:mount_files'
 namespace :build do
   
   task :clean => ['build/nuget', 'dist'] do
-    rm FileList['build/nuget/*']
-    rm FileList['dist/*']
+    #rm_f FileList['build/nuget/*']
   end
   
   msbuild :compile => :clean do |msb|
@@ -17,17 +16,21 @@ namespace :build do
   end
   
   directory 'build/nuget'
+  directory 'build/nuget/lib'
   directory 'dist'
   
-  task :mount_files => [:compile, 'dist'] do
-    cp 'compile/objectflow.stateful/bin/release/objectflow.core.dll', 'build/nuget/objectflow.core.dll'
-    cp 'compile/objectflow.stateful/bin/release/objectflow.core.xml', 'build/nuget/objectflow.core.xml'
-    cp 'compile/objectflow.stateful/bin/release/objectflow.stateful.dll', 'build/nuget/objectflow.stateful.dll'
-    cp 'compile/objectflow.stateful/bin/release/objectflow.stateful.xml', 'build/nuget/objectflow.stateful.xml'
+  task :mount_files => [:compile, 'build/nuget', 'build/nuget/lib'] do
+    cp 'compile/objectflow.stateful/bin/release/objectflow.core.dll', 'build/nuget/lib/objectflow.core.dll'
+    cp 'compile/objectflow.stateful/bin/release/objectflow.core.xml', 'build/nuget/lib/objectflow.core.xml'
+    cp 'compile/objectflow.stateful/bin/release/objectflow.stateful.dll', 'build/nuget/lib/objectflow.stateful.dll'
+    cp 'compile/objectflow.stateful/bin/release/objectflow.stateful.xml', 'build/nuget/lib/objectflow.stateful.xml'
     cp 'LICENSE.txt', 'build/nuget/LICENSE.txt'
   end
   
 end
+
+desc "does everything for a release, aside from bumping the version"
+task :default => :package
 
 desc "Build the entire NuGet package, but don't upload it"
 task :package => 'package:build_package'

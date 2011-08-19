@@ -8,9 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("objectflow.stateful")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("objectflow.stateful")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © Tim Kellogg 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -26,9 +25,10 @@ using System.Runtime.InteropServices;
 //
 //      Major Version
 //      Minor Version 
+//		Point Release
 //      Build Number
-//      Revision
 //
-[assembly: AssemblyVersion("0.5.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.6.0")]
+[assembly: AssemblyFileVersion("0.6.0.0")]
+[assembly: AssemblyInformationalVersion("0.6")]
 [assembly: InternalsVisibleTo("objectflow.stateful.tests.unit")]
