@@ -110,11 +110,8 @@ namespace Rainbow.ObjectFlow.Stateful.tests.BreakingConditions
 				}))
 				.Yield("end");
 
-			try {
-				wf.StartWithParams(new Entity() { state = "start" }, new { option = "this" });
-			} catch (System.Reflection.TargetInvocationException e) {
-				Assert.That(e.InnerException, Is.InstanceOf<WorkflowActionFailedException>());
-			}
+			Assert.Throws<WorkflowActionFailedException>(() =>
+			wf.StartWithParams(new Entity() { state = "start" }, new { option = "this" }));
 			Assert.That(lambdaCalled, "lambda builder function should be called");
 		}
 	}
