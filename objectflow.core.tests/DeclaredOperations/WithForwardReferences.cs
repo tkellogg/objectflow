@@ -27,7 +27,7 @@ namespace Objectflow.core.tests.DeclaredOperations
             wf = new Workflow<IObject>()
                 .Do(x => x.Feedback("beginning"), If.IsTrue(() => counter < 1, branchPoint))
                 .Do(x => x.Feedback("middle"))
-                .Do(x => x.Feedback("end"), defineAs: branchPoint);
+                .Do(x => x.Feedback("end"),  branchPoint);
             mock = new Mock<IObject>();
             mock.Setup(x => x.Feedback(It.IsAny<string>())).Returns(mock.Object);
         }
